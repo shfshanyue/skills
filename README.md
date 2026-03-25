@@ -1,52 +1,63 @@
 # shanyue-skills
 
-`shanyue-skills` is a small skills-and-hooks repository for Cursor-based agent workflows.
+A collection of agent skills and hooks for Amp/Cursor-based workflows.
 
-It currently contains:
-- A reusable skill for generating launch copy assets.
-- Shell execution hooks that enforce safe Git behavior in the agent shell.
+## Quick Install
 
-## Project Structure
+Install any skill with one command:
 
-- `launch-kit/` — skill definition for launch copy generation.
-- `hooks/` — hook scripts used by Cursor before shell execution.
+```bash
+# Install a single skill
+npx skills add shfshanyue/skills/launch-kit
+npx skills add shfshanyue/skills/reddit-promotion
+
+# Install all skills
+npx skills add shfshanyue/skills
+```
 
 ## Skills
 
 ### `launch-kit`
 
-File: `launch-kit/SKILL.md`
+> `skills/launch-kit/SKILL.md`
 
-Purpose:
+Generates a unified `launch-kit.md` with copy for Product Hunt, Hacker News, Indie Hackers, software directories, and similar launch channels.
 
-- Generates a unified `launch-kit.md` with copy for Product Hunt, Hacker News, Indie Hackers, software directories, and similar launch channels.
-- Scans project files (like `README.md`, package metadata, and product pages) to infer product context.
-- Produces multiple copy variants (taglines, one-liners, short/medium descriptions) plus feature lists, categories, social proof, and platform-ready snippets.
-- Writes output to an existing `launch-kit.md` when present, or creates `docs/launch-kit.md`.
+- Scans project files (README, package metadata, product pages) to infer product context
+- Produces multiple copy variants (taglines, one-liners, short/medium descriptions)
+- Generates feature lists, categories, social proof, and platform-ready snippets
+- Writes output to an existing `launch-kit.md` or creates `docs/launch-kit.md`
+
+### `reddit-promotion`
+
+> `skills/reddit-promotion/SKILL.md`
+
+Finds relevant Reddit subreddits and posts for product promotion. Powered by [reddit-mcp-buddy](https://github.com/karanb192/reddit-mcp-buddy).
+
+- Discovers matching subreddits based on product keywords, pain points, and competitors
+- Locates high-value posts (recommendation requests, competitor complaints, pain point discussions)
+- Generates reply and DM templates that sound human, not like marketing
+- Outputs a complete action plan to `docs/reddit-promotion.md`
 
 ## Hooks
 
 ### `block-git-commit-push.sh`
 
-File: `hooks/block-git-commit-push.sh`
+> `hooks/block-git-commit-push.sh`
 
-Purpose:
-- A stricter command parser for `beforeShellExecution`.
-- Allows most commands, but blocks `git commit` and `git push` 
-- Returns structured JSON with `permission: "deny"` and guidance for running commit/push locally.
+A command parser for `beforeShellExecution` that blocks `git commit` and `git push` in the agent shell, forcing these operations to happen in the user's own terminal.
 
-## Why These Hooks Exist
+## Project Structure
 
-These hooks help keep risky Git write operations out of the agent shell and force final repository-changing actions to happen in the user's own system terminal.
-
-## Quick Setup
-
-1. Keep this repo available to your Cursor environment.
-2. Reference `launch-kit/SKILL.md` when you want launch copy generation behavior.
-3. Register hook scripts in your Cursor hooks configuration (`beforeShellExecution`) as needed.
-
-## Notes
-
-- Current skill count: **1**
-- Current hook script count: **2**
-- This README documents the repository as it exists now; update it if you add more skills or hooks.
+```
+├── skills/
+│   ├── launch-kit/          # Launch copy generation skill
+│   │   └── SKILL.md
+│   └── reddit-promotion/    # Reddit promotion finder skill
+│       ├── SKILL.md
+│       └── mcp.json
+├── hooks/
+│   └── block-git-commit-push.sh
+├── hooks.json
+└── README.md
+```
