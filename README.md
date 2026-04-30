@@ -12,6 +12,7 @@ npx skills add shfshanyue/skills/launch-kit
 npx skills add shfshanyue/skills/reddit-promotion
 npx skills add shfshanyue/skills/resume-project-prep
 npx skills add shfshanyue/skills/deep-learner
+npx skills add shfshanyue/skills/producthunt-top
 
 # Install all skills
 npx skills add shfshanyue/skills
@@ -27,6 +28,7 @@ ln -sf $(pwd)/skills/launch-kit ~/.agents/skills/launch-kit
 ln -sf $(pwd)/skills/reddit-promotion ~/.agents/skills/reddit-promotion
 ln -sf $(pwd)/skills/resume-project-prep ~/.agents/skills/resume-project-prep
 ln -sf $(pwd)/skills/deep-learner ~/.agents/skills/deep-learner
+ln -sf $(pwd)/skills/producthunt-top ~/.agents/skills/producthunt-top
 ```
 
 ## Skills
@@ -74,6 +76,17 @@ Interactive 1-on-1 tutor: guided questioning, deliberate practice, and roadmap-s
 - Per-node Socratic teaching with scoring, weakness analysis, and targeted practice
 - Language mirroring (e.g. Chinese/English) and one question per message
 
+### `producthunt-top`
+
+> `skills/producthunt-top/SKILL.md`
+
+Fetches top/trending Product Hunt posts via the official GraphQL API v2, and returns ranked results in table/markdown/json/csv formats.
+
+- Supports flexible periods (`today`, `yesterday`, `this_week`, `this_month`, or a specific date)
+- Reads `PRODUCT_HUNT_TOKEN` from environment securely (without leaking secrets)
+- Supports terminal display and export to Markdown/JSON/CSV files
+- Includes practical follow-ups such as trend summaries and period-over-period comparison
+
 ## Hooks
 
 ### `block-git-commit-push.sh`
@@ -91,9 +104,11 @@ A command parser for `beforeShellExecution` that blocks `git commit` and `git pu
 │   ├── reddit-promotion/      # Reddit promotion finder skill
 │   │   ├── SKILL.md
 │   │   └── mcp.json
-│   └── resume-project-prep/   # Interview prep skill
+│   ├── resume-project-prep/   # Interview prep skill
 │       └── SKILL.md
-│   └── deep-learner/          # Interactive tutor (guided learning) skill
+│   ├── deep-learner/          # Interactive tutor (guided learning) skill
+│       └── SKILL.md
+│   └── producthunt-top/       # Product Hunt top/trending posts fetcher
 │       └── SKILL.md
 ├── hooks/
 │   └── block-git-commit-push.sh
