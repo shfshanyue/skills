@@ -12,6 +12,7 @@ npx skills add shfshanyue/skills/launch-kit
 npx skills add shfshanyue/skills/reddit-promotion
 npx skills add shfshanyue/skills/resume-project-prep
 npx skills add shfshanyue/skills/deep-learner
+npx skills add shfshanyue/skills/english-tutor
 npx skills add shfshanyue/skills/producthunt-top
 
 # Install all skills
@@ -28,6 +29,7 @@ ln -sf $(pwd)/skills/launch-kit ~/.agents/skills/launch-kit
 ln -sf $(pwd)/skills/reddit-promotion ~/.agents/skills/reddit-promotion
 ln -sf $(pwd)/skills/resume-project-prep ~/.agents/skills/resume-project-prep
 ln -sf $(pwd)/skills/deep-learner ~/.agents/skills/deep-learner
+ln -sf $(pwd)/skills/english-tutor ~/.agents/skills/english-tutor
 ln -sf $(pwd)/skills/producthunt-top ~/.agents/skills/producthunt-top
 ```
 
@@ -76,6 +78,16 @@ Interactive 1-on-1 tutor: guided questioning, deliberate practice, and roadmap-s
 - Per-node Socratic teaching with scoring, weakness analysis, and targeted practice
 - Language mirroring (e.g. Chinese/English) and one question per message
 
+### `english-tutor`
+
+> `skills/english-tutor/SKILL.md`
+
+Mixed-mode English practice: one grammar focus per round, short dialogue, immediate correction, adaptive difficulty. Narrower than `deep-learner`—conversation-first English, not general-topic tutoring.
+
+- Mostly-English tutoring with brief Chinese only when needed for clarification
+- Correction turns are single-focus (correct version + short why + retry); no extra follow-up question in the same message as a fix
+- Recap after a stretch of practice: what you drilled, repeated fixes, and 2–3 reusable model sentences
+
 ### `producthunt-top`
 
 > `skills/producthunt-top/SKILL.md`
@@ -107,7 +119,9 @@ A command parser for `beforeShellExecution` that blocks `git commit` and `git pu
 │   ├── resume-project-prep/   # Interview prep skill
 │       └── SKILL.md
 │   ├── deep-learner/          # Interactive tutor (guided learning) skill
-│       └── SKILL.md
+│   │   └── SKILL.md
+│   ├── english-tutor/         # English conversation + grammar practice skill
+│   │   └── SKILL.md
 │   └── producthunt-top/       # Product Hunt top/trending posts fetcher
 │       └── SKILL.md
 ├── hooks/
