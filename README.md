@@ -15,6 +15,7 @@ npx skills add shfshanyue/skills/deep-learner
 npx skills add shfshanyue/skills/english-tutor
 npx skills add shfshanyue/skills/producthunt-top
 npx skills add shfshanyue/skills/chengyu-jielong
+npx skills add shfshanyue/skills/poetry-quiz
 
 # Install all skills
 npx skills add shfshanyue/skills
@@ -33,6 +34,7 @@ ln -sf $(pwd)/skills/deep-learner ~/.agents/skills/deep-learner
 ln -sf $(pwd)/skills/english-tutor ~/.agents/skills/english-tutor
 ln -sf $(pwd)/skills/producthunt-top ~/.agents/skills/producthunt-top
 ln -sf $(pwd)/skills/chengyu-jielong ~/.agents/skills/chengyu-jielong
+ln -sf $(pwd)/skills/poetry-quiz ~/.agents/skills/poetry-quiz
 ```
 
 ## Skills
@@ -113,6 +115,19 @@ Hosts the classic Chinese idiom chain game (成语接龙) with the user — pick
 - Provides on-demand hints (1–2 clues, never the full answer); allows repeated idioms
 - Ends and tallies the score (AI vs. user count) only when the user says `结束`
 
+### `poetry-quiz`
+
+> `skills/poetry-quiz/SKILL.md`
+
+Hosts a Chinese classical poetry fill-in-the-blank quiz (诗词上下句填空) — AI always asks, user always answers, with one line of a classical poem as the prompt and the user supplying the matching 上句 / 下句.
+
+- User picks a difficulty at start (简单 / 中等 / 困难); pool covers 唐诗、宋词、元曲、诗经楚辞
+- Direction is randomized per question (请接下句 or 请接上句); every prompt shows 题面 / 方向 / 出处
+- Friendly correction: real-but-wrong classical lines are acknowledged with their source before asking for a retry
+- Ladder hints (主题 → 首字 → 前两字), auto-advanced on wrong answers; never reveals the full answer
+- Weighted scoring (2 / 1 / 0 points), couplets deduplicated across directions, never fabricates lines
+- Ends with score, per-category accuracy, and study suggestions only when the user says `结束`
+
 ## Hooks
 
 ### `block-git-commit-push.sh`
@@ -138,7 +153,9 @@ A command parser for `beforeShellExecution` that blocks `git commit` and `git pu
 │   │   └── SKILL.md
 │   ├── producthunt-top/       # Product Hunt top/trending posts fetcher
 │   │   └── SKILL.md
-│   └── chengyu-jielong/       # Chinese idiom chain game (成语接龙) host
+│   ├── chengyu-jielong/       # Chinese idiom chain game (成语接龙) host
+│   │   └── SKILL.md
+│   └── poetry-quiz/           # Chinese classical poetry fill-in-the-blank quiz host
 │       └── SKILL.md
 ├── hooks/
 │   └── block-git-commit-push.sh
