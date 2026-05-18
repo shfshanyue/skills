@@ -14,6 +14,7 @@ npx skills add shfshanyue/skills/resume-project-prep
 npx skills add shfshanyue/skills/deep-learner
 npx skills add shfshanyue/skills/english-tutor
 npx skills add shfshanyue/skills/producthunt-top
+npx skills add shfshanyue/skills/chengyu-jielong
 
 # Install all skills
 npx skills add shfshanyue/skills
@@ -31,6 +32,7 @@ ln -sf $(pwd)/skills/resume-project-prep ~/.agents/skills/resume-project-prep
 ln -sf $(pwd)/skills/deep-learner ~/.agents/skills/deep-learner
 ln -sf $(pwd)/skills/english-tutor ~/.agents/skills/english-tutor
 ln -sf $(pwd)/skills/producthunt-top ~/.agents/skills/producthunt-top
+ln -sf $(pwd)/skills/chengyu-jielong ~/.agents/skills/chengyu-jielong
 ```
 
 ## Skills
@@ -99,6 +101,18 @@ Fetches top/trending Product Hunt posts via the official GraphQL API v2, and ret
 - Supports terminal display and export to Markdown/JSON/CSV files
 - Includes practical follow-ups such as trend summaries and period-over-period comparison
 
+### `chengyu-jielong`
+
+> `skills/chengyu-jielong/SKILL.md`
+
+Hosts the classic Chinese idiom chain game (成语接龙) with the user — picks the rule, plays the first idiom, and validates every reply.
+
+- User chooses the chain rule at start (strict same character, same pinyin, or same pinyin + tone)
+- AI plays first, every idiom comes with source (出处), meaning (含义), and an example sentence (例句)
+- Validates user input: rejects non-idioms and idioms that break the rule, asks for a retry
+- Provides on-demand hints (1–2 clues, never the full answer); allows repeated idioms
+- Ends and tallies the score (AI vs. user count) only when the user says `结束`
+
 ## Hooks
 
 ### `block-git-commit-push.sh`
@@ -122,7 +136,9 @@ A command parser for `beforeShellExecution` that blocks `git commit` and `git pu
 │   │   └── SKILL.md
 │   ├── english-tutor/         # English conversation + grammar practice skill
 │   │   └── SKILL.md
-│   └── producthunt-top/       # Product Hunt top/trending posts fetcher
+│   ├── producthunt-top/       # Product Hunt top/trending posts fetcher
+│   │   └── SKILL.md
+│   └── chengyu-jielong/       # Chinese idiom chain game (成语接龙) host
 │       └── SKILL.md
 ├── hooks/
 │   └── block-git-commit-push.sh
