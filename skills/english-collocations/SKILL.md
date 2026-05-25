@@ -1,6 +1,6 @@
 ---
 name: english-collocations
-description: "Drill English collocations through scenario-based sentence construction with heavy teaching feedback and persistent mistake tracking. Use when the user wants to practice 固定搭配 / collocations / 地道搭配 / 词组搭配, fix Chinglish word pairings, master verb+noun / adj+noun / verb+preposition / adv+adj / business-academic fixed expressions, or drill engineering & product collocations like `ship a feature`, `roll out a release`, `spin up a server`, `deprecate an API`, `address technical debt`, `align on requirements`, `unblock the team`, `cut a release`, `merge a PR`, `triage bugs`. For dialogue-based grammar practice, use `english-tutor` instead."
+description: "Drill English collocations through scenario-based sentence construction with heavy teaching feedback and persistent mistake tracking. Use when the user wants to practice 固定搭配 / collocations / 地道搭配 / 词组搭配, fix Chinglish word pairings, master verb+noun / adj+noun / verb+preposition / adv+adj collocations. Covers daily spoken English (small talk, errands, emotions, home life, health, money, commuting), business & academic fixed expressions, and a small slice of engineering/product vocabulary (`ship a feature`, `roll out a release`, `triage bugs`). For dialogue-based grammar practice, use `english-tutor` instead."
 metadata:
   version: 1.0.0
 ---
@@ -17,16 +17,32 @@ This skill is **narrow**: drill word-pairings inside scenarios, not dialogue or 
 - **adj + noun** — `heavy rain`, `strong coffee`, `deep sleep`
 - **verb + preposition / phrasal verb** — `depend on`, `look forward to`, `come up with`
 - **adv + adj / adv + verb** — `highly recommended`, `strongly agree`
+- **daily spoken — life & feelings** — `catch up with`, `hang out`, `bump into someone`, `feel down`, `freak out`, `have a crush on`, `pull an all-nighter`
+- **daily spoken — chores & errands** — `do the dishes`, `take out the trash`, `run errands`, `split the bill`, `make ends meet`, `get stuck in traffic`, `flag down a taxi`
 - **business / academic fixed expressions** — `in conclusion`, `with regard to`, `take into account`
-- **CS / product / engineering** — `ship a feature`, `roll out a release`, `spin up a server`, `deprecate an API`, `address technical debt`, `align on requirements`, `unblock the team`, `cut a release`, `merge a PR`, `triage bugs`, `cherry-pick a commit`, `roll back a deploy`, `gate a feature`
+- **CS / product / engineering (small slice)** — `ship a feature`, `roll out a release`, `address technical debt`, `triage bugs`, `merge a PR`
 
 ---
 
 ## Round workflow (run every round in this order)
 
 1. **Read `skills/english-collocations/mistakes.md`** in full if it exists. If not, plan to create it on the first miss.
-2. **Choose the round's pack source** (random):
-   - 60% → a fresh theme pack: `dev` / `product` / `daily` / `meeting` / `writing-formal` / `academic`
+2. **Choose the round's pack source** (weighted random):
+   - 60% → a fresh theme pack, sampled with the following weights:
+
+     | pack            | weight |
+     | --------------- | ------ |
+     | daily-life      | 30%    |
+     | daily-chores    | 25%    |
+     | meeting         | 12%    |
+     | writing-formal  | 10%    |
+     | academic        | 8%     |
+     | dev             | 8%     |
+     | product         | 7%     |
+
+     `daily-life` covers small talk, emotions, home life, health, commuting.
+     `daily-chores` covers service interactions (restaurants/taxi/shopping/clinic), money, errands.
+     `dev` + `product` are intentionally capped at ~15% combined — surface them less often than daily/business themes.
    - 40% → a **review pack** sampled from `mistakes.md` (prefer entries with `wrong attempts >= 2` OR `last seen` older than 7 days)
 3. **Generate 5–8 candidate collocations** for that pack on the fly. **Do NOT write the pack to disk** — packs are ephemeral; only mistakes persist.
 4. **Present the scenario** to the learner in **English**, naming 1–2 target collocations they must use. Match the current difficulty level (see ladder below).
@@ -142,6 +158,37 @@ This skill is **narrow**: drill word-pairings inside scenarios, not dialogue or 
 > Write one sentence.
 
 (And simultaneously, `mistakes.md` got a new section `## ship a feature` with `wrong attempts: 1`.)
+
+### Second worked example (daily-life pack, abbreviated)
+
+**You (round start, L1, pack: daily-life):**
+
+> Scenario: Your roommate stayed up until 5 a.m. cramming for a final, and now they look wrecked at breakfast.
+> Target collocation: **pull an all-nighter**
+> Write one sentence using it.
+
+**Learner:**
+
+> "She did an all-night for the exam yesterday."
+
+**You (grading message, NOTHING ELSE):**
+
+```
+**Score**: 2 / 5
+**Natural version**: "She pulled an all-nighter for the exam yesterday."
+**Why your collocation is off**:
+  - `do an all-night` is not idiomatic; the fixed verb is `pull` and the noun form is `all-nighter` (one word, hyphenated, with `-er`).
+**Synonym contrast**:
+  - `pull an all-nighter` — neutral, very common; staying up the whole night for work or study.
+  - `stay up all night` — same idea, slightly more literal, no "purposeful effort" nuance.
+  - `burn the midnight oil` — work late into the night (not necessarily until dawn); more bookish.
+**Counter-examples**:
+  - "I pulled an all-nighter watching TikTok." — technically grammatical but odd; the phrase implies effortful work (study, deadline), not idle scrolling. Use `stay up all night` instead.
+**Now try again**:
+  - Scenario: It's 2 a.m. and you still have 30 slides left for tomorrow's 9 a.m. presentation. Write one sentence using **pull an all-nighter**.
+```
+
+The daily example shows the same 6-section template applied to a non-technical scenario; the AI should match this style for `daily-life` / `daily-chores` packs.
 
 ---
 
