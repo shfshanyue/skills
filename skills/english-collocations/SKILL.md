@@ -67,7 +67,10 @@ This skill is **narrow**: drill word-pairings inside scenarios, not dialogue or 
 
 ## Grading template (mandatory — use EVERY time the learner submits a sentence)
 
-```
+Output the grading directly as markdown — **never** wrap it in a code fence (no ```` ``` ````, no ```` ```plaintext ````, no ```` ```markdown ````). The asterisks must render as bold, not show as raw `**`.
+
+Use exactly these 6 sections in this order:
+
 **Score**: x / 5
 **Natural version**: <best 1–2 variants>
 **Why your collocation is off**:
@@ -78,11 +81,11 @@ This skill is **narrow**: drill word-pairings inside scenarios, not dialogue or 
   - 1 scenario where the target collocation does NOT fit, with a brief why
 **Now try again**:
   - A NEW scenario forcing the same collocation (ONLY if the original was wrong; OMIT this section if the answer was correct)
-```
 
 - If the answer was correct, replace `Now try again` with a one-line praise. The next round's scenario must come in a **separate** message at the next difficulty level.
 - Never combine grading + a fresh round's scenario in one message. Single focus only.
 - Counter-examples must be a real scenario, not just "don't say X with Y".
+- Never wrap the grading message (or any scenario message) in a code fence. Code fences are reserved for actual code only.
 
 ---
 
@@ -134,22 +137,20 @@ This skill is **narrow**: drill word-pairings inside scenarios, not dialogue or 
 
 > "We need to publish this search feature this week."
 
-**You (grading message, NOTHING ELSE):**
+**You (grading message, NOTHING ELSE — output as raw markdown, NOT inside a code fence):**
 
-```
-**Score**: 2 / 5
-**Natural version**: "We need to ship this search feature this week."
-**Why your collocation is off**:
-  - `publish` collocates with articles, papers, books, blog posts — content. Software features get `ship` / `release` / `roll out`.
-**Synonym contrast**:
-  - `ship a feature` — neutral, very common in engineering teams, means "get it into users' hands".
-  - `release a feature` — slightly more formal, often tied to a versioned release.
-  - `roll out a feature` — implies a gradual or staged rollout (canary, percentage).
-**Counter-examples**:
-  - "We shipped a new research paper last quarter." — wrong; papers are `published`, not `shipped`.
-**Now try again**:
-  - Scenario: Your infra team finally finished the new rate limiter and it goes live tomorrow morning. Write one sentence using **ship a feature** (or `ship` + the feature noun).
-```
+> **Score**: 2 / 5
+> **Natural version**: "We need to ship this search feature this week."
+> **Why your collocation is off**:
+>   - `publish` collocates with articles, papers, books, blog posts — content. Software features get `ship` / `release` / `roll out`.
+> **Synonym contrast**:
+>   - `ship a feature` — neutral, very common in engineering teams, means "get it into users' hands".
+>   - `release a feature` — slightly more formal, often tied to a versioned release.
+>   - `roll out a feature` — implies a gradual or staged rollout (canary, percentage).
+> **Counter-examples**:
+>   - "We shipped a new research paper last quarter." — wrong; papers are `published`, not `shipped`.
+> **Now try again**:
+>   - Scenario: Your infra team finally finished the new rate limiter and it goes live tomorrow morning. Write one sentence using **ship a feature** (or `ship` + the feature noun).
 
 **You (after correct retry, NEW message, round 2 starts here):**
 
@@ -171,22 +172,20 @@ This skill is **narrow**: drill word-pairings inside scenarios, not dialogue or 
 
 > "She did an all-night for the exam yesterday."
 
-**You (grading message, NOTHING ELSE):**
+**You (grading message, NOTHING ELSE — output as raw markdown, NOT inside a code fence):**
 
-```
-**Score**: 2 / 5
-**Natural version**: "She pulled an all-nighter for the exam yesterday."
-**Why your collocation is off**:
-  - `do an all-night` is not idiomatic; the fixed verb is `pull` and the noun form is `all-nighter` (one word, hyphenated, with `-er`).
-**Synonym contrast**:
-  - `pull an all-nighter` — neutral, very common; staying up the whole night for work or study.
-  - `stay up all night` — same idea, slightly more literal, no "purposeful effort" nuance.
-  - `burn the midnight oil` — work late into the night (not necessarily until dawn); more bookish.
-**Counter-examples**:
-  - "I pulled an all-nighter watching TikTok." — technically grammatical but odd; the phrase implies effortful work (study, deadline), not idle scrolling. Use `stay up all night` instead.
-**Now try again**:
-  - Scenario: It's 2 a.m. and you still have 30 slides left for tomorrow's 9 a.m. presentation. Write one sentence using **pull an all-nighter**.
-```
+> **Score**: 2 / 5
+> **Natural version**: "She pulled an all-nighter for the exam yesterday."
+> **Why your collocation is off**:
+>   - `do an all-night` is not idiomatic; the fixed verb is `pull` and the noun form is `all-nighter` (one word, hyphenated, with `-er`).
+> **Synonym contrast**:
+>   - `pull an all-nighter` — neutral, very common; staying up the whole night for work or study.
+>   - `stay up all night` — same idea, slightly more literal, no "purposeful effort" nuance.
+>   - `burn the midnight oil` — work late into the night (not necessarily until dawn); more bookish.
+> **Counter-examples**:
+>   - "I pulled an all-nighter watching TikTok." — technically grammatical but odd; the phrase implies effortful work (study, deadline), not idle scrolling. Use `stay up all night` instead.
+> **Now try again**:
+>   - Scenario: It's 2 a.m. and you still have 30 slides left for tomorrow's 9 a.m. presentation. Write one sentence using **pull an all-nighter**.
 
 The daily example shows the same 6-section template applied to a non-technical scenario; the AI should match this style for `daily-life` / `daily-chores` packs.
 
