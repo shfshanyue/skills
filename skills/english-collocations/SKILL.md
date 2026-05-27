@@ -13,14 +13,31 @@ This skill is **narrow**: drill word-pairings inside scenarios, not dialogue or 
 
 ## Scope: what counts as a collocation here
 
-- **verb + noun** — `make a decision`, `take a shower`, `do homework`
-- **adj + noun** — `heavy rain`, `strong coffee`, `deep sleep`
-- **verb + preposition / phrasal verb** — `depend on`, `look forward to`, `come up with`
-- **adv + adj / adv + verb** — `highly recommended`, `strongly agree`
-- **daily spoken — life & feelings** — `catch up with`, `hang out`, `bump into someone`, `feel down`, `freak out`, `have a crush on`, `pull an all-nighter`
-- **daily spoken — chores & errands** — `do the dishes`, `take out the trash`, `run errands`, `split the bill`, `make ends meet`, `get stuck in traffic`, `flag down a taxi`
-- **business / academic fixed expressions** — `in conclusion`, `with regard to`, `take into account`
-- **CS / product / engineering (small slice)** — `ship a feature`, `roll out a release`, `address technical debt`, `triage bugs`, `merge a PR`
+### Structural types
+
+- **verb + noun** — fixed pairings between a verb and its object noun
+- **adj + noun** — fixed pairings between an adjective and the noun it modifies
+- **verb + preposition / phrasal verb** — verb–preposition or multi-word verb patterns
+- **adv + adj / adv + verb** — intensifier or manner adverb with adjective or verb
+- **light verb + abstract noun** — make / do / take / have / get + abstract noun patterns
+- **noun + noun** — compound or fixed noun strings
+- **preposition + noun (fixed prepositional phrases)** — phrases that function as a single unit
+- **fixed binomials** — paired A-and-B expressions that appear together
+- **register-bound pairs** — same concept, different collocations in spoken vs formal vs domain-specific use
+
+### Thematic domains (align with round packs)
+
+- **daily spoken — life & feelings**
+- **daily spoken — chores & errands**
+- **relationships & social**
+- **health & body**
+- **food & dining**
+- **travel & transport**
+- **shopping & money**
+- **business / academic fixed expressions**
+- **CS / product / engineering (small slice)** — keep dev + product packs capped (~15% combined); surface less often than daily/business themes
+
+Each round: pick a structural type and a thematic domain that match the current pack, then **generate** target collocations on the fly. Do **not** default to or repeatedly reuse example phrases that appear elsewhere in this skill (Scope, Worked example, or `mistakes.md` samples).
 
 ---
 
