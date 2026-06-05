@@ -13,6 +13,7 @@ npx skills add shfshanyue/skills/reddit-promotion
 npx skills add shfshanyue/skills/resume-project-prep
 npx skills add shfshanyue/skills/deep-learner
 npx skills add shfshanyue/skills/english-tutor
+npx skills add shfshanyue/skills/minimal-pairs
 npx skills add shfshanyue/skills/producthunt-top
 npx skills add shfshanyue/skills/chengyu-jielong
 npx skills add shfshanyue/skills/poetry-quiz
@@ -32,6 +33,7 @@ ln -sf $(pwd)/skills/reddit-promotion ~/.agents/skills/reddit-promotion
 ln -sf $(pwd)/skills/resume-project-prep ~/.agents/skills/resume-project-prep
 ln -sf $(pwd)/skills/deep-learner ~/.agents/skills/deep-learner
 ln -sf $(pwd)/skills/english-tutor ~/.agents/skills/english-tutor
+ln -sf $(pwd)/skills/minimal-pairs ~/.agents/skills/minimal-pairs
 ln -sf $(pwd)/skills/producthunt-top ~/.agents/skills/producthunt-top
 ln -sf $(pwd)/skills/chengyu-jielong ~/.agents/skills/chengyu-jielong
 ln -sf $(pwd)/skills/poetry-quiz ~/.agents/skills/poetry-quiz
@@ -92,6 +94,17 @@ Mixed-mode English practice: one grammar focus per round, short dialogue, immedi
 - Correction turns are single-focus (correct version + short why + retry); no extra follow-up question in the same message as a fix
 - Recap after a stretch of practice: what you drilled, repeated fixes, and 2–3 reusable model sentences
 
+### `minimal-pairs`
+
+> `skills/minimal-pairs/SKILL.md`
+
+Drills English pronunciation through **minimal pairs** (最小对立对) — word pairs that differ by exactly one phoneme (ship/sheep, light/right, vest/west, thin/sin). Mirrors the `english-collocations` workflow: scenario-style prompts, fixed 6-section grading template, persistent mistake tracking.
+
+- Covers vowel contrasts (/ɪ/ vs /iː/, /e/ vs /æ/, /ʊ/ vs /uː/…), consonant contrasts (/l/ vs /r/, /v/ vs /w/, /θ/ vs /s/, /n/ vs /ŋ/…), and sentence-level disambiguation
+- 4-level ladder: Identify → Transcribe (IPA) → Disambiguate in sentence → Produce
+- Tracks mistakes by **phoneme contrast** (not individual word pair) in `skills/minimal-pairs/mistakes.md`, with 60/40 fresh-vs-review pack sampling weighted toward Chinese-speaker pain points
+- Every grading message includes IPA, articulation mechanics, and a practice trio to read aloud
+
 ### `producthunt-top`
 
 > `skills/producthunt-top/SKILL.md`
@@ -150,6 +163,8 @@ A command parser for `beforeShellExecution` that blocks `git commit` and `git pu
 │   ├── deep-learner/          # Interactive tutor (guided learning) skill
 │   │   └── SKILL.md
 │   ├── english-tutor/         # English conversation + grammar practice skill
+│   │   └── SKILL.md
+│   ├── minimal-pairs/         # English minimal-pair pronunciation drill skill
 │   │   └── SKILL.md
 │   ├── producthunt-top/       # Product Hunt top/trending posts fetcher
 │   │   └── SKILL.md
