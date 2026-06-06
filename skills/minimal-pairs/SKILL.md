@@ -2,7 +2,7 @@
 name: minimal-pairs
 description: "Drill English pronunciation through minimal pairs (最小对立对 / 最小对立体) — word pairs that differ by exactly one phoneme (ship/sheep, light/right, bit/beat, vest/west, thin/sin). Use when the user wants to practice 最小对立对, minimal pairs, phoneme discrimination, fix Chinglish pronunciation, train ears for /l/ vs /r/, /v/ vs /w/, /ɪ/ vs /iː/, /θ/ vs /s/, /æ/ vs /e/, /n/ vs /ŋ/, or other confusable sounds. Covers vowel contrasts, consonant contrasts, and sentence-level discrimination. For grammar dialogue, use `english-tutor`. For word-pairings, use `english-collocations`."
 metadata:
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Minimal Pairs (phoneme discrimination drill + persistent mistake log)
@@ -43,7 +43,7 @@ A **minimal pair** = two words/phrases that differ in **exactly one phoneme** in
 | /dʒ/ vs /j/     | jet/yet, joke/yolk                             |                                          |
 | voiced/voiceless final | bag/back, pig/pick, code/coat           | Chinese speakers often devoice           |
 
-### Sentence-level (later levels)
+### Sentence-level (L2 Disambiguate)
 
 - "I saw a sheep / I saw a ship on the dock."
 - "She lives in a light house / right house."
@@ -76,17 +76,17 @@ A **minimal pair** = two words/phrases that differ in **exactly one phoneme** in
 7. **Update `mistakes.md`** atomically (read whole file → mutate in memory → write whole file back). The tracked key is the **phoneme contrast** (e.g. `/l/ vs /r/`), not the individual word pair.
 8. **Decide the next round**:
    - Wrong → next message starts a NEW round forcing the SAME contrast again (do not start a new round inside the grading message).
-   - Correct → next round at the next difficulty level (after 2 consecutive correct → level +1; after any wrong → level −1, floor L1).
+   - Correct → next round at the next difficulty level (after 2 consecutive correct → level +1, ceiling L2; after any wrong → level −1, floor L1).
 9. After 5–8 rounds, **recap**: list contrasts practiced, which were weak, 2–3 model sentences they can re-drill aloud.
 
 ### Difficulty ladder
 
+Two levels only. The learner **never writes IPA** — you show IPA in prompts and grading; they respond with word choice and a brief phoneme cue in plain English or Chinese.
+
 | Level | Mode                                                                                          |
 | ----- | --------------------------------------------------------------------------------------------- |
 | L1    | **Identify**: present the pair (e.g. `ship` vs `sheep`) + IPA; user picks which one matches a target meaning/sentence you give. |
-| L2    | **Transcribe**: present a word (e.g. `sheet`); user writes its IPA and the minimal pair partner. |
-| L3    | **Disambiguate**: present a sentence with the target word blanked (`I saw a ___ on the wave`); user picks `ship` or `sheep` and explains the phoneme cue. |
-| L4    | **Produce**: user writes 2 sentences — one for each word in the pair — and marks the stressed vowel/consonant in IPA. |
+| L2    | **Disambiguate**: present a sentence with the target word blanked (`I saw a ___ on the wave`); user picks `ship` or `sheep` and explains the phoneme cue (English or Chinese — no IPA required). |
 
 ---
 
@@ -111,7 +111,7 @@ Use exactly these 6 sections in this order:
 
 - If the answer was correct, replace `Now try again` with a one-line praise. The next round's prompt must come in a **separate** message at the next difficulty level.
 - Never combine grading + a fresh round's prompt in one message. Single focus only.
-- Always include IPA in slashes (`/ʃiːp/`), not in brackets.
+- Always include IPA in slashes (`/ʃiːp/`) in **your** prompts and grading — coach-side only; never ask the learner to produce IPA.
 - Never wrap the grading message (or any round prompt) in a code fence. Code fences are reserved for actual code only.
 
 ---
@@ -144,7 +144,7 @@ The tracked key is the **phoneme contrast**, not a specific word pair — so all
 - wrong attempts: 1
 - last seen: 2026-05-24
 - pairs missed: ship/sheep
-- your worst attempt: wrote `/ʃip/` for `sheep`
+- your worst attempt: picked `ship` for `sheep` in "The ___ is on the wave"
 - note: /iː/ 长且舌位更高更前；/ɪ/ 短而松弛。长度差别 + 紧张度。
 ```
 
@@ -193,38 +193,40 @@ The tracked key is the **phoneme contrast**, not a specific word pair — so all
 **You (after correct retry, NEW message, round 2 starts here):**
 
 > Nice. Level up.
-> Round 2 (L2 — Transcribe, pack: vowels-length).
-> Word: **sheet**. Write its IPA, then give the minimal-pair partner (a different vowel) and its IPA.
+> Round 2 (L2 — Disambiguate, pack: l-vs-r).
+> Pair: **lock** /lɒk/ vs **rock** /rɒk/
+> "Don't trip over that ___ on the trail." Which word fits, and what phoneme cue tells you?
 
 (And simultaneously, `mistakes.md` got a new section `## /l/ vs /r/` with `wrong attempts: 1`, `pairs missed: light/right`.)
 
-### Second worked example (vowels-length pack, abbreviated)
+### Second worked example (vowels-length pack, L2 Disambiguate, abbreviated)
 
 **You (round start, L2, pack: vowels-length):**
 
-> Round (L2 — Transcribe).
-> Word: **sheep**. Write its IPA, then give its minimal-pair partner (short vowel) and its IPA.
+> Round (L2 — Disambiguate).
+> Pair: **sheep** /ʃiːp/ vs **ship** /ʃɪp/
+> "The ___ is on the wave." Which word fits, and what phoneme cue tells you?
 
 **Learner:**
 
-> "/ʃip/, partner is ship /ʃip/"
+> "ship — the vowel is shorter"
 
 **You (grading message, NOTHING ELSE — output as raw markdown, NOT inside a code fence):**
 
-> **Score**: 2 / 5
-> **Correct answer**: `sheep /ʃiːp/` and partner `ship /ʃɪp/`
+> **Score**: 1 / 5
+> **Correct answer**: `sheep /ʃiːp/` — "The sheep is on the wave."
 > **Why this contrast is tricky**:
->   - You used the same vowel `/i/` for both — that collapses the pair. English distinguishes **long tense** /iː/ from **short lax** /ɪ/; they are different vowels, not just length.
->   - Mandarin only has one high front vowel close to /i/, so learners default to it for both English words.
+>   - You picked the short-vowel word, but the sentence needs the animal on the wave — that's **sheep** with long tense /iː/, not **ship** with short lax /ɪ/.
+>   - Mandarin only has one high front vowel close to /i/, so learners often collapse both English vowels into one sound.
 > **Mouth mechanics**:
 >   - /iː/: tongue high and forward, lips spread (smile), muscles tense, slightly longer.
 >   - /ɪ/: tongue slightly lower and more relaxed, lips neutral, shorter and "looser".
 > **Practice trio** (say these aloud 3× each):
 >   - sheep — ship — "The sheep is on the ship."
 > **Now try again**:
->   - New prompt: word **feet**. Write its IPA, then give its short-vowel minimal-pair partner and its IPA.
+>   - New prompt: pair **feet** /fiːt/ vs **fit** /fɪt/. "These shoes are too ___ for me." Which word, and why?
 
-The vowel example shows the same 6-section template applied to a vowel contrast; match this style for any pack.
+The vowel example shows the same 6-section template applied to a vowel contrast at L2; match this style for any pack.
 
 ---
 
@@ -233,7 +235,7 @@ The vowel example shows the same 6-section template applied to a vowel contrast;
 - No role-play dialogue. (Use `english-tutor` for that.)
 - No collocation drills. (Use `english-collocations` for that.)
 - No general pronunciation lectures — every round is anchored to **one minimal pair contrast**.
-- Always include IPA in slashes for both target and partner words.
+- Always include IPA in slashes for both target and partner words in **your** output — never require the learner to write IPA.
 - Never dump more than 6 pairs in a single message; always one-pair-per-round.
 - Never combine grading + a new round prompt in one message.
 - Never silently rewrite or reorder existing `mistakes.md` entries — only the section being graded changes.

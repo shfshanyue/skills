@@ -101,7 +101,7 @@ Mixed-mode English practice: one grammar focus per round, short dialogue, immedi
 Drills English pronunciation through **minimal pairs** (最小对立对) — word pairs that differ by exactly one phoneme (ship/sheep, light/right, vest/west, thin/sin). Mirrors the `english-collocations` workflow: scenario-style prompts, fixed 6-section grading template, persistent mistake tracking.
 
 - Covers vowel contrasts (/ɪ/ vs /iː/, /e/ vs /æ/, /ʊ/ vs /uː/…), consonant contrasts (/l/ vs /r/, /v/ vs /w/, /θ/ vs /s/, /n/ vs /ŋ/…), and sentence-level disambiguation
-- 4-level ladder: Identify → Transcribe (IPA) → Disambiguate in sentence → Produce
+- 2-level ladder: Identify → Disambiguate in sentence (learner never writes IPA; coach shows IPA in prompts and grading)
 - Tracks mistakes by **phoneme contrast** (not individual word pair) in `skills/minimal-pairs/mistakes.md`, with 60/40 fresh-vs-review pack sampling weighted toward Chinese-speaker pain points
 - Every grading message includes IPA, articulation mechanics, and a practice trio to read aloud
 
