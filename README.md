@@ -17,6 +17,7 @@ npx skills add shfshanyue/skills/minimal-pairs
 npx skills add shfshanyue/skills/producthunt-top
 npx skills add shfshanyue/skills/chengyu-jielong
 npx skills add shfshanyue/skills/poetry-quiz
+npx skills add shfshanyue/skills/zh-en-gloss
 
 # Install all skills
 npx skills add shfshanyue/skills
@@ -37,6 +38,7 @@ ln -sf $(pwd)/skills/minimal-pairs ~/.agents/skills/minimal-pairs
 ln -sf $(pwd)/skills/producthunt-top ~/.agents/skills/producthunt-top
 ln -sf $(pwd)/skills/chengyu-jielong ~/.agents/skills/chengyu-jielong
 ln -sf $(pwd)/skills/poetry-quiz ~/.agents/skills/poetry-quiz
+ln -sf $(pwd)/skills/zh-en-gloss ~/.agents/skills/zh-en-gloss
 ```
 
 ## Skills
@@ -141,6 +143,17 @@ Hosts a Chinese classical poetry fill-in-the-blank quiz (诗词上下句填空) 
 - Weighted scoring (2 / 1 / 0 points), couplets deduplicated across directions, never fabricates lines
 - Ends with score, per-category accuracy, and study suggestions only when the user says `结束`
 
+### `zh-en-gloss`
+
+> `skills/zh-en-gloss/SKILL.md`
+
+Formats Chinese AI replies with inline English glosses after important terms — e.g. `睡眠 (sleep)`, `焦虑症 (anxiety disorder)` — so you can learn vocabulary while reading normal answers.
+
+- **On-demand only:** activate by @mentioning `zh-en-gloss` or asking for 附英文 / 学单词
+- Medium density (~5–10 glosses per substantive paragraph); phrase-level English, not word-by-word
+- Works across any topic (health, tech, business); code blocks and citations stay clean
+- Complements `english-tutor` (dialogue practice) and `translation-practice-zh-en` (drill scoring) — does not replace them
+
 ## Hooks
 
 ### `block-git-commit-push.sh`
@@ -170,7 +183,9 @@ A command parser for `beforeShellExecution` that blocks `git commit` and `git pu
 │   │   └── SKILL.md
 │   ├── chengyu-jielong/       # Chinese idiom chain game (成语接龙) host
 │   │   └── SKILL.md
-│   └── poetry-quiz/           # Chinese classical poetry fill-in-the-blank quiz host
+│   ├── poetry-quiz/           # Chinese classical poetry fill-in-the-blank quiz host
+│   │   └── SKILL.md
+│   └── zh-en-gloss/           # Inline English glosses in Chinese replies (on @mention)
 │       └── SKILL.md
 ├── hooks/
 │   └── block-git-commit-push.sh
