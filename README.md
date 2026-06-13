@@ -149,7 +149,7 @@ Hosts a Chinese classical poetry fill-in-the-blank quiz (诗词上下句填空) 
 
 Formats Chinese AI replies with inline English glosses after important terms — e.g. `有氧运动 (aerobic exercise)`, `均衡饮食 (balanced diet)` — so you can learn vocabulary while reading normal answers.
 
-- **On-demand only:** activate by @mentioning `zh-en-gloss` or asking for 附英文 / 学单词
+- **Default on when installed:** Chinese replies include inline glosses; say 不用标注了 / stop glossing to opt out for the session
 - Medium density (~5–10 glosses per substantive paragraph); phrase-level English, not word-by-word
 - Works across any topic (health, tech, business); code blocks and citations stay clean
 - Complements `english-tutor` (dialogue practice) and `translation-practice-zh-en` (drill scoring) — does not replace them
@@ -185,7 +185,7 @@ A command parser for `beforeShellExecution` that blocks `git commit` and `git pu
 │   │   └── SKILL.md
 │   ├── poetry-quiz/           # Chinese classical poetry fill-in-the-blank quiz host
 │   │   └── SKILL.md
-│   └── zh-en-gloss/           # Inline English glosses in Chinese replies (on @mention)
+│   └── zh-en-gloss/           # Inline English glosses in Chinese replies (default on)
 │       └── SKILL.md
 ├── hooks/
 │   └── block-git-commit-push.sh

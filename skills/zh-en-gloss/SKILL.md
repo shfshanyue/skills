@@ -1,8 +1,8 @@
 ---
 name: zh-en-gloss
-description: "Adds inline English glosses in parentheses after important Chinese terms in replies, e.g. 有氧运动 (aerobic exercise), 均衡饮食 (balanced diet). Use only when the user @mentions zh-en-gloss or explicitly asks for 附英文, 标注英文, 学单词, or inline English annotations while reading Chinese answers. Not for translation drills (use translation-practice-zh-en) or English conversation practice (use english-tutor)."
+description: "Adds inline English glosses in parentheses after important Chinese terms in replies, e.g. 有氧运动 (aerobic exercise), 均衡饮食 (balanced diet). Use whenever this skill is installed — default on for Chinese prose answers so the user can learn vocabulary while reading. Apply glosses unless the user opts out (不用标注、纯中文、stop glossing) or a conflicting skill takes over (english-tutor, translation-practice-zh-en). Not for translation drills or mostly-English dialogue."
 metadata:
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Chinese Reply with English Glosses (zh-en-gloss)
@@ -11,18 +11,22 @@ Answer the user's question normally in **Chinese**, but embed **English glosses*
 
 This skill changes **output formatting only** — it does not turn the chat into a translation exercise or an English lesson.
 
-## Activation (strict)
+## Activation (default on)
 
-Apply gloss formatting **only when**:
+**When this skill is installed, apply gloss formatting by default** on Chinese prose in your replies.
 
-- The user **@mentions `zh-en-gloss`**, or
-- The user explicitly asks: 附英文、标注英文、学单词、括号里标英文、像截图那样标注, etc.
+**Opt out** for the rest of the conversation when the user says: 不用标注了、关闭英文、纯中文、不要括号英文、stop glossing, or similar.
 
-**Do not** apply glosses when the skill is merely installed but not @mentioned and not explicitly requested.
+**Do not gloss** when:
 
-Once activated, keep glossing **for the rest of that conversation** until the user says 不用标注了、关闭英文、stop glossing, or similar.
+- The user asks for a **mostly-English** reply or is clearly practicing English dialogue (`english-tutor` active or @mentioned)
+- The user is doing a **translation drill** (`translation-practice-zh-en` active or @mentioned)
+- The reply is **already mostly English** (e.g. code review in English, pasted English text)
+- The user explicitly wants **no inline annotations** for this message
 
-If the user also @mentions a conflicting skill (e.g. `english-tutor` for mostly-English dialogue), follow the **latest explicit instruction**. Default when this skill is @mentioned: **Chinese prose + inline English glosses**.
+If the user @mentions `zh-en-gloss` after opting out, **re-enable** glossing for the rest of that conversation unless they opt out again.
+
+When another skill conflicts, follow the **latest explicit instruction**. Default with this skill installed: **Chinese prose + inline English glosses**.
 
 ## Format rules
 
