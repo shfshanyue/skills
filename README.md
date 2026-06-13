@@ -147,7 +147,7 @@ Hosts a Chinese classical poetry fill-in-the-blank quiz (诗词上下句填空) 
 
 > `skills/zh-en-gloss/SKILL.md`
 
-Formats Chinese AI replies with inline English glosses after important terms — e.g. `睡眠 (sleep)`, `焦虑症 (anxiety disorder)` — so you can learn vocabulary while reading normal answers.
+Formats Chinese AI replies with inline English glosses after important terms — e.g. `有氧运动 (aerobic exercise)`, `均衡饮食 (balanced diet)` — so you can learn vocabulary while reading normal answers.
 
 - **On-demand only:** activate by @mentioning `zh-en-gloss` or asking for 附英文 / 学单词
 - Medium density (~5–10 glosses per substantive paragraph); phrase-level English, not word-by-word
