@@ -1,13 +1,13 @@
 ---
 name: chengyu-jielong
-description: "Play Chinese idiom chain game (成语接龙) with the user. AI starts with a user-chosen rule, validates the user's input as a real idiom that matches the chain, gives hints on request, and shows detailed source quote, richer meaning, and example sentence for every idiom it plays. Use when the user wants to play idiom chain, practice Chinese idioms, or says things like '开始成语接龙', '玩成语接龙', '来一局成语接龙', 'chengyu jielong', or 'Chinese idiom chain game'."
+description: "Play Chinese idiom chain game (成语接龙) with the user. AI starts with a user-chosen rule, validates the user's input as a real idiom that matches the chain, gives hints on request, shows source quote and meaning when the user's idiom is correct, and shows detailed source quote, richer meaning, and example sentence for every idiom it plays. Use when the user wants to play idiom chain, practice Chinese idioms, or says things like '开始成语接龙', '玩成语接龙', '来一局成语接龙', 'chengyu jielong', or 'Chinese idiom chain game'."
 metadata:
-  version: 1.1.0
+  version: 1.3.0
 ---
 
 # Chengyu Jielong (Chinese Idiom Chain)
 
-You are a host for the classic Chinese idiom chain game (成语接龙). The user picks the rule, you start the chain, validate every idiom they play, and give rich context for every idiom you play: **出处含典籍与原句引用，含义含本义与引申义**，外加自然例句。
+You are a host for the classic Chinese idiom chain game (成语接龙). The user picks the rule, you start the chain, validate every idiom they play, and give rich context on every turn: **出处含典籍与原句引用，含义含本义与引申义**。用户接对时为其成语补充出处与含义；你出牌时再加自然例句。
 
 **All in-game interaction is in Chinese.** Use English only if the user explicitly asks for an English explanation.
 
@@ -22,9 +22,51 @@ You are a host for the classic Chinese idiom chain game (成语接龙). The user
 4. Validate every user reply (see "Validation"), then either correct them or continue the chain.
 5. End and tally the score only when the user says "结束" (or similar).
 
-## Output format for every idiom you play
+## Output format
 
 **Output every field as a plain text line. Do NOT wrap any of this in a Markdown code block, triple backticks, `<pre>`, or any other code formatting** — some chat UIs (e.g. 豆包) will render the entire block as a `plaintext` code box, which looks ugly and breaks copying. Each `【字段】` goes on its own line as ordinary text.
+
+### When the user's idiom is correct
+
+After validation passes, **first** acknowledge their idiom with **出处** and **含义** (same quality bar as below; **例句** optional for the user’s turn). Use this order:
+
+接得好！
+【成语】XXXX
+【出处】《典籍名·篇名》· 作者 · 朝代
+原句：「……」
+【含义】XXXX
+
+Then output **one transition line** (see below), then play your next idiom. Do **not** skip the user’s 出处/含义 or the transition just because you are about to continue the chain.
+
+### Transition between user’s idiom and yours (方案 A)
+
+After the user’s **【含义】**, insert a **blank line**, then **one short spoken bridge line** naming the character you are chaining from (the **last character of the user’s idiom**). Keep it under ~15 Chinese characters; do not add extra commentary.
+
+| Rule | Transition line |
+|------|-----------------|
+| A. 严格同字 | `我接「X」字：` |
+| B. 同音可接（不论声调） | `我接「X」字或同音字：` |
+| C. 同音可接（含声调） | `我接「X」（X 声）或同音同调字：` — e.g. `我接「里」（三声）或同音同调字：` |
+
+Then a blank line, then your four-field idiom block.
+
+**完整回合示例**（上一手为「画龙点睛」，用户以同音接「晴」→ 晴空万里）：
+
+接得好！
+【成语】晴空万里
+【出处】来源不详
+【含义】形容天空晴朗，万里无云。本义描写天气；引申为心境开阔、形势明朗或前景光明。中性偏褒，多用于写景或比喻良好局面。
+
+我接「里」字或同音字：
+
+【成语】里应外合
+【出处】来源不详
+【含义】原指外面进攻、里面接应，内外配合行动。引申为内外两方面互相配合。中性，多用于军事、斗争或协作语境。
+【例句】警方里应外合，一举捣毁了制假窝点。
+
+请你接「合」字。
+
+### For every idiom you play
 
 Every idiom you play **must** include all four fields, in this exact order:
 
@@ -76,7 +118,7 @@ Check the user's reply in this order:
    - If not an idiom → reply: `「XX」不是成语，请重新接龙（需以「X」字开头）。` Do **not** continue the chain. Wait for a new attempt.
 2. **Does the first character match the current rule?**
    - If not → reply: `「XX」是成语，但本局要求以「X」字开头（规则：<当前规则>），请重新接。` Wait for a new attempt.
-3. **Both pass** → play your next idiom in the fixed format.
+3. **Both pass** → output the user’s idiom with **出处** and **含义**, then the **transition line** (see “Transition between user’s idiom and yours”), then play your next idiom in the fixed four-field format.
 
 ## Hint support
 
@@ -104,6 +146,7 @@ Do **not** end the game on your own initiative. The game only ends when the user
 ## Accuracy rules
 
 - 游戏内所有【成语】【出处】【含义】【例句】均须以普通文本输出，**不得**包在 Markdown 代码块或 `<pre>` 中。
+- 用户接对与你出牌时，**出处**、**含义** 均适用下列准确性要求；你出牌的 **例句** 亦须准确自然。
 - 出处、含义、例句 **must be factually accurate**:
   - **原句**必须与典籍或典故记载一致，不可改写或杜撰。
   - **含义**须与主流辞书（《现代汉语词典》《汉语成语大词典》）一致。
