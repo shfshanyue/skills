@@ -2,7 +2,7 @@
 name: zh-en-gloss
 description: "Adds inline English glosses in parentheses after important Chinese terms in replies, e.g. 有氧运动 (aerobic exercise), 均衡饮食 (balanced diet). Use whenever this skill is installed — default on for Chinese prose answers so the user can learn vocabulary while reading. Apply glosses unless the user opts out (不用标注、纯中文、stop glossing) or a conflicting skill takes over (english-tutor, translation-practice-zh-en). Not for translation drills or mostly-English dialogue."
 metadata:
-  version: 1.1.0
+  version: 1.2.0
 ---
 
 # Chinese Reply with English Glosses (zh-en-gloss)
@@ -35,11 +35,14 @@ When another skill conflicts, follow the **latest explicit instruction**. Defaul
    - Good: `饭后散步 (a walk after meals)`
    - Bad: `饭后 (after meal) 散步 (walk)`
 3. **Capitalization:** common phrases lowercase; proper nouns and established terms Title Case (`Redis`, `mindfulness meditation`).
-4. **Density (medium):**
-   - Short reply (<3 sentences): **2–4** glosses
-   - Substantive paragraph: **5–10** glosses
-   - Numbered/bulleted lists: gloss **key learnable items** (like a priority list); skip glossing every item in a run of very common parallels (e.g. 晨间拉伸、多喝水、优质蛋白) if that would add noise
-5. **Repeats:** gloss the **first** occurrence in the same message; later repeats may stay unglossed.
+4. **Density — allocate per paragraph/section, not per whole reply:**
+   - **Unit of counting:** each plain-text **paragraph** or each block under a **`###` heading** gets its own gloss budget. Never treat the entire message as one shared pool.
+   - **Short reply** (<3 sentences, single block): **4–8** glosses for that block
+   - **Each substantive paragraph or section:** **3–6** glosses in that block alone
+   - **Long reply** (4+ paragraphs or 2+ headings): **every** Chinese prose paragraph/section must meet the **3–6** quota — including the **last** paragraphs; do not taper off toward the end
+   - **Do not front-load:** finishing early sections does not reduce later sections' quota
+   - **Numbered/bulleted lists:** gloss **key learnable items** per list (at least one gloss on the head term of each numbered item when the list is teaching content); skip glossing every item in a run of very common parallels (e.g. 晨间拉伸、多喝水、优质蛋白) only when that would add noise
+5. **Repeats:** within the **same paragraph/section**, gloss the **first** occurrence; in a **new** paragraph or section, you may gloss the same term again if it is central there.
 6. **Never gloss:** particles and ultra-common words (的、是、可以、因为), tokens already in English, code identifiers, URLs.
 7. **Code blocks:** leave code unchanged; gloss Chinese prose **outside** code blocks only.
 8. **No separate vocabulary appendix** unless the user asks — glosses stay inline for readable flow.
@@ -73,6 +76,16 @@ If you want to build a sustainable daily routine, a solid foundation usually loo
 Good energy often comes from 晨间拉伸、多喝水、优质蛋白、户外活动 — gloss selectively here; do not force a gloss on every item.
 
 **长期坚持 (long-term consistency)** and **适度恢复 (adequate recovery)** matter more than occasional all-out pushes for building **精力 (energy)** and **专注力 (focus)**.
+
+### Long reply — even density across sections
+
+**Section 1 — 作息 (sleep schedule):** 固定起床时间 (a fixed wake-up time) 比偶尔早睡更重要；**睡眠质量 (sleep quality)** 影响第二天的 **专注力 (focus)**。
+
+**Section 2 — 运动 (exercise):** 每周三次 **有氧运动 (aerobic exercise)** 就够；**过度训练 (overtraining)** 反而拖慢 **恢复 (recovery)**。
+
+**Section 3 — 总结 (summary):** **可持续 (sustainable)** 的小习惯，比短期 **拼命 (all-out effort)** 更值得 **坚持 (stick with)**。
+
+Wrong pattern: 8 glosses in section 1, 0 in sections 2–3. Each section above carries its own **3–6** glosses.
 
 ### Technical topic (Redis cache penetration)
 
