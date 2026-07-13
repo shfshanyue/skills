@@ -25,26 +25,6 @@ npx skills add shfshanyue/skills --skill zh-en-gloss
 npx skills add shfshanyue/skills
 ```
 
-## Local Development
-
-All skills are maintained in this repo and symlinked to `~/.agents/skills/` for local testing. Changes take effect immediately without any sync step.
-
-```bash
-# Set up symlinks for local development (run once)
-ln -sf $(pwd)/skills/launch-kit ~/.agents/skills/launch-kit
-ln -sf $(pwd)/skills/reddit-promotion ~/.agents/skills/reddit-promotion
-ln -sf $(pwd)/skills/resume-project-prep ~/.agents/skills/resume-project-prep
-ln -sf $(pwd)/skills/deep-learner ~/.agents/skills/deep-learner
-ln -sf $(pwd)/skills/english-tutor ~/.agents/skills/english-tutor
-ln -sf $(pwd)/skills/english-collocations ~/.agents/skills/english-collocations
-ln -sf $(pwd)/skills/minimal-pairs ~/.agents/skills/minimal-pairs
-ln -sf $(pwd)/skills/producthunt-top ~/.agents/skills/producthunt-top
-ln -sf $(pwd)/skills/chengyu-jielong ~/.agents/skills/chengyu-jielong
-ln -sf $(pwd)/skills/word-chain ~/.agents/skills/word-chain
-ln -sf $(pwd)/skills/poetry-quiz ~/.agents/skills/poetry-quiz
-ln -sf $(pwd)/skills/zh-en-gloss ~/.agents/skills/zh-en-gloss
-```
-
 ## Skills
 
 ### [`launch-kit`](skills/launch-kit/SKILL.md)
