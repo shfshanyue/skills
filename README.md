@@ -17,6 +17,7 @@ npx skills add shfshanyue/skills --skill english-collocations
 npx skills add shfshanyue/skills --skill minimal-pairs
 npx skills add shfshanyue/skills --skill producthunt-top
 npx skills add shfshanyue/skills --skill chengyu-jielong
+npx skills add shfshanyue/skills --skill word-chain
 npx skills add shfshanyue/skills --skill poetry-quiz
 npx skills add shfshanyue/skills --skill zh-en-gloss
 
@@ -39,6 +40,7 @@ ln -sf $(pwd)/skills/english-collocations ~/.agents/skills/english-collocations
 ln -sf $(pwd)/skills/minimal-pairs ~/.agents/skills/minimal-pairs
 ln -sf $(pwd)/skills/producthunt-top ~/.agents/skills/producthunt-top
 ln -sf $(pwd)/skills/chengyu-jielong ~/.agents/skills/chengyu-jielong
+ln -sf $(pwd)/skills/word-chain ~/.agents/skills/word-chain
 ln -sf $(pwd)/skills/poetry-quiz ~/.agents/skills/poetry-quiz
 ln -sf $(pwd)/skills/zh-en-gloss ~/.agents/skills/zh-en-gloss
 ```
@@ -125,6 +127,16 @@ Hosts the classic Chinese idiom chain game (成语接龙) with the user — pick
 - Provides on-demand hints (1–2 clues, never the full answer); allows repeated idioms
 - Ends and tallies the score (AI vs. user count) only when the user says `结束`
 
+### [`word-chain`](skills/word-chain/SKILL.md)
+
+Hosts English word chain (last-letter) with a light gloss after every valid play — AI opens, validates each content word, and ends only on request.
+
+- Chain rule: next word starts with the previous word's link letter (last alphabetic letter)
+- Every accepted play gets a word card: POS, meaning, pronunciation, example, 1–2 collocations
+- Rejects non-content words and letter mismatches; hints give clues only; repeats allowed
+- Collocations appear in the gloss only — plays are single words
+- Ends and tallies AI vs. user word counts only when the user says stop / quit / end game
+
 ### [`poetry-quiz`](skills/poetry-quiz/SKILL.md)
 
 Hosts a Chinese classical poetry fill-in-the-blank quiz (诗词上下句填空) — AI always asks, user always answers, with one line of a classical poem as the prompt and the user supplying the matching 上句 / 下句.
@@ -173,6 +185,8 @@ A command parser for `beforeShellExecution` that blocks `git commit` and `git pu
 │   ├── producthunt-top/       # Product Hunt top/trending posts fetcher
 │   │   └── SKILL.md
 │   ├── chengyu-jielong/       # Chinese idiom chain game (成语接龙) host
+│   │   └── SKILL.md
+│   ├── word-chain/            # English last-letter word chain + light gloss host
 │   │   └── SKILL.md
 │   ├── poetry-quiz/           # Chinese classical poetry fill-in-the-blank quiz host
 │   │   └── SKILL.md
