@@ -75,44 +75,46 @@ Hints: on `hint` / `give me a hint` / `I'm stuck` (or similar), give 1–2 clues
 
 ## 4. Output Format & Teaching Block
 
-Every field on its own line as **plain text**. Do **not** wrap any output in Markdown code fences, triple backticks, `<pre>`, or other code formatting — some chat UIs render the whole block as a `plaintext` code box.
+Output each word card as **renderable markdown** — not inside code fences, triple backticks, `<pre>`, or other code formatting (some chat UIs render fenced blocks as a `plaintext` box). H2 and bold must render as headings and emphasis, not as literal `##` or `**` characters.
 
-### Teaching block fields (fixed order)
+### Word card fields (fixed order)
 
-Used for both a correct user play and every AI play:
+Used for both a correct user play and every AI play. Each card starts with one H2 title; field names use bold labels. H2 **only** for the card title — not for Meaning, Pronunciation, etc.
 
-```
-[Word] elephant
-[POS] noun
-[Meaning] A very large mammal with a trunk, native to Africa and Asia.
-[Pronunciation] /ˈelɪfənt/ — stress on the first syllable; /f/ not /v/.
-[Example] The elephant used its trunk to pick up the fruit.
-[Collocations] 1) elephant in the room — an obvious problem nobody wants to talk about
-2) herd of elephants — the usual group noun for elephants
-```
+> ## elephant · noun
+>
+> **Meaning** — A very large mammal with a trunk, native to Africa and Asia.
+> **Pronunciation** — /ˈelɪfənt/ — stress on the first syllable; /f/ not /v/.
+> **Example** — The elephant used its trunk to pick up the fruit.
+> **Collocations**
+> - elephant in the room — an obvious problem nobody wants to talk about
+> - herd of elephants — the usual group noun for elephants
 
 Field requirements:
 
-| Field | Requirement |
-|-------|-------------|
-| `[Word]` | The played word, lowercase unless a fixed capital form is standard (content words here are normally lowercase) |
-| `[POS]` | One primary part of speech for this play: noun / verb / adjective / adverb |
-| `[Meaning]` | 1–2 short sentences; accurate dictionary sense for the intended POS |
-| `[Pronunciation]` | IPA (or clear stress marking) + one short pitfall tip — not a phonetics lesson |
-| `[Example]` | One natural sentence using the word in the stated POS |
-| `[Collocations]` | **1–2** items; each = phrase + very short gloss (usage note optional, keep short) |
+| Element | Requirement |
+|---------|-------------|
+| H2 title | `## {word} · {pos}` — the played word, lowercase unless a fixed capital form is standard; exactly one H2 per card |
+| **Meaning** | 1–2 short sentences; accurate dictionary sense for the intended POS; em dash after label |
+| **Pronunciation** | IPA (or clear stress marking) + one short pitfall tip — not a phonetics lesson |
+| **Example** | One natural sentence using the word in the stated POS |
+| **Collocations** | **1–2** bullet items (`-`); each = phrase — very short gloss (usage note optional, keep short) |
+
+Blank line after the H2 title. Fields may run consecutively without blank lines between them. Separate cards with blank lines and the transition line only.
 
 ### Turn order after a correct user play
 
-1. Short affirmation (e.g. `Nice one!`)
-2. User word teaching block
-3. Blank line + transition: `I'll take the "X":` (X = last letter of the user's word)
-4. Blank line + AI word teaching block
-5. Prompt: `Your turn — start with "Y".` (Y = last letter of the AI word)
+1. Short affirmation (plain text, e.g. `Nice one!`)
+2. Blank line + user word card (starts with `## {word} · {pos}`)
+3. Blank line + transition (plain text): `I'll take the "X":` (X = last letter of the user's word)
+4. Blank line + AI word card
+5. Blank line + prompt: `Your turn — start with "Y".` (Y = last letter of the AI word)
+
+Separate the two cards with blank lines and the transition line only.
 
 ### AI open / AI continue
 
-Emit the teaching block, then the prompt line. No transition line on the opening move.
+Emit the word card, then the prompt line. No transition line on the opening move.
 
 ---
 
@@ -176,9 +178,9 @@ The implementation plan (next phase) must list "apply writing-great-skills while
 ## 8. Success Criteria
 
 - Trigger phrases reliably select this skill for English word-chain requests
-- Every valid turn emits the full teaching block in the fixed field order, as plain text
+- Every valid turn emits the full word card in the fixed field order, as renderable markdown
 - Invalid plays are rejected without advancing; hints never give the full word
-- Collocations appear only in `[Collocations]`, never as chain moves
+- Collocations appear only in **Collocations**, never as chain moves
 - Session ends only on user request, with a correct AI/user word count
 - `SKILL.md` authored under `writing-great-skills` constraints
 
