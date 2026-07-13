@@ -8,16 +8,17 @@ Install any skill with one command:
 
 ```bash
 # Install a single skill
-npx skills add shfshanyue/skills/launch-kit
-npx skills add shfshanyue/skills/reddit-promotion
-npx skills add shfshanyue/skills/resume-project-prep
-npx skills add shfshanyue/skills/deep-learner
-npx skills add shfshanyue/skills/english-tutor
-npx skills add shfshanyue/skills/minimal-pairs
-npx skills add shfshanyue/skills/producthunt-top
-npx skills add shfshanyue/skills/chengyu-jielong
-npx skills add shfshanyue/skills/poetry-quiz
-npx skills add shfshanyue/skills/zh-en-gloss
+npx skills add shfshanyue/skills --skill launch-kit
+npx skills add shfshanyue/skills --skill reddit-promotion
+npx skills add shfshanyue/skills --skill resume-project-prep
+npx skills add shfshanyue/skills --skill deep-learner
+npx skills add shfshanyue/skills --skill english-tutor
+npx skills add shfshanyue/skills --skill english-collocations
+npx skills add shfshanyue/skills --skill minimal-pairs
+npx skills add shfshanyue/skills --skill producthunt-top
+npx skills add shfshanyue/skills --skill chengyu-jielong
+npx skills add shfshanyue/skills --skill poetry-quiz
+npx skills add shfshanyue/skills --skill zh-en-gloss
 
 # Install all skills
 npx skills add shfshanyue/skills
@@ -34,6 +35,7 @@ ln -sf $(pwd)/skills/reddit-promotion ~/.agents/skills/reddit-promotion
 ln -sf $(pwd)/skills/resume-project-prep ~/.agents/skills/resume-project-prep
 ln -sf $(pwd)/skills/deep-learner ~/.agents/skills/deep-learner
 ln -sf $(pwd)/skills/english-tutor ~/.agents/skills/english-tutor
+ln -sf $(pwd)/skills/english-collocations ~/.agents/skills/english-collocations
 ln -sf $(pwd)/skills/minimal-pairs ~/.agents/skills/minimal-pairs
 ln -sf $(pwd)/skills/producthunt-top ~/.agents/skills/producthunt-top
 ln -sf $(pwd)/skills/chengyu-jielong ~/.agents/skills/chengyu-jielong
@@ -43,9 +45,7 @@ ln -sf $(pwd)/skills/zh-en-gloss ~/.agents/skills/zh-en-gloss
 
 ## Skills
 
-### `launch-kit`
-
-> `skills/launch-kit/SKILL.md`
+### [`launch-kit`](skills/launch-kit/SKILL.md)
 
 Generates a unified `launch-kit.md` with copy for Product Hunt, Hacker News, Indie Hackers, software directories, and similar launch channels.
 
@@ -54,9 +54,7 @@ Generates a unified `launch-kit.md` with copy for Product Hunt, Hacker News, Ind
 - Generates feature lists, categories, social proof, and platform-ready snippets
 - Writes output to an existing `launch-kit.md` or creates `docs/launch-kit.md`
 
-### `reddit-promotion`
-
-> `skills/reddit-promotion/SKILL.md`
+### [`reddit-promotion`](skills/reddit-promotion/SKILL.md)
 
 Finds relevant Reddit subreddits and posts for product promotion. Powered by [reddit-mcp-buddy](https://github.com/karanb192/reddit-mcp-buddy).
 
@@ -65,9 +63,7 @@ Finds relevant Reddit subreddits and posts for product promotion. Powered by [re
 - Generates reply and DM templates that sound human, not like marketing
 - Outputs a complete action plan to `docs/reddit-promotion.md`
 
-### `resume-project-prep`
-
-> `skills/resume-project-prep/SKILL.md`
+### [`resume-project-prep`](skills/resume-project-prep/SKILL.md)
 
 Scans a project codebase to generate interview preparation materials and resume project descriptions.
 
@@ -76,9 +72,7 @@ Scans a project codebase to generate interview preparation materials and resume 
 - Generates a polished resume project description and structured Q&A guide
 - Supports follow-up Q&A mode with realistic interviewer follow-up questions
 
-### `deep-learner`
-
-> `skills/deep-learner/SKILL.md`
+### [`deep-learner`](skills/deep-learner/SKILL.md)
 
 Interactive 1-on-1 tutor: guided questioning, deliberate practice, and roadmap-style progress (Mermaid) for mastering any topic.
 
@@ -86,9 +80,7 @@ Interactive 1-on-1 tutor: guided questioning, deliberate practice, and roadmap-s
 - Per-node Socratic teaching with scoring, weakness analysis, and targeted practice
 - Language mirroring (e.g. Chinese/English) and one question per message
 
-### `english-tutor`
-
-> `skills/english-tutor/SKILL.md`
+### [`english-tutor`](skills/english-tutor/SKILL.md)
 
 Mixed-mode English practice: one grammar focus per round, short dialogue, immediate correction, adaptive difficulty. Narrower than `deep-learner`—conversation-first English, not general-topic tutoring.
 
@@ -96,9 +88,16 @@ Mixed-mode English practice: one grammar focus per round, short dialogue, immedi
 - Correction turns are single-focus (correct version + short why + retry); no extra follow-up question in the same message as a fix
 - Recap after a stretch of practice: what you drilled, repeated fixes, and 2–3 reusable model sentences
 
-### `minimal-pairs`
+### [`english-collocations`](skills/english-collocations/SKILL.md)
 
-> `skills/minimal-pairs/SKILL.md`
+Drills English collocations through scenario-based sentence construction with heavy teaching feedback and persistent mistake tracking.
+
+- Covers verb+noun, adj+noun, verb+preposition, adv+adj, and other fixed pairings across daily spoken, business, academic, and light engineering/product vocabulary
+- Scenario-style prompts with a fixed 6-section grading template on every attempt
+- Tracks mistakes in `skills/english-collocations/mistakes.md` for spaced review across sessions
+- For dialogue-based grammar practice, use `english-tutor` instead
+
+### [`minimal-pairs`](skills/minimal-pairs/SKILL.md)
 
 Drills English pronunciation through **minimal pairs** (最小对立对) — word pairs that differ by exactly one phoneme (ship/sheep, light/right, vest/west, thin/sin). Mirrors the `english-collocations` workflow: scenario-style prompts, fixed 6-section grading template, persistent mistake tracking.
 
@@ -107,9 +106,7 @@ Drills English pronunciation through **minimal pairs** (最小对立对) — wor
 - Tracks mistakes by **phoneme contrast** (not individual word pair) in `skills/minimal-pairs/mistakes.md`, with 60/40 fresh-vs-review pack sampling weighted toward Chinese-speaker pain points
 - Every grading message includes IPA, articulation mechanics, and a practice trio to read aloud
 
-### `producthunt-top`
-
-> `skills/producthunt-top/SKILL.md`
+### [`producthunt-top`](skills/producthunt-top/SKILL.md)
 
 Fetches top/trending Product Hunt posts via the official GraphQL API v2, and returns ranked results in table/markdown/json/csv formats.
 
@@ -118,9 +115,7 @@ Fetches top/trending Product Hunt posts via the official GraphQL API v2, and ret
 - Supports terminal display and export to Markdown/JSON/CSV files
 - Includes practical follow-ups such as trend summaries and period-over-period comparison
 
-### `chengyu-jielong`
-
-> `skills/chengyu-jielong/SKILL.md`
+### [`chengyu-jielong`](skills/chengyu-jielong/SKILL.md)
 
 Hosts the classic Chinese idiom chain game (成语接龙) with the user — picks the rule, plays the first idiom, and validates every reply.
 
@@ -130,9 +125,7 @@ Hosts the classic Chinese idiom chain game (成语接龙) with the user — pick
 - Provides on-demand hints (1–2 clues, never the full answer); allows repeated idioms
 - Ends and tallies the score (AI vs. user count) only when the user says `结束`
 
-### `poetry-quiz`
-
-> `skills/poetry-quiz/SKILL.md`
+### [`poetry-quiz`](skills/poetry-quiz/SKILL.md)
 
 Hosts a Chinese classical poetry fill-in-the-blank quiz (诗词上下句填空) — AI always asks, user always answers, with one line of a classical poem as the prompt and the user supplying the matching 上句 / 下句.
 
@@ -143,9 +136,7 @@ Hosts a Chinese classical poetry fill-in-the-blank quiz (诗词上下句填空) 
 - Weighted scoring (2 / 1 / 0 points), couplets deduplicated across directions, never fabricates lines
 - Ends with score, per-category accuracy, and study suggestions only when the user says `结束`
 
-### `zh-en-gloss`
-
-> `skills/zh-en-gloss/SKILL.md`
+### [`zh-en-gloss`](skills/zh-en-gloss/SKILL.md)
 
 Formats Chinese AI replies with inline English glosses after important terms — e.g. `有氧运动 (aerobic exercise)`, `均衡饮食 (balanced diet)` — so you can learn vocabulary while reading normal answers.
 
@@ -156,9 +147,7 @@ Formats Chinese AI replies with inline English glosses after important terms —
 
 ## Hooks
 
-### `block-git-commit-push.sh`
-
-> `hooks/block-git-commit-push.sh`
+### [`block-git-commit-push.sh`](hooks/block-git-commit-push.sh)
 
 A command parser for `beforeShellExecution` that blocks `git commit` and `git push` in the agent shell, forcing these operations to happen in the user's own terminal.
 
@@ -172,10 +161,12 @@ A command parser for `beforeShellExecution` that blocks `git commit` and `git pu
 │   │   ├── SKILL.md
 │   │   └── mcp.json
 │   ├── resume-project-prep/   # Interview prep skill
-│       └── SKILL.md
+│   │   └── SKILL.md
 │   ├── deep-learner/          # Interactive tutor (guided learning) skill
 │   │   └── SKILL.md
 │   ├── english-tutor/         # English conversation + grammar practice skill
+│   │   └── SKILL.md
+│   ├── english-collocations/  # English collocation drill skill
 │   │   └── SKILL.md
 │   ├── minimal-pairs/         # English minimal-pair pronunciation drill skill
 │   │   └── SKILL.md
@@ -192,4 +183,3 @@ A command parser for `beforeShellExecution` that blocks `git commit` and `git pu
 ├── hooks.json
 └── README.md
 ```
-
