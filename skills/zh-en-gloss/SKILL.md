@@ -1,6 +1,6 @@
 ---
 name: zh-en-gloss
-description: "Adds inline English glosses in parentheses after important Chinese terms in replies, e.g. 有氧运动 (aerobic exercise), 均衡饮食 (balanced diet). Use whenever this skill is installed — default on for Chinese prose answers so the user can learn vocabulary while reading. Apply glosses unless the user opts out (不用标注、纯中文、stop glossing) or a conflicting skill takes over (english-tutor, translation-practice-zh-en). Not for translation drills or mostly-English dialogue."
+description: "Chinese prose gloss formatter. Use for Chinese answers where inline English vocabulary glosses would help the user learn terms while reading, unless the user opts out or a language-practice skill owns the turn."
 metadata:
   version: 1.2.0
 ---
@@ -11,13 +11,13 @@ Answer the user's question normally in **Chinese**, but embed **English glosses*
 
 This skill changes **output formatting only** — it does not turn the chat into a translation exercise or an English lesson.
 
-## Activation (default on)
+## Activation
 
-**When this skill is installed, apply gloss formatting by default** on Chinese prose in your replies.
+Apply gloss formatting to Chinese prose when vocabulary learning is useful and no active language-practice skill owns the turn.
 
-**Opt out** for the rest of the conversation when the user says: 不用标注了、关闭英文、纯中文、不要括号英文、stop glossing, or similar.
+Opt-out phrases for the rest of the conversation: 不用标注了、关闭英文、纯中文、不要括号英文、stop glossing, or similar.
 
-**Do not gloss** when:
+Use plain output for:
 
 - The user asks for a **mostly-English** reply or is clearly practicing English dialogue (`english-tutor` active or @mentioned)
 - The user is doing a **translation drill** (`translation-practice-zh-en` active or @mentioned)
@@ -27,6 +27,8 @@ This skill changes **output formatting only** — it does not turn the chat into
 If the user @mentions `zh-en-gloss` after opting out, **re-enable** glossing for the rest of that conversation unless they opt out again.
 
 When another skill conflicts, follow the **latest explicit instruction**. Default with this skill installed: **Chinese prose + inline English glosses**.
+
+**Done when:** you have selected glossed Chinese prose or plain output for the current reply based on the user's latest instruction and any active language-practice skill.
 
 ## Format rules
 
@@ -40,12 +42,12 @@ When another skill conflicts, follow the **latest explicit instruction**. Defaul
    - **Short reply** (<3 sentences, single block): **4–8** glosses for that block
    - **Each substantive paragraph or section:** **3–6** glosses in that block alone
    - **Long reply** (4+ paragraphs or 2+ headings): **every** Chinese prose paragraph/section must meet the **3–6** quota — including the **last** paragraphs; do not taper off toward the end
-   - **Do not front-load:** finishing early sections does not reduce later sections' quota
+   - **Even distribution:** finishing early sections does not reduce later sections' quota
    - **Numbered/bulleted lists:** gloss **key learnable items** per list (at least one gloss on the head term of each numbered item when the list is teaching content); skip glossing every item in a run of very common parallels (e.g. 晨间拉伸、多喝水、优质蛋白) only when that would add noise
 5. **Repeats:** within the **same paragraph/section**, gloss the **first** occurrence; in a **new** paragraph or section, you may gloss the same term again if it is central there.
-6. **Never gloss:** particles and ultra-common words (的、是、可以、因为), tokens already in English, code identifiers, URLs.
+6. **Leave unchanged:** particles and ultra-common words (的、是、可以、因为), tokens already in English, code identifiers, URLs.
 7. **Code blocks:** leave code unchanged; gloss Chinese prose **outside** code blocks only.
-8. **No separate vocabulary appendix** unless the user asks — glosses stay inline for readable flow.
+8. Keep glosses inline for readable flow; add a separate vocabulary appendix only when the user asks.
 9. **Code citations** (` ```startLine:endLine:path `): do not insert glosses inside citation fences.
 
 ## What to gloss

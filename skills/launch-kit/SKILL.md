@@ -1,6 +1,6 @@
 ---
 name: launch-kit
-description: "Generate a unified launch copy kit (launch-kit.md) for any product. Auto-scans the codebase for product info, then asks about missing fields. Use when the user mentions 'launch kit,' 'launch copy,' 'launch materials,' 'submission copy,' 'directory listing copy,' 'Product Hunt copy,' 'prepare launch assets,' or wants ready-to-paste copy for launching on multiple platforms."
+description: "Launch kit generator. Use when the user wants ready-to-paste product launch copy, directory submission copy, Product Hunt/HN/Indie Hackers materials, or a multi-platform `launch-kit.md`."
 metadata:
   version: 1.0.0
 ---
@@ -37,6 +37,8 @@ Automatically read the following files (skip any that don't exist):
 
 After scanning, build an internal summary of: product name, full name, website, store links, logo URL, pricing, version, core features, target audience, competitors, differentiators, testimonials, and founder context.
 
+**Done when:** every existing source above has been checked, an internal product summary exists, and unknown fields are explicitly marked as gaps.
+
 ### Step 2: Generate Draft
 
 Using the scanned information, generate the full launch-kit.md following the template structure below. For each section, produce the best copy you can from available information.
@@ -46,6 +48,8 @@ Write all copy in English. Be direct, benefit-oriented, and concise. Avoid marke
 **For multi-candidate sections** (Tagline, One-liner, Short Description, Medium Description):
 - Generate distinct variants with different angles — the AI should freely choose the best variant directions based on the product's characteristics (e.g., founder story, feature-led, problem-led, outcome-led, differentiation-led)
 - Label each variant (A, B, C, etc.) for easy reference
+
+**Done when:** the draft follows [`template.md`](template.md), each required section is present, and placeholders are limited to fields that could not be inferred.
 
 ### Step 3: Identify Gaps and Ask
 
@@ -60,6 +64,8 @@ After generating the draft, list any fields that could not be reliably inferred 
 
 Present the draft first, then ask about missing fields one section at a time. Do not block the draft on missing information — generate placeholder markers like `[TODO: add testimonials]` and let the user fill them in.
 
+**Done when:** the user has seen the draft and the first missing-field question targets one section only.
+
 ### Step 4: Output
 
 **File location logic:**
@@ -68,193 +74,13 @@ Present the draft first, then ask about missing fields one section at a time. Do
 
 After writing the file, show the user the complete document and ask if anything needs adjustment.
 
+**Done when:** `launch-kit.md` has been created or updated at the selected path, the full document has been shown, and the user has a clear adjustment prompt.
+
 ---
 
 ## Template Structure
 
-The generated `launch-kit.md` must follow this structure:
-
-```markdown
-# [Product Name] Launch Kit
-
-> Unified copy kit for all launch platforms and directory submissions.
-> Copy-paste ready. Pick the best variant for each platform.
-
----
-
-## Basic Info
-
-| Field | Value |
-|-------|-------|
-| Product Name | |
-| Full Name | |
-| Website | |
-| Store Link | |
-| Logo | |
-| Pricing | |
-| Version | |
-
----
-
-## Tagline (≤60 characters)
-
-> Pick the best fit for each platform.
-
-- **A:** [variant]
-- **B:** [variant]
-- **C:** [variant]
-
----
-
-## One-liner (~140 characters)
-
-- **A:** [variant]
-- **B:** [variant]
-- **C:** [variant]
-
----
-
-## Short Description (~300 characters)
-
-Suitable for: BetaList, Fazier, Uneed, SideProjectors, etc.
-
-### Version A
-
-> [copy]
-
-### Version B
-
-> [copy]
-
----
-
-## Medium Description (~450 characters)
-
-Suitable for: Product Hunt, Microlaunch, Peerlist, SaaSHub, etc.
-
-### Version A
-
-> [copy]
-
-### Version B
-
-> [copy]
-
----
-
-## Features List
-
-For platforms that ask for key features:
-
-- **[Feature name]** — [one-sentence description]
-- ...
-
----
-
-## Categories / Tags
-
-**Primary:** [tags]
-
-**Secondary:** [tags]
-
-**Long-tail (for directories):** [tags]
-
----
-
-## Alternative To
-
-For platforms like AlternativeTo, OpenAlternative, SaaSHub:
-
-**[Product Name] is an alternative to:**
-- [Competitor 1]
-- [Competitor 2]
-- ...
-
-**What makes [Product Name] different:**
-- [differentiator]
-- ...
-
----
-
-## Target Audience / Use Cases
-
-For platforms that ask "Who is this for?":
-
-- **[Persona]** — [use case description]
-- ...
-
----
-
-## Pricing Description
-
-> **Free** — [what's included]
->
-> **[Paid tier]** — [price] — [what's included]
->
-> ...
-
----
-
-## Proof Points / Social Proof
-
-- [metric or fact]
-- ...
-
-**Testimonials (pick 1–2 per platform):**
-
-> "[quote]" — [Name], [Title/Role]
-
----
-
-## Product Hunt First Comment
-
-### Version A
-
-```text
-[first comment copy]
-```
-
-**When to use:** [guidance]
-
-### Version B
-
-```text
-[first comment copy]
-```
-
-**When to use:** [guidance]
-
----
-
-## Hacker News / Indie Hackers Post Title
-
-- **Show HN:** [title]
-- **Show HN:** [title]
-- **IH:** [title]
-
----
-
-## Maker Story
-
-For platforms that ask "Why did you build this?":
-
-> [1-paragraph founder story]
-
----
-
-## Quick Copy Reference
-
-| Platform Type | Use These Sections |
-|---|---|
-| **BetaList, Fazier, Uneed, Microlaunch** | Tagline + Short Description + Features List + Categories |
-| **Product Hunt** | Tagline + Medium Description + Features List + Maker Story + Proof Points + First Comment |
-| **Hacker News, Indie Hackers** | HN Post Title + Maker Story + Medium Description |
-| **Peerlist, SideProjectors** | Tagline + Medium Description + Features List + Target Audience |
-| **SaaSHub, SaaS Genius** | One-liner + Medium Description + Categories + Alternative To + Pricing |
-| **G2, Capterra** | Medium Description + Features List + Pricing + Proof Points |
-| **AlternativeTo, OpenAlternative** | Short Description + Alternative To + Categories |
-| **SourceForge, Softonic** | Medium Description + Features List + Categories + Pricing |
-```
+Use [`template.md`](template.md) as the single source of truth for the generated `launch-kit.md` structure.
 
 ---
 
@@ -272,9 +98,6 @@ When writing copy for the launch kit, follow these principles:
 
 ---
 
-## Related Skills
+## Skill Boundaries
 
-- **launch-strategy**: For planning the launch itself (phased approach, Product Hunt strategy, post-launch)
-- **copywriting**: For writing or rewriting individual page copy in more depth
-- **copy-editing**: For polishing existing copy
-- **product-marketing-context**: For maintaining foundational positioning docs (separate from this kit)
+This skill generates the launch copy kit. For broader launch strategy, copy polishing, or positioning work, hand off only when a matching installed skill is available or the user asks for that separate work.

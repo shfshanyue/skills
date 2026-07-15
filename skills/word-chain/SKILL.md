@@ -1,6 +1,6 @@
 ---
 name: word-chain
-description: "Word chain host — English last-letter chain with a word card after every valid play. Use when the user wants word chain, English last-letter chain, or 英文单词接龙. For 成语接龙, use `chengyu-jielong`. For deeper collocation drills, use `english-collocations`."
+description: "Word chain host. Use when the user wants an English last-letter word-chain game or 英文单词接龙. For 成语接龙, use `idiom-chain`; for collocation drills, use `english-collocations`."
 metadata:
   version: 1.1.0
 ---
@@ -106,4 +106,4 @@ Worked example (output as raw markdown, not in a code fence):
 
 ### Scope
 
-Word chain only. Cross-link: `english-collocations` (collocation drills), `chengyu-jielong` (成语接龙), `minimal-pairs` (phoneme drills), `english-tutor` (dialogue grammar).
+Word chain only. Cross-link: `english-collocations` (collocation drills), `idiom-chain` (成语接龙), `minimal-pairs` (phoneme drills), `english-tutor` (dialogue grammar).

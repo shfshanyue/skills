@@ -3,7 +3,7 @@
 Date: 2026-07-13
 Status: Approved (brainstorm phase) → ready for implementation plan
 Related skills (siblings, do not merge):
-- `skills/chengyu-jielong` — Chinese idiom chain twin (process template)
+- `skills/idiom-chain` — Chinese idiom chain twin (process template)
 - `skills/english-collocations` — deeper collocation drilling (cross-link only)
 
 ---
@@ -15,20 +15,20 @@ A narrow **game-host + light teaching** skill for classic English **word chain**
 - **Game unit**: single English **words** only. Phrases and fixed expressions are **never** playable chain units.
 - **Teaching focus**: after a valid play, output a fixed light-teaching block (POS, meaning, pronunciation, example, 1–2 collocations). Collocations exist only as teaching supplements for the played word.
 - **Host language**: **English throughout** (rules, corrections, transitions, scoring).
-- **Approach**: mirror `chengyu-jielong` session flow (Approach 1 from brainstorm) — AI opens, validate each user play, fixed output template, hints, end-on-request scoring — adapted for English last-letter rules and the English teaching block.
+- **Approach**: mirror `idiom-chain` session flow (Approach 1 from brainstorm) — AI opens, validate each user play, fixed output template, hints, end-on-request scoring — adapted for English last-letter rules and the English teaching block.
 
 ### What this skill is NOT
 
 - Not a difficulty ladder, theme pack, or persistent mistake log.
 - Not phrase/collocation-as-move gameplay.
 - Not grammar tutoring or bulk vocabulary quizzes.
-- Not a merge of `english-collocations` or `chengyu-jielong`.
+- Not a merge of `english-collocations` or `idiom-chain`.
 
 ### Boundary with siblings
 
 | Skill | Role vs word-chain |
 |-------|--------------------|
-| `chengyu-jielong` | Same host pattern for Chinese idioms; cross-link when user wants 成语接龙 |
+| `idiom-chain` | Same host pattern for Chinese idioms; cross-link when user wants 成语接龙 |
 | `english-collocations` | Deeper collocation drill; cross-link when user wants to practice pairings beyond the light block |
 | `english-tutor` | Conversational grammar; out of scope here |
 | `minimal-pairs` | Pronunciation minimal-pair drills; out of scope (word-chain only gives a short pronunciation tip per word) |
@@ -43,7 +43,7 @@ Model-invoked. Description should match natural phrasings such as:
 - "last letter word game" / "words starting with the last letter"
 - English 末字母接龙 / 想练英文单词接龙
 
-Include cross-reach clauses for `english-collocations` (deeper collocations) and `chengyu-jielong` (Chinese idiom chain).
+Include cross-reach clauses for `english-collocations` (deeper collocations) and `idiom-chain` (Chinese idiom chain).
 
 ---
 
@@ -169,7 +169,7 @@ When authoring or editing `skills/word-chain/SKILL.md`, **must** read and follow
 - Use clear **steps** with checkable completion criteria vs **reference** where appropriate
 - Prefer the information hierarchy and glossary terms from that skill
 
-Do **not** only copy-paste `chengyu-jielong` wording. Use `chengyu-jielong` as the **behavioral twin** for game flow; use `writing-great-skills` as the **authoring standard** for how the skill text is structured.
+Do **not** only copy-paste `idiom-chain` wording. Use `idiom-chain` as the **behavioral twin** for game flow; use `writing-great-skills` as the **authoring standard** for how the skill text is structured.
 
 The implementation plan (next phase) must list "apply writing-great-skills while drafting SKILL.md" as an explicit step.
 

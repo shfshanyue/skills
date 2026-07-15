@@ -1,14 +1,9 @@
 ---
 name: resume-project-prep
 description: >
-  Scan a project codebase to generate interview preparation materials and resume project descriptions.
-  Use when the user mentions "resume project," "interview prep," "prepare for interview,"
-  "project highlights," "interview questions," "analyze my project for interview,"
-  "what to say about this project," "project experience," "walk me through your project,"
-  "hardest thing you built," "most complex thing," "technical challenges," or wants to
-  extract interview-worthy talking points from their codebase. Also trigger when someone
-  wants help explaining a technical project to interviewers, preparing for behavioral
-  technical questions, or writing the project section of their resume.
+  Resume project prep for technical interviews. Use when the user wants to turn a codebase into
+  resume project bullets, interview talking points, project Q&A, technical challenge stories,
+  or answers to "walk me through this project" / "hardest thing you built".
 ---
 
 # Resume Project Prep
@@ -26,9 +21,11 @@ Scan a project codebase and generate a complete interview preparation document â
 
 Wait for the user's answer before proceeding.
 
+**Done when:** output language and target level are known.
+
 ## Step 2: Scan the Codebase
 
-Use `finder`, `Read`, `glob`, and `Grep` to systematically analyze the project:
+Use the available filesystem tools to systematically analyze the project. Prefer fast file search (`rg`, `rg --files`) when available.
 
 ### 2.1 Project Structure & Tech Stack
 - Read the root directory listing
@@ -62,6 +59,8 @@ Not everything is interview material. Prioritize items that meet at least one cr
 - Involved meaningful complexity (not just CRUD)
 - Solved a real problem (performance, reliability, scalability)
 - Demonstrates depth of understanding (not just library usage)
+
+**Done when:** the scan has identified the tech stack, module boundaries, entry points, and every interview-worthy area that has concrete file/function evidence.
 
 ## Step 3: Generate the Output Document
 
@@ -108,6 +107,8 @@ the interviewer might ask.
 
 Adapt section depth to what the codebase actually contains. If the project has no caching logic, don't fabricate a caching section. Be honest and grounded in real code.
 
+**Done when:** every claim in the document is grounded in scanned code, unsupported sections have been omitted, and the strongest project story is synthesized.
+
 ## Step 4: Follow-up Q&A Mode
 
 After delivering the document, the user may ask about any specific point. When answering:
@@ -121,6 +122,8 @@ After delivering the document, the user may ask about any specific point. When a
 > 3. [Follow-up question 3]
 
 The follow-up questions should be realistic â€” the kind of thing a real interviewer would dig into after hearing the initial answer. Think about: edge cases, failure scenarios, alternative approaches, production considerations, and "what would you do differently."
+
+**Done when:** the answer cites concrete code evidence and ends with realistic interviewer follow-ups.
 
 ## Key Principles
 

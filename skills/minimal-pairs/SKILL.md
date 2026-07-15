@@ -1,6 +1,6 @@
 ---
 name: minimal-pairs
-description: "Drill English pronunciation through minimal pairs (最小对立对 / 最小对立体) — word pairs that differ by exactly one phoneme (ship/sheep, light/right, bit/beat, vest/west, thin/sin). Use when the user wants to practice 最小对立对, minimal pairs, phoneme discrimination, fix Chinglish pronunciation, train ears for /l/ vs /r/, /v/ vs /w/, /ɪ/ vs /iː/, /θ/ vs /s/, /æ/ vs /e/, /n/ vs /ŋ/, or other confusable sounds. Covers vowel contrasts, consonant contrasts, and sentence-level discrimination. For grammar dialogue, use `english-tutor`. For word-pairings, use `english-collocations`."
+description: "Minimal-pairs pronunciation drill. Use when the user wants to practice English phoneme discrimination, confusable sounds, Chinglish pronunciation, vowel/consonant contrasts, or 最小对立对. For grammar dialogue, use `english-tutor`; for word-pairings, use `english-collocations`."
 metadata:
   version: 1.1.0
 ---
@@ -75,9 +75,11 @@ A **minimal pair** = two words/phrases that differ in **exactly one phoneme** in
 6. **Grade using the fixed 6-section template** (see below). The grading message must ask for AT MOST one user action.
 7. **Update `mistakes.md`** atomically (read whole file → mutate in memory → write whole file back). The tracked key is the **phoneme contrast** (e.g. `/l/ vs /r/`), not the individual word pair.
 8. **Decide the next round**:
-   - Wrong → next message starts a NEW round forcing the SAME contrast again (do not start a new round inside the grading message).
+   - Wrong → the grading message's **Now try again** section contains a NEW prompt forcing the SAME contrast.
    - Correct → next round at the next difficulty level (after 2 consecutive correct → level +1, ceiling L2; after any wrong → level −1, floor L1).
 9. After 5–8 rounds, **recap**: list contrasts practiced, which were weak, 2–3 model sentences they can re-drill aloud.
+
+**Done when:** the learner has received either a same-contrast retry prompt (wrong answer), a clean grading block ready for the next message (correct answer), or a 5–8 round recap.
 
 ### Difficulty ladder
 
@@ -162,71 +164,9 @@ The tracked key is the **phoneme contrast**, not a specific word pair — so all
 
 ---
 
-## Worked example (one full round, for reference)
+## Worked Examples
 
-**You (round start, L1, pack: l-vs-r):**
-
-> Round 1 (L1 — Identify).
-> Pair: **light** /laɪt/ vs **right** /raɪt/
-> Target sentence: "Turn ___ at the corner to find the bakery."
-> Which word fits, and which phoneme is the giveaway?
-
-**Learner:**
-
-> "light, because of /l/"
-
-**You (grading message, NOTHING ELSE — output as raw markdown, NOT inside a code fence):**
-
-> **Score**: 1 / 5
-> **Correct answer**: `right /raɪt/` — "Turn right at the corner."
-> **Why this contrast is tricky**:
->   - /l/ is a lateral approximant (tongue tip touches the alveolar ridge, air flows around the sides). /r/ in English is a postalveolar approximant (tongue curls back, never touches the roof).
->   - Mandarin has no true English /r/; learners often substitute /l/ or a flapped sound, collapsing the contrast.
-> **Mouth mechanics**:
->   - /l/: tongue tip presses behind the upper teeth.
->   - /r/: tongue tip floats backward, lips slightly rounded, no contact.
-> **Practice trio** (say these aloud 3× each):
->   - light — right — "Turn right at the right light."
-> **Now try again**:
->   - New prompt: pair **lock** /lɒk/ vs **rock** /rɒk/. "Don't trip over that ___ on the trail." Which word, and why?
-
-**You (after correct retry, NEW message, round 2 starts here):**
-
-> Nice. Level up.
-> Round 2 (L2 — Disambiguate, pack: l-vs-r).
-> Pair: **lock** /lɒk/ vs **rock** /rɒk/
-> "Don't trip over that ___ on the trail." Which word fits, and what phoneme cue tells you?
-
-(And simultaneously, `mistakes.md` got a new section `## /l/ vs /r/` with `wrong attempts: 1`, `pairs missed: light/right`.)
-
-### Second worked example (vowels-length pack, L2 Disambiguate, abbreviated)
-
-**You (round start, L2, pack: vowels-length):**
-
-> Round (L2 — Disambiguate).
-> Pair: **sheep** /ʃiːp/ vs **ship** /ʃɪp/
-> "The ___ is on the wave." Which word fits, and what phoneme cue tells you?
-
-**Learner:**
-
-> "ship — the vowel is shorter"
-
-**You (grading message, NOTHING ELSE — output as raw markdown, NOT inside a code fence):**
-
-> **Score**: 1 / 5
-> **Correct answer**: `sheep /ʃiːp/` — "The sheep is on the wave."
-> **Why this contrast is tricky**:
->   - You picked the short-vowel word, but the sentence needs the animal on the wave — that's **sheep** with long tense /iː/, not **ship** with short lax /ɪ/.
->   - Mandarin only has one high front vowel close to /i/, so learners often collapse both English vowels into one sound.
-> **Mouth mechanics**:
->   - /iː/: tongue high and forward, lips spread (smile), muscles tense, slightly longer.
->   - /ɪ/: tongue slightly lower and more relaxed, lips neutral, shorter and "looser".
-> **Practice trio** (say these aloud 3× each):
->   - sheep — ship — "The sheep is on the ship."
-> **Now try again**:
->   - New prompt: pair **feet** /fiːt/ vs **fit** /fɪt/. "These shoes are too ___ for me." Which word, and why?
-
-The vowel example shows the same 6-section template applied to a vowel contrast at L2; match this style for any pack.
+Use [`examples.md`](examples.md) when you need a concrete prompt or grading style sample.
 
 ---
 

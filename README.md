@@ -16,7 +16,7 @@ npx skills add shfshanyue/skills --skill english-tutor
 npx skills add shfshanyue/skills --skill english-collocations
 npx skills add shfshanyue/skills --skill minimal-pairs
 npx skills add shfshanyue/skills --skill producthunt-top
-npx skills add shfshanyue/skills --skill chengyu-jielong
+npx skills add shfshanyue/skills --skill idiom-chain
 npx skills add shfshanyue/skills --skill word-chain
 npx skills add shfshanyue/skills --skill poetry-quiz
 npx skills add shfshanyue/skills --skill zh-en-gloss
@@ -97,7 +97,7 @@ Fetches top/trending Product Hunt posts via the official GraphQL API v2, and ret
 - Supports terminal display and export to Markdown/JSON/CSV files
 - Includes practical follow-ups such as trend summaries and period-over-period comparison
 
-### [`chengyu-jielong`](skills/chengyu-jielong/SKILL.md)
+### [`idiom-chain`](skills/idiom-chain/SKILL.md)
 
 Hosts the classic Chinese idiom chain game (成语接龙) with the user — picks the rule, plays the first idiom, and validates every reply.
 
@@ -164,7 +164,7 @@ A command parser for `beforeShellExecution` that blocks `git commit` and `git pu
 │   │   └── SKILL.md
 │   ├── producthunt-top/       # Product Hunt top/trending posts fetcher
 │   │   └── SKILL.md
-│   ├── chengyu-jielong/       # Chinese idiom chain game (成语接龙) host
+│   ├── idiom-chain/       # Chinese idiom chain game (成语接龙) host
 │   │   └── SKILL.md
 │   ├── word-chain/            # English last-letter word chain + light gloss host
 │   │   └── SKILL.md

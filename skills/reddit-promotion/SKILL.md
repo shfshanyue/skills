@@ -33,6 +33,8 @@ Build an internal summary of:
 
 If critical information is missing (no product name or unclear what it does), ask the user before proceeding.
 
+**Done when:** product name, one-liner, target audience, problem, and 5–10 search keywords are known or the user has been asked for the missing critical context.
+
 ### Step 2: Discover Subreddits
 
 Using the Reddit MCP tools, find relevant subreddits through multiple search strategies:
@@ -64,6 +66,8 @@ For each subreddit discovered, use `browse_subreddit` with `include_subreddit_in
 | Relevance | why this subreddit matches your product |
 | Promotion friendliness | high / medium / low — based on subreddit rules and tone |
 
+**Done when:** 5–15 candidate subreddits have been ranked, and each has relevance plus promotion-friendliness evidence.
+
 ### Step 3: Find High-Value Posts
 
 For each of the top subreddits (up to 10), use `search_reddit` with targeted queries to find posts that match the product. Focus on these post types:
@@ -91,6 +95,8 @@ For the most promising posts (up to 5), use `get_post_details` with `comment_lim
 | Why it matches | one sentence explaining why this post is relevant |
 | Recommended action | reply / DM / both |
 
+**Done when:** 10–20 posts have been ranked by actionability, or all relevant recent search results have been exhausted.
+
 ### Step 4: Generate Action Plan
 
 For each high-value post, generate:
@@ -112,6 +118,8 @@ Write a short DM template for reaching out to post authors:
 - **Connect to their problem.** Show empathy, not a sales pitch.
 - **Offer to help.** Frame it as getting feedback, not selling.
 - **Keep it under 4 sentences.**
+
+**Done when:** each high-value post has at least one specific, value-led reply draft and one short DM draft.
 
 Example tone:
 ```
@@ -180,6 +188,8 @@ Reusable prompts to run regularly for finding new opportunities:
 
 After writing the file, show the user the complete document and ask if anything needs adjustment.
 
+**Done when:** `reddit-promotion.md` has been created or updated at the selected path, the full plan has been shown, and the user has a clear adjustment prompt.
+
 ---
 
 ## Copy Guidelines
@@ -192,9 +202,6 @@ After writing the file, show the user the complete document and ask if anything 
 
 ---
 
-## Related Skills
+## Skill Boundaries
 
-- **launch-kit**: For generating launch copy across all platforms (Product Hunt, HN, directories)
-- **launch-strategy**: For planning the overall launch timeline and approach
-- **copywriting**: For writing or polishing marketing copy
-- **product-marketing-context**: For maintaining foundational positioning docs
+This skill finds Reddit opportunities and drafts outreach. For broader launch copy, launch sequencing, or positioning, hand off only when a matching installed skill is available or the user asks for that separate work.

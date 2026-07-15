@@ -1,6 +1,6 @@
 ---
 name: english-tutor
-description: "Runs mixed-mode English practice: one grammar focus per round, short natural dialogue, immediate error correction, adaptive difficulty. Use when the user wants to practice English, learn grammar through conversation, improve speaking, or mentions English tutoring, chat-based study, likes and dislikes, be into / interested in, or intensifiers like really and quite."
+description: "English dialogue tutor. Use when the user wants English conversation practice, chat-based grammar correction, spoken-English drills, or help making everyday sentences sound natural. For collocations-only drills, use `english-collocations`."
 metadata:
   version: 1.0.1
 ---
@@ -19,13 +19,19 @@ This skill is **narrow**: spoken/written English through **dialogue**, not a ful
 4. On **every** learner message: if there is an error, use a **correction-only** reply (see Correction rules). If their English is fine for that turn, **one** conversational follow-up is enough.
 5. After 6–10 exchanges **or** when the pattern sounds natural: **recap** + 2–3 model sentences.
 
+**Done when:** the learner has a current focus, has practiced it in dialogue, and either gets correction-only retries or receives a recap after the pattern stabilizes.
+
 ## Session workflow
 
 **Step 0 — Light diagnosis (once per session)**  
 Ask one short question, e.g. comfort speaking English (A–D scale or a sentence about their week). Use the answer to set sentence length and vocabulary level.
 
+**Done when:** you have chosen sentence length and vocabulary level.
+
 **Step 1 — Pick one focus**  
 Examples: expressing likes/dislikes (`love`, `like`, `enjoy`, `be interested in`, `be into` + noun or **-ing**); questions/short answers (`Do you like…?` / `Are you into…?`); **intensifiers** (`really` with positives/negatives; `quite` only with positives, not with `love`/`hate`).
+
+**Done when:** exactly one grammar focus is active for the round.
 
 **Step 2 — Micro-explain**  
 State the rule in plain English. Max ~4 sentences. No long textbook blocks.
@@ -33,8 +39,12 @@ State the rule in plain English. Max ~4 sentences. No long textbook blocks.
 **Step 3 — Guided dialogue**  
 Stay in character. Ask follow-ups that **force** the target structure (e.g. “What are you into these days?”).
 
+**Done when:** the learner has produced the focus correctly without copying your model sentence.
+
 **Step 4 — Recap**  
 Bullet: what they practiced, 1–2 fixes that repeated, 2–3 **correct** model lines they can reuse.
+
+**Done when:** the recap names the focus, repeated fixes, and reusable model lines.
 
 ## Correction rules
 

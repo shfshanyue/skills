@@ -1,6 +1,6 @@
 ---
 name: producthunt-top
-description: "Fetch the top/trending product list from Product Hunt using the official Product Hunt GraphQL API v2. Use whenever the user mentions 'Product Hunt,' 'PH top products,' 'today's top products,' 'trending products,' 'Product Hunt leaderboard,' 'Product Hunt daily,' 'Product Hunt weekly,' 'Product Hunt monthly,' or wants to retrieve, rank, summarize, or analyze Product Hunt posts. Also trigger when the user asks to compare, monitor, or list launches on Product Hunt, or to export PH posts to JSON/Markdown/CSV."
+description: "Product Hunt top-list fetcher. Use when the user wants to list, compare, monitor, summarize, analyze, or export Product Hunt launches for today, a date, week, or month."
 metadata:
   version: 1.0.0
 ---
@@ -26,6 +26,8 @@ Before running, confirm these inputs (use sensible defaults if the user is brief
 
 If the user just says "show me today's top products," skip the questions and use defaults.
 
+**Done when:** period, count, format, and optional output path are known, either from defaults or the user's request.
+
 ### Step 2: Verify token
 
 Check `PRODUCT_HUNT_TOKEN` is set:
@@ -42,6 +44,8 @@ If missing, ask the user for it once. Do **not** print or log the token. Suggest
 export PRODUCT_HUNT_TOKEN="phc_xxx..."
 ```
 
+**Done when:** `PRODUCT_HUNT_TOKEN` is available to the fetch script or the user has been asked for it exactly once.
+
 ### Step 3: Run the fetch script
 
 Use the bundled script to query the API. It handles pagination, ranking, and formatting:
@@ -53,7 +57,7 @@ python scripts/fetch_top.py \
   --format markdown
 ```
 
-Available flags:
+Run `python scripts/fetch_top.py --help` if you need the current flag list. Common flags:
 
 | Flag | Description | Default |
 |---|---|---|
@@ -63,7 +67,9 @@ Available flags:
 | `--output` | Path to save output (otherwise prints to stdout) | — |
 | `--order` | `RANKING` (top of the day) or `VOTES` | `RANKING` |
 
-The script reads the token from `PRODUCT_HUNT_TOKEN` and queries the `posts` field on `https://api.producthunt.com/v2/api/graphql`.
+The script is the single source of truth for GraphQL fields, pagination, date boundaries, and output formatting internals.
+
+**Done when:** the script exits successfully and has printed or written the requested output.
 
 ### Step 4: Present the results
 
@@ -99,43 +105,7 @@ After listing, offer 2–3 useful next steps based on the user's apparent goal:
 
 Pick at most one or two — don't spam.
 
----
-
-## API Reference (cheat sheet)
-
-- **Endpoint:** `POST https://api.producthunt.com/v2/api/graphql`
-- **Auth:** `Authorization: Bearer $PRODUCT_HUNT_TOKEN`
-- **Docs:** https://api.producthunt.com/v2/docs
-
-Minimal query the script uses:
-
-```graphql
-query TopPosts($postedAfter: DateTime, $postedBefore: DateTime, $order: PostsOrder, $first: Int, $after: String) {
-  posts(postedAfter: $postedAfter, postedBefore: $postedBefore, order: $order, first: $first, after: $after) {
-    edges {
-      node {
-        id
-        name
-        tagline
-        description
-        slug
-        url
-        website
-        votesCount
-        commentsCount
-        createdAt
-        featuredAt
-        thumbnail { url }
-        topics(first: 5) { edges { node { name } } }
-        makers { name username }
-      }
-    }
-    pageInfo { hasNextPage endCursor }
-  }
-}
-```
-
-`order: RANKING` returns the daily leaderboard order (rank #1 first). `VOTES` returns by raw vote count.
+**Done when:** results have been presented and at most two relevant follow-up actions have been offered.
 
 ---
 

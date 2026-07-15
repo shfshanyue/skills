@@ -1,6 +1,6 @@
 ---
 name: english-collocations
-description: "Drill English collocations through scenario-based sentence construction with heavy teaching feedback and persistent mistake tracking. Use when the user wants to practice 固定搭配 / collocations / 地道搭配 / 词组搭配, fix Chinglish word pairings, master verb+noun / adj+noun / verb+preposition / adv+adj collocations. Covers daily spoken English (small talk, errands, emotions, home life, health, money, commuting), business & academic fixed expressions, and a small slice of engineering/product vocabulary (`ship a feature`, `roll out a release`, `triage bugs`). For dialogue-based grammar practice, use `english-tutor` instead."
+description: "Collocation drill for English word-pairing practice. Use when the user wants to practice 固定搭配/collocations, fix Chinglish pairings, or train natural verb+noun, adjective+noun, phrasal-verb, or register-specific expressions. For dialogue grammar, use `english-tutor`."
 metadata:
   version: 1.1.0
 ---
@@ -66,10 +66,12 @@ Each round: pick a structural type and a thematic domain that match the current 
 5. **Wait for the learner's sentence.**
 6. **Grade using the fixed 6-section template** (see below). The grading message must ask for AT MOST one user action.
 7. **Update `mistakes.md`** atomically (read whole file → mutate in memory → write whole file back).
-8. **Decide the next round** (see **Next round after correct** — never stop after grading alone when the answer was correct):
+8. **Decide the next round**:
    - Wrong → grading message includes **Now try again** with a NEW scenario for the SAME collocation. Wait for the learner's retry; do not advance difficulty.
-   - Correct → in the **same assistant turn**, immediately after the grading block, post **Next round** with the full scenario and named target collocations at the updated difficulty (after 2 consecutive correct → level +1; after any wrong → level −1, floor L1).
+   - Correct → follow **Next round after correct** at the updated difficulty (after 2 consecutive correct → level +1; after any wrong → level −1, floor L1).
 9. After 5–8 rounds, **recap**: list practiced collocations, the ones that were wrong, 2–3 model sentences they can reuse.
+
+**Done when:** the learner has received a same-collocation retry prompt, a correct-answer grading block plus next round, or a 5–8 round recap.
 
 ### Next round after correct (mandatory — do not skip)
 
@@ -122,8 +124,8 @@ Use exactly these 6 sections in this order:
 **Now try again**:
   - A NEW scenario forcing the same collocation (ONLY if the original was wrong; OMIT this section if the answer was correct)
 
-- If the answer was correct, replace `Now try again` with a one-line praise. Then, in the **same assistant turn**, add `---` and **`## Next round`** with the full scenario and **Target collocation(s)** (see **Next round after correct**). Ending the turn after grading with no `## Next round` block is a protocol violation.
-- "Separate" means **two visual parts in one reply** (grading, then next round), not a second turn after the user prompts you.
+- If the answer was correct, replace `Now try again` with a one-line praise, then follow **Next round after correct**.
+- "Separate" means **two visual parts in one reply** (grading, then next round).
 - Never put the next round's scenario or target collocations **inside** the six grading sections; keep them only under `## Next round`.
 - Counter-examples must be a real scenario, not just "don't say X with Y".
 - Never wrap the grading message (or any scenario message) in a code fence. Code fences are reserved for actual code only.
@@ -166,123 +168,9 @@ Use exactly these 6 sections in this order:
 
 ---
 
-## Worked example (one full round, for reference)
+## Worked Examples
 
-**You (round start, L1, pack: dev):**
-
-> Scenario: Your team has been sitting on a half-finished search feature for three sprints. The PM wants it out this week.
-> Target collocation: **ship a feature**
-> Write one sentence using it.
-
-**Learner:**
-
-> "We need to publish this search feature this week."
-
-**You (grading message, NOTHING ELSE — output as raw markdown, NOT inside a code fence):**
-
-> **Score**: 2 / 5
-> **Natural version**: "We need to ship this search feature this week."
-> **Why your collocation is off**:
->   - `publish` collocates with articles, papers, books, blog posts — content. Software features get `ship` / `release` / `roll out`.
-> **Synonym contrast**:
->   - `ship a feature` — neutral, very common in engineering teams, means "get it into users' hands".
->   - `release a feature` — slightly more formal, often tied to a versioned release.
->   - `roll out a feature` — implies a gradual or staged rollout (canary, percentage).
-> **Counter-examples**:
->   - "We shipped a new research paper last quarter." — wrong; papers are `published`, not `shipped`.
-> **Now try again**:
->   - Scenario: Your infra team finally finished the new rate limiter and it goes live tomorrow morning. Write one sentence using **ship a feature** (or `ship` + the feature noun).
-
-**You (same turn, after correct retry — grading praise + `## Next round`):**
-
-> Nice — `ship` + feature noun is idiomatic here.
->
-> ---
->
-> ## Next round
->
-> **Level**: L2  
-> **Pack**: product  
->
-> **Scenario**: Your launch is in two weeks but the analytics dashboard isn't ready. Leadership wants something out on schedule without slipping the whole release.
->
-> **Target collocation(s)**: **cut a release**, **descope**  
->
-> **Task**: Write one sentence using both collocations.
-
-(And simultaneously, `mistakes.md` got a new section `## ship a feature` with `wrong attempts: 1`.)
-
-### Second worked example (daily-life pack, abbreviated)
-
-**You (round start, L1, pack: daily-life):**
-
-> Scenario: Your roommate stayed up until 5 a.m. cramming for a final, and now they look wrecked at breakfast.
-> Target collocation: **pull an all-nighter**
-> Write one sentence using it.
-
-**Learner:**
-
-> "She did an all-night for the exam yesterday."
-
-**You (grading message, NOTHING ELSE — output as raw markdown, NOT inside a code fence):**
-
-> **Score**: 2 / 5
-> **Natural version**: "She pulled an all-nighter for the exam yesterday."
-> **Why your collocation is off**:
->   - `do an all-night` is not idiomatic; the fixed verb is `pull` and the noun form is `all-nighter` (one word, hyphenated, with `-er`).
-> **Synonym contrast**:
->   - `pull an all-nighter` — neutral, very common; staying up the whole night for work or study.
->   - `stay up all night` — same idea, slightly more literal, no "purposeful effort" nuance.
->   - `burn the midnight oil` — work late into the night (not necessarily until dawn); more bookish.
-> **Counter-examples**:
->   - "I pulled an all-nighter watching TikTok." — technically grammatical but odd; the phrase implies effortful work (study, deadline), not idle scrolling. Use `stay up all night` instead.
-> **Now try again**:
->   - Scenario: It's 2 a.m. and you still have 30 slides left for tomorrow's 9 a.m. presentation. Write one sentence using **pull an all-nighter**.
-
-The daily example shows the same 6-section template applied to a non-technical scenario; the AI should match this style for `daily-life` / `daily-chores` packs.
-
-### Third worked example (L3 — constraint aligned with scenario)
-
-**You (round start, L3, pack: daily-chores):**
-
-> Scenario: You finally paid off the credit card you opened in college; the balance hit zero this morning and you still feel relieved.
-> Target collocation: **pay off a debt**
-> Constraint: **present perfect** (the paid-off state still matters now).
-> Write one sentence.
-
-**Learner:**
-
-> "I've finally paid off the debt from that college credit card."
-
-**You (grading message, NOTHING ELSE — output as raw markdown, NOT inside a code fence):**
-
-> **Score**: 5 / 5
-> **Natural version**: "I've finally paid off that college credit card." / "I've paid off the debt on the card I opened in college."
-> **Why your collocation is off**:
->   - N/A — `pay off` + debt/card is idiomatic; present perfect fits because the zero balance and relief still hold now.
-> **Synonym contrast**:
->   - `pay off a debt` — finish repaying; common for loans, cards, IOUs.
->   - `clear a balance` — neutral, often banking/UI wording.
->   - `settle an account` — more formal; can mean closing or paying what you owe.
-> **Counter-examples**:
->   - "I paid off a debt every month last year." — odd; `pay off` implies finishing, not a recurring habit. Use `make a payment` / `pay down` for installments.
->
-> Nice — present perfect matches “zero balance this morning, still relieved now.”
->
-> ---
->
-> ## Next round
->
-> **Level**: L2  
-> **Pack**: daily-chores  
->
-> **Scenario**: Your landlord raised rent again, but you negotiated a one-month grace period. The property manager emails you tomorrow to confirm whether you accepted the new terms.
->
-> **Target collocation(s)**: **work out a deal**, **buy some time**  
->
-> **Task**: Write one sentence using both collocations.
-
-When designing L3, pick **present perfect** first, then write a scenario whose timeline supports it (finished action with a result that still holds). Do not ask for present perfect on a scenario that only allows simple past unless you add a “until now” cue.
+Use [`examples.md`](examples.md) when you need concrete samples for wrong-answer grading, correct-answer next rounds, or L3 tense alignment.
 
 ---
 
@@ -291,8 +179,7 @@ When designing L3, pick **present perfect** first, then write a scenario whose t
 - No role-play dialogue. (Use `english-tutor` for that.)
 - No grammar lessons unless the collocation error itself hinges on a preposition / tense / voice choice.
 - Never dump more than 8 collocations in a single message; always scenario-first.
-- After a **correct** answer: always include grading + `## Next round` in one reply (two parts, separated by `---`). Never stop after grading alone.
-- Never put the next round's scenario inside the six grading sections.
+- After a **correct** answer: follow **Next round after correct**.
 - Never silently rewrite or reorder existing `mistakes.md` entries — only the section being graded changes.
 - Packs are ephemeral. Do NOT save generated packs to disk; only mistakes persist.
 - Scenarios are in English. Add a one-line Chinese gloss only if the learner explicitly asks.
