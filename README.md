@@ -17,10 +17,12 @@ npx skills add shfshanyue/skills --skill english-tutor
 npx skills add shfshanyue/skills --skill english-collocations
 npx skills add shfshanyue/skills --skill minimal-pairs
 npx skills add shfshanyue/skills --skill producthunt-top
+npx skills add shfshanyue/skills --skill google-traffic
 npx skills add shfshanyue/skills --skill idiom-chain
 npx skills add shfshanyue/skills --skill word-chain
 npx skills add shfshanyue/skills --skill poetry-quiz
 npx skills add shfshanyue/skills --skill zh-en-gloss
+npx skills add shfshanyue/skills --skill thirty-seconds
 
 # Install all skills
 npx skills add shfshanyue/skills
@@ -39,10 +41,12 @@ npx skills add shfshanyue/skills
 | [`english-collocations`](skills/english-collocations/SKILL.md) | Scenario collocation drills with mistake log |
 | [`minimal-pairs`](skills/minimal-pairs/SKILL.md) | Phoneme minimal-pair drills with mistake log |
 | [`producthunt-top`](skills/producthunt-top/SKILL.md) | Fetch and export Product Hunt top posts |
+| [`google-traffic`](skills/google-traffic/SKILL.md) | GA4 + GSC analytics via MCP (cross-project) |
 | [`idiom-chain`](skills/idiom-chain/SKILL.md) | Chinese idiom chain game (成语接龙) |
 | [`word-chain`](skills/word-chain/SKILL.md) | English last-letter word chain + word cards |
 | [`poetry-quiz`](skills/poetry-quiz/SKILL.md) | Classical Chinese poetry fill-in-the-blank quiz |
 | [`zh-en-gloss`](skills/zh-en-gloss/SKILL.md) | Inline English glosses in Chinese replies |
+| [`thirty-seconds`](skills/thirty-seconds/SKILL.md) | Offline 30 Seconds (30秒) board game card generator |
 
 See each skill's `SKILL.md` for full workflow. Maintainers: see [`AGENTS.md`](AGENTS.md).
 
@@ -69,10 +73,12 @@ A command parser for `beforeShellExecution` that prompts for user approval befor
 │   ├── english-collocations/
 │   ├── minimal-pairs/
 │   ├── producthunt-top/
+│   ├── google-traffic/
 │   ├── idiom-chain/
 │   ├── word-chain/
 │   ├── poetry-quiz/
-│   └── zh-en-gloss/
+│   ├── zh-en-gloss/
+│   └── thirty-seconds/
 ├── docs/superpowers/specs/    # Pre-ship design docs (not runtime pointers)
 ├── hooks/
 │   └── block-git-commit-push.sh
