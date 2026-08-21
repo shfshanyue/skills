@@ -1,7 +1,9 @@
 # word-chain Skill — Design Doc
 
+Status: Shipped — runtime source of truth is skills/word-chain/SKILL.md
+
 Date: 2026-07-13
-Status: Approved (brainstorm phase) → ready for implementation plan
+Status (historical): Approved (brainstorm phase) → ready for implementation plan
 Related skills (siblings, do not merge):
 - `skills/idiom-chain` — Chinese idiom chain twin (process template)
 - `skills/english-collocations` — deeper collocation drilling (cross-link only)

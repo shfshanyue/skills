@@ -1,36 +1,70 @@
 ---
 name: idiom-chain
-description: "与用户进行成语接龙游戏。用户开局选择规则，AI 先手出牌，校验用户所接是否为真实成语且符合接龙规则，可按需提供提示，用户接对时补充出处与含义，AI 出牌时补充出处、含义与自然例句。适用于用户说「开始成语接龙」「玩成语接龙」「来一局成语接龙」或想练习成语时。"
+description: "Idiom chain host. Use when the user wants 成语接龙 or a Chinese idiom chain game."
 metadata:
-  version: 1.3.1
+  version: 1.4.0
 ---
 
 # 成语接龙
 
-你是经典成语接龙游戏的主持人。用户选定规则，你先手出牌，校验用户每一手所接成语，并在每一回合提供丰富语境：**出处含典籍与原句引用，含义含本义与引申义**。用户接对时为其成语补充出处与含义；你出牌时再加自然例句。
+Host the classic Chinese idiom chain game. User picks the rule; you play first. Every idiom includes **出处** (with source quote when known) and **含义** (本义 + 引申义). Your plays also include **例句**.
 
 **游戏内所有交互均使用中文。** 仅当用户明确要求英文解释时，才使用英文。
 
-## 快速开始
+## Steps
 
-1. 当用户触发本技能（如「开始成语接龙」）时，询问使用哪条规则：
-   - **A. 严格同字** — 上一成语末字须与下一成语首字相同。
-   - **B. 同音可接（不论声调）** — 首字须与上一成语末字同音（不论声调）。
-   - **C. 同音可接（含声调）** — 首字须与上一成语末字同音且同声调。
-2. 用户选定后，**由你出第一个成语**，按下方固定格式输出。
-3. 告知用户应以哪个字（或哪种读音）开头接龙。
-4. 校验用户的每一次回复（见「校验规则」），不通过则纠正，通过则继续接龙。
-5. 仅当用户说「结束」（或类似表述）时，才结束并统计本局成绩。
+### 1. Open
 
-**完成标准：** 用户已选定规则，你已出第一手成语，并明确提示下一手应接的字或读音。
+When the user triggers this skill (e.g. 「开始成语接龙」「玩成语接龙」), ask which rule:
 
-## 输出格式
+- **A. 严格同字** — 上一成语末字须与下一成语首字相同
+- **B. 同音可接（不论声调）** — 首字须与上一成语末字同音（不论声调）
+- **C. 同音可接（含声调）** — 首字须与上一成语末字同音且同声调
 
-**每个字段单独成行，以普通文本输出。不得将任何内容包在 Markdown 代码块、三重反引号、`<pre>` 或其他代码格式中** — 部分聊天界面（如豆包）会把整块渲染成 `plaintext` 代码框，影响观感且不便复制。每个 `【字段】` 各占一行，以普通文本呈现。
+Once picked, play the **first idiom** in the fixed four-field format and tell the user which character (or pronunciation) to start with.
 
-### 用户接对时的输出
+**Done when:** rule is set, first idiom is on the board, and the user knows the starting character or sound.
 
-校验通过后，**先**以 **出处** 和 **含义** 肯定用户的成语（质量要求与下文一致；用户回合的 **例句** 可选）。按以下顺序输出：
+### 2. Host each user message
+
+Classify the message, then take exactly one branch:
+
+| Branch | When | Action |
+|--------|------|--------|
+| End | `结束` / `不玩了` / `结束游戏` (or similar) | Stop immediately. Report total idioms N, AI X, user Y. Thank them; invite another round. |
+| Hint | `提示` / `给点提示` / `我想想` / `不太会` (or similar) | Give 1–2 clues only (首字、语义类别、词性、部分字数). Never the full idiom. Wait. |
+| Play | Anything else treated as an idiom | Run **Validate**, then **Resolve**. |
+
+**Done when:** End has reported the score, or Hint/Play has replied and is waiting (chain still open unless End).
+
+#### Validate (Play only)
+
+Apply in order; stop at the first failure:
+
+1. **Real idiom?** (主流辞书参照; 谚语/口号/网络语不算)  
+   Fail: `「XX」不是成语，请重新接龙（需以「X」字开头）。` Board unchanged; wait.
+2. **First character matches rule?**  
+   Fail: `「XX」是成语，但本局要求以「X」字开头（规则：<当前规则>），请重新接。` Wait.
+3. Both pass → Resolve.
+
+**Done when:** failure reply sent without advancing the board, or validation passed to Resolve.
+
+#### Resolve (Play passes Validate)
+
+1. Affirm user's idiom with **出处** + **含义** (例句 optional on user turns)
+2. One **transition line** naming the link character (see Reference → Transition)
+3. Your next idiom (four fields + 例句)
+4. Prompt for user's next character
+
+**Done when:** user idiom explained, transition line present, your four-field idiom complete, and next-start prompt is clear.
+
+## Reference
+
+### Plain-text line output
+
+Follow [`plain-text-line.md`](plain-text-line.md).
+
+### User correct — output order
 
 接得好！
 【成语】XXXX
@@ -38,39 +72,19 @@ metadata:
 原句：「……」
 【含义】XXXX
 
-然后输出 **一行过渡句**（见下文），再出你的下一手成语。**不得**因即将继续接龙而跳过用户的出处/含义或过渡句。
+Then transition line, then your idiom block.
 
-### 用户成语与 AI 出牌之间的过渡
+### Transition line
 
-在用户的 **【含义】** 之后，空一行，再输出 **一行简短的口语过渡句**，点明你接龙所依据的字（即 **用户成语的末字**）。控制在约 15 个汉字以内，不添加额外评论。
+After user's **【含义】**, one short spoken line (≤15 汉字) naming the link character:
 
-| 规则 | 过渡句 |
-|------|--------|
+| Rule | Transition |
+|------|------------|
 | A. 严格同字 | `我接「X」字：` |
-| B. 同音可接（不论声调） | `我接「X」字或同音字：` |
-| C. 同音可接（含声调） | `我接「X」（X 声）或同音同调字：` — 如 `我接「里」（三声）或同音同调字：` |
+| B. 同音（不论声调） | `我接「X」字或同音字：` |
+| C. 同音（含声调） | `我接「X」（X 声）或同音同调字：` |
 
-再空一行，然后输出你的四字段成语块。
-
-**完整回合示例**（上一手为「画龙点睛」，用户以同音接「晴」→ 晴空万里）：
-
-接得好！
-【成语】晴空万里
-【出处】来源不详
-【含义】形容天空晴朗，万里无云。本义描写天气；引申为心境开阔、形势明朗或前景光明。中性偏褒，多用于写景或比喻良好局面。
-
-我接「里」字或同音字：
-
-【成语】里应外合
-【出处】来源不详
-【含义】原指外面进攻、里面接应，内外配合行动。引申为内外两方面互相配合。中性，多用于军事、斗争或协作语境。
-【例句】警方里应外合，一举捣毁了制假窝点。
-
-请你接「合」字。
-
-### AI 出牌格式
-
-你出的每一手成语 **必须** 包含以下四个字段，且顺序固定：
+### AI idiom format (fixed order)
 
 【成语】XXXX
 【出处】《典籍名·篇名》· 作者 · 朝代
@@ -78,87 +92,32 @@ metadata:
 【含义】XXXX
 【例句】XXXX
 
-### 【出处】要求
+Then prompt the user, e.g.:
 
-`【出处】` 占两行：第一行写典籍、作者、朝代；第二行以 `原句：` 开头，引用出处句或典故关键句。
+- Rule A: `请你接「X」字。`
+- Rule B: `请以「X」字或同音字开头（规则：同音可接，不论声调）。`
+- Rule C: `请以「X」（X 声）或同音同调字开头（规则：同音可接，含声调）。`
 
-| 情况 | 要求 |
-|------|------|
-| 成语字面出自典籍 | 必须给出完整原句，并指出句中哪几个字构成或演化出该成语 |
-| 成语源自历史典故（非字面出现） | 写明典故人物与事件，并引用史书/笔记中的关键原句 |
-| 无法考证 | 写 `来源不详`，**禁止编造**典籍或原句 |
+### 【出处】
 
-### 【含义】要求
+Two lines: metadata line + `原句：「……」`. Cite only when confirmable; otherwise `来源不详` — never fabricate.
 
-写 **2–4 句**（不得少于 2 句），尽量覆盖：
+### 【含义】
 
-1. **本义** — 字面义或典故本义
-2. **引申义** — 现代常用比喻义
-3. **感情色彩** — 褒 / 贬 / 中性
-4. **用法提示**（可选）— 常见搭配对象，或易混近义成语辨析
+2–4 sentences: 本义, 引申义, 感情色彩; optional 用法提示.
 
-### 完整示例
+### Repetition
 
-【成语】画龙点睛
-【出处】《历代名画记》· 张彦远 · 唐
-原句：「金陵安乐寺四白龙不点眼睛，每云：『点睛即飞去。』」——后人据「画龙点睛」故事凝为成语。
-【含义】原指画龙后点上眼睛，龙便活灵活现。比喻作文或说话时在关键处用一两句点明要旨，使内容生动传神。褒义，多用于评价文章、演讲或艺术创作的点睛之笔。
-【例句】这篇文章前面铺陈略长，但结尾一句画龙点睛，把主题升华了。
+Repeats allowed — no session dedup.
 
-请你接「睛」字。
+### Ending
 
-然后以一行提示引导用户接龙，例如：
-- 规则 A：`请你接「X」字。`
-- 规则 B / C：`请以「X」字或同音字开头（规则：<当前规则>）。`
+Only when user says End: total N, AI X, user Y; thank and invite replay. Never end on your own.
 
-## 校验规则
+### Accuracy
 
-按以下顺序校验用户的回复：
+出处/含义/例句 must match mainstream dictionaries. Standard Mandarin pinyin for homophone rules. If you play an invalid idiom, admit and replace immediately.
 
-1. **是否为真实成语？**
-   - 以主流成语辞书（《现代汉语词典》《汉语成语大词典》等）为参照。常见四字短语、谚语、口号、网络流行语 **不算** 成语。
-   - 若不是成语 → 回复：`「XX」不是成语，请重新接龙（需以「X」字开头）。` **不得** 继续接龙，等待用户重新作答。
-2. **首字是否符合当前规则？**
-   - 若不符合 → 回复：`「XX」是成语，但本局要求以「X」字开头（规则：<当前规则>），请重新接。` 等待用户重新作答。
-3. **两项均通过** → 输出用户成语的 **出处** 和 **含义**，再输出 **过渡句**（见「用户成语与 AI 出牌之间的过渡」），然后以固定四字段格式出你的下一手成语。
+### Scope boundary
 
-**完成标准：** 失败时已给出可重试提示且未推进棋局；通过时用户成语说明、过渡句、AI 下一手和下一手提示都已输出。
-
-## 提示支持
-
-当用户说 `提示`、`给点提示`、`我想想`、`不太会` 等时：
-
-- 仅给出 1–2 条 **线索** — 可能的首字、语义类别（动物 / 天气 / 历史人物 / 战场……）、词性提示，或透露答案的部分字数。
-- **不得直接给出完整成语。** 须由用户自行说出。
-
-## 重复规则
-
-本游戏 **允许重复**。无需记录已出成语，也不拒绝重复。双方均可自由复用成语。
-
-## 结束与计分
-
-当用户说 `结束`、`不玩了`、`结束游戏` 或类似表述时：
-
-1. 立即停止接龙。
-2. 输出简要回顾：
-   - 本局共接了 N 个成语
-   - 其中 AI 接了 X 个，用户接了 Y 个
-3. 感谢用户，并邀请再来一局。
-
-**不得** 主动结束游戏。仅当用户明确表示结束时才收尾。
-
-## 准确性要求
-
-- 游戏内所有【成语】【出处】【含义】【例句】均须以普通文本输出，**不得**包在 Markdown 代码块或 `<pre>` 中。
-- 用户接对与你出牌时，**出处**、**含义** 均适用下列准确性要求；你出牌的 **例句** 亦须准确自然。
-- 出处、含义、例句 **须事实准确**：
-  - **原句**只在你能确认时引用；无法确认原句时写 `来源不详`。
-  - **含义**须与主流辞书（《现代汉语词典》《汉语成语大词典》）一致。
-  - 若无法考证出处，写 `来源不详`。
-- 同音规则下，使用标准普通话拼音。
-- 若你不慎出了首字不符合规则的成语，须承认失误并重新出符合规则的一手。
-
-## 适用范围
-
-- 本技能仅作 **游戏主持**，不讲解成语理论、不组织测验、不生成学习清单。
-- 若用户需要更广泛的汉语学习，可引导其使用通用辅导类技能。
+Game host only. For broader Chinese learning, point to a general tutor skill.

@@ -2,7 +2,7 @@
 name: english-collocations
 description: "Collocation drill for English word-pairing practice. Use when the user wants to practice 固定搭配/collocations, fix Chinglish pairings, or train natural verb+noun, adjective+noun, phrasal-verb, or register-specific expressions. For dialogue grammar, use `english-tutor`."
 metadata:
-  version: 1.1.0
+  version: 1.2.0
 ---
 
 # English Collocations (scenario drill + persistent mistake log)
@@ -41,37 +41,33 @@ Each round: pick a structural type and a thematic domain that match the current 
 
 ---
 
-## Round workflow (run every round in this order)
+## Round workflow
 
-1. **Read `skills/english-collocations/mistakes.md`** in full if it exists. If not, plan to create it on the first miss.
-2. **Choose the round's pack source** (weighted random):
-   - 60% → a fresh theme pack, sampled with the following weights:
+Follow [`drill-loop-core.md`](drill-loop-core.md) every round. Skill-specific settings below.
 
-     | pack            | weight |
-     | --------------- | ------ |
-     | daily-life      | 30%    |
-     | daily-chores    | 25%    |
-     | meeting         | 12%    |
-     | writing-formal  | 10%    |
-     | academic        | 8%     |
-     | dev             | 8%     |
-     | product         | 7%     |
+**mistakes.md path:** `skills/english-collocations/mistakes.md` (tracked key = collocation phrase)
 
-     `daily-life` covers small talk, emotions, home life, health, commuting.
-     `daily-chores` covers service interactions (restaurants/taxi/shopping/clinic), money, errands.
-     `dev` + `product` are intentionally capped at ~15% combined — surface them less often than daily/business themes.
-   - 40% → a **review pack** sampled from `mistakes.md` (prefer entries with `wrong attempts >= 2` OR `last seen` older than 7 days)
-3. **Generate 5–8 candidate collocations** for that pack on the fly. **Do NOT write the pack to disk** — packs are ephemeral; only mistakes persist.
-4. **Present the scenario** to the learner in **English**, naming 1–2 target collocations they must use. Match the current difficulty level (see ladder below). At **L3**, state the extra constraint (tense, voice, or modal) in the same message; the scenario timeline must make that constraint satisfiable in one natural sentence (see **L3 constraint rule**).
-5. **Wait for the learner's sentence.**
-6. **Grade using the fixed 6-section template** (see below). The grading message must ask for AT MOST one user action.
-7. **Update `mistakes.md`** atomically (read whole file → mutate in memory → write whole file back).
-8. **Decide the next round**:
-   - Wrong → grading message includes **Now try again** with a NEW scenario for the SAME collocation. Wait for the learner's retry; do not advance difficulty.
-   - Correct → follow **Next round after correct** at the updated difficulty (after 2 consecutive correct → level +1; after any wrong → level −1, floor L1).
-9. After 5–8 rounds, **recap**: list practiced collocations, the ones that were wrong, 2–3 model sentences they can reuse.
+**Fresh pack weights** (60% branch):
 
-**Done when:** the learner has received a same-collocation retry prompt, a correct-answer grading block plus next round, or a 5–8 round recap.
+| pack            | weight |
+| --------------- | ------ |
+| daily-life      | 30%    |
+| daily-chores    | 25%    |
+| meeting         | 12%    |
+| writing-formal  | 10%    |
+| academic        | 8%     |
+| dev             | 8%     |
+| product         | 7%     |
+
+`daily-life` = small talk, emotions, home, health, commuting. `daily-chores` = service interactions, money, errands. `dev` + `product` capped ~15% combined.
+
+**Generate 5–8 candidate collocations** per pack. Present scenario in English with 1–2 target collocations at the current ladder level.
+
+**Next round after wrong:** grading includes **Now try again** with a NEW scenario for the SAME collocation; wait for retry.
+
+**Next round after correct:** same message — Part A grading + Part B `## Next round` (see below).
+
+**Level changes:** 2 consecutive correct → level +1; any wrong → level −1, floor L1.
 
 ### Next round after correct (mandatory — do not skip)
 
@@ -132,13 +128,9 @@ Use exactly these 6 sections in this order:
 
 ---
 
-## `mistakes.md` — format and update rules
+## `mistakes.md` — format
 
-### Location
-
-`skills/english-collocations/mistakes.md` (same folder as this SKILL.md). Human-readable. Tell the learner once they can add it to `.gitignore` if they don't want to track mistakes in git.
-
-### Format
+Location: `skills/english-collocations/mistakes.md`. Update rules: [`drill-loop-core.md`](drill-loop-core.md).
 
 ```markdown
 # Collocation Mistakes Log
@@ -154,17 +146,7 @@ Use exactly these 6 sections in this order:
 - note: `publish` 多用于内容/文章/论文，软件功能用 `ship` / `release` / `roll out`
 ```
 
-### Update rules
-
-- **On a wrong attempt** for collocation `X`:
-  - If `## X` section exists → increment `wrong attempts`, update `last seen` to today, replace `your worst version` ONLY if the new attempt is worse (more Chinglish / further from natural).
-  - If not → append a new section.
-- **On a correct attempt** for a tracked collocation `X`:
-  - Decrement `wrong attempts`, update `last seen`.
-  - When `wrong attempts` reaches 0 → delete the `## X` section entirely.
-- **Atomicity**: always read the whole file, mutate in memory, write the whole file back. Never partial-append mid-mutation.
-- **Never reorder or rewrite untouched entries.** Only the entry being graded changes.
-- If `mistakes.md` does not exist, create it on the first miss with the header + comment block above before adding the first `## X` section.
+On first miss, create the file with the header above before adding the first section.
 
 ---
 

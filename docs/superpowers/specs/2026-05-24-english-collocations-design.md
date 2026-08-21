@@ -1,7 +1,9 @@
 # english-collocations Skill — Design Doc
 
+Status: Shipped — runtime source of truth is skills/english-collocations/SKILL.md
+
 Date: 2026-05-24
-Status: Approved (brainstorm phase) → ready for implementation plan
+Status (historical): Approved (brainstorm phase) → ready for implementation plan
 Related skill (sibling, do not merge): `skills/english-tutor`
 
 ---

@@ -2,7 +2,7 @@
 name: zh-en-gloss
 description: "Chinese prose gloss formatter. Use for Chinese answers where inline English vocabulary glosses would help the user learn terms while reading, unless the user opts out or a language-practice skill owns the turn."
 metadata:
-  version: 1.2.0
+  version: 1.2.1
 ---
 
 # Chinese Reply with English Glosses (zh-en-gloss)
@@ -20,7 +20,7 @@ Opt-out phrases for the rest of the conversation: 不用标注了、关闭英文
 Use plain output for:
 
 - The user asks for a **mostly-English** reply or is clearly practicing English dialogue (`english-tutor` active or @mentioned)
-- The user is doing a **translation drill** (`translation-practice-zh-en` active or @mentioned)
+- The user is doing a **sentence-by-sentence translation drill with scoring** (explicit @mention or request to grade each translation line)
 - The reply is **already mostly English** (e.g. code review in English, pasted English text)
 - The user explicitly wants **no inline annotations** for this message
 

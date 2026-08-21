@@ -2,7 +2,7 @@
 name: minimal-pairs
 description: "Minimal-pairs pronunciation drill. Use when the user wants to practice English phoneme discrimination, confusable sounds, Chinglish pronunciation, vowel/consonant contrasts, or 最小对立对. For grammar dialogue, use `english-tutor`; for word-pairings, use `english-collocations`."
 metadata:
-  version: 1.1.0
+  version: 1.2.0
 ---
 
 # Minimal Pairs (phoneme discrimination drill + persistent mistake log)
@@ -51,35 +51,30 @@ A **minimal pair** = two words/phrases that differ in **exactly one phoneme** in
 
 ---
 
-## Round workflow (run every round in this order)
+## Round workflow
 
-1. **Read `skills/minimal-pairs/mistakes.md`** in full if it exists. If not, plan to create it on the first miss.
-2. **Choose the round's pack source** (weighted random):
-   - 60% → a fresh contrast pack, sampled with the following weights:
+Follow [`drill-loop-core.md`](drill-loop-core.md) every round. Skill-specific settings below.
 
-     | pack                   | weight |
-     | ---------------------- | ------ |
-     | vowels-length (ɪ/iː, ʊ/uː) | 22% |
-     | l-vs-r                 | 18%    |
-     | vowels-quality (e/æ, æ/ʌ)  | 15% |
-     | th-family (θ/s, θ/f, ð/z)  | 12% |
-     | v-vs-w / b-vs-v        | 10%    |
-     | final-nasal (n/ŋ)      | 8%     |
-     | voiced-voiceless-final | 8%     |
-     | sentence-level         | 7%     |
+**mistakes.md path:** `skills/minimal-pairs/mistakes.md` (tracked key = **phoneme contrast**, e.g. `/l/ vs /r/`)
 
-   - 40% → a **review pack** sampled from `mistakes.md` (prefer entries with `wrong attempts >= 2` OR `last seen` older than 7 days)
-3. **Generate 4–6 candidate minimal pairs** for that pack on the fly. **Do NOT write the pack to disk** — packs are ephemeral; only mistakes persist.
-4. **Present the round** in **English** using the appropriate mode for the current level (see ladder).
-5. **Wait for the learner's answer.**
-6. **Grade using the fixed 6-section template** (see below). The grading message must ask for AT MOST one user action.
-7. **Update `mistakes.md`** atomically (read whole file → mutate in memory → write whole file back). The tracked key is the **phoneme contrast** (e.g. `/l/ vs /r/`), not the individual word pair.
-8. **Decide the next round**:
-   - Wrong → the grading message's **Now try again** section contains a NEW prompt forcing the SAME contrast.
-   - Correct → next round at the next difficulty level (after 2 consecutive correct → level +1, ceiling L2; after any wrong → level −1, floor L1).
-9. After 5–8 rounds, **recap**: list contrasts practiced, which were weak, 2–3 model sentences they can re-drill aloud.
+**Fresh pack weights** (60% branch):
 
-**Done when:** the learner has received either a same-contrast retry prompt (wrong answer), a clean grading block ready for the next message (correct answer), or a 5–8 round recap.
+| pack                   | weight |
+| ---------------------- | ------ |
+| vowels-length (ɪ/iː, ʊ/uː) | 22% |
+| l-vs-r                 | 18%    |
+| vowels-quality (e/æ, æ/ʌ)  | 15% |
+| th-family (θ/s, θ/f, ð/z)  | 12% |
+| v-vs-w / b-vs-v        | 10%    |
+| final-nasal (n/ŋ)      | 8%     |
+| voiced-voiceless-final | 8%     |
+| sentence-level         | 7%     |
+
+**Generate 4–6 candidate pairs** per pack. Present round in English at current ladder level.
+
+**After correct answer:** grading in one message; **next round prompt in the next message** (never combine).
+
+**Level changes:** 2 consecutive correct → level +1, ceiling L2; any wrong → level −1, floor L1.
 
 ### Difficulty ladder
 
@@ -118,15 +113,9 @@ Use exactly these 6 sections in this order:
 
 ---
 
-## `mistakes.md` — format and update rules
+## `mistakes.md` — format
 
-### Location
-
-`skills/minimal-pairs/mistakes.md` (same folder as this SKILL.md). Human-readable. Tell the learner once they can add it to `.gitignore` if they don't want to track mistakes in git.
-
-### Format
-
-The tracked key is the **phoneme contrast**, not a specific word pair — so all `/l/` vs `/r/` confusions roll up under one section.
+Location: `skills/minimal-pairs/mistakes.md`. Update rules: [`drill-loop-core.md`](drill-loop-core.md).
 
 ```markdown
 # Minimal Pairs Mistakes Log
@@ -140,27 +129,9 @@ The tracked key is the **phoneme contrast**, not a specific word pair — so all
 - pairs missed: light/right, lice/rice, glass/grass
 - your worst attempt: heard `right` as `light` in "Turn right at the corner"
 - note: 舌尖触齿龈 = /l/；舌尖卷起不触顶 = /r/。Mandarin 没有真正的 /r/，常用 /l/ 替代。
-
-## /ɪ/ vs /iː/
-- pack: vowels-length
-- wrong attempts: 1
-- last seen: 2026-05-24
-- pairs missed: ship/sheep
-- your worst attempt: picked `ship` for `sheep` in "The ___ is on the wave"
-- note: /iː/ 长且舌位更高更前；/ɪ/ 短而松弛。长度差别 + 紧张度。
 ```
 
-### Update rules
-
-- **On a wrong attempt** for contrast `X`:
-  - If `## X` section exists → increment `wrong attempts`, update `last seen` to today, append the new word pair to `pairs missed` (dedupe), replace `your worst attempt` ONLY if the new attempt is worse (more wrong / further from target).
-  - If not → append a new section.
-- **On a correct attempt** for a tracked contrast `X`:
-  - Decrement `wrong attempts`, update `last seen`.
-  - When `wrong attempts` reaches 0 → delete the `## X` section entirely.
-- **Atomicity**: always read the whole file, mutate in memory, write the whole file back. Never partial-append mid-mutation.
-- **Never reorder or rewrite untouched entries.** Only the entry being graded changes.
-- If `mistakes.md` does not exist, create it on the first miss with the header + comment block above before adding the first `## X` section.
+On first miss, create the file with the header above before adding the first section.
 
 ---
 

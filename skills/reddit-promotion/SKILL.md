@@ -1,8 +1,8 @@
 ---
 name: reddit-promotion
-description: "Find relevant Reddit subreddits and posts for product promotion. Scans product info, discovers matching subreddits, finds high-value posts to reply to or DM authors, and generates action plans. Use when the user mentions 'Reddit promotion,' 'find subreddits,' 'Reddit marketing,' 'promote on Reddit,' 'Reddit outreach,' 'find Reddit posts,' or wants to discover Reddit communities for their product."
+description: "Reddit promotion planner. Use when the user wants to find subreddits, high-value posts, or outreach drafts for product promotion on Reddit."
 metadata:
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Reddit Promotion Finder
