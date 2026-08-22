@@ -47,6 +47,23 @@ After editing a canonical file, update all copies in the same commit.
 | Inline English glosses in Chinese replies | `zh-en-gloss` |
 | Product launch copy | `launch-kit` |
 | Reddit outreach plan | `reddit-promotion` |
+| Resume / interview prep from codebase | `resume-project-prep` |
+| Product Hunt top list fetch/export | `producthunt-top` |
+| English word chain / 英文单词接龙 | `word-chain` |
+| Chinese idiom chain / 成语接龙 | `idiom-chain` |
+| Classical poetry quiz / 诗词填空 | `poetry-quiz` |
+
+## Reference — hooks
+
+[`hooks.json`](hooks.json) + [`hooks/block-git-commit-push.sh`](hooks/block-git-commit-push.sh): `beforeShellExecution` prompts for user approval before `git commit` or `git push` in the agent shell.
+
+## Reference — evals
+
+[`evals/trigger-cases.md`](evals/trigger-cases.md): trigger test cases for routing and activation. Update when adding or changing skill descriptions.
+
+## Reference — CI
+
+[`.github/workflows/check-shared.yml`](.github/workflows/check-shared.yml): verifies canonical [`skills/_shared/`](skills/_shared/) files match their sync copies. Run [`scripts/check-shared.sh`](scripts/check-shared.sh) locally before pushing.
 
 ## Reference — exemplar skills
 

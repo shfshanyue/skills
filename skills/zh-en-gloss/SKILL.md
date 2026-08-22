@@ -2,7 +2,7 @@
 name: zh-en-gloss
 description: "Chinese prose gloss formatter. Use for Chinese answers where inline English vocabulary glosses would help the user learn terms while reading, unless the user opts out or a language-practice skill owns the turn."
 metadata:
-  version: 1.2.1
+  version: 1.2.2
 ---
 
 # Chinese Reply with English Glosses (zh-en-gloss)
@@ -15,7 +15,7 @@ This skill changes **output formatting only** — it does not turn the chat into
 
 Apply gloss formatting to Chinese prose when vocabulary learning is useful and no active language-practice skill owns the turn.
 
-Opt-out phrases for the rest of the conversation: 不用标注了、关闭英文、纯中文、不要括号英文、stop glossing, or similar.
+Opt-out: 不用标注了 / stop glossing / 纯中文 等 — re-enable on @mention.
 
 Use plain output for:
 

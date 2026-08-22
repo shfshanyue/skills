@@ -2,7 +2,7 @@
 name: english-practice
 description: "English practice router. Use when the user wants to practice English but has not picked dialogue, collocations, pronunciation, or a general study topic."
 metadata:
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # English Practice Router
@@ -20,6 +20,9 @@ If the user already @mentions a specific skill, skip routing and follow that ski
 | Pronunciation, phoneme contrasts, 最小对立对 | `minimal-pairs` |
 | Structured learning on a general topic (not English-specific) | `deep-learner` |
 | Inline English glosses while reading Chinese answers | `zh-en-gloss` |
+| Word chain game / 英文单词接龙 | `word-chain` |
+| Chinese idiom chain / 成语接龙 | `idiom-chain` |
+| Classical poetry quiz / 诗词填空 | `poetry-quiz` |
 
 Ask one clarifying question only when intent is genuinely ambiguous after the user's first message.
 

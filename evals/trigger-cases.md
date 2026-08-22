@@ -1,0 +1,47 @@
+# Trigger eval cases
+
+Manual trigger tests for skill routing and activation. Run each prompt with the full skill set installed; record pass/fail against the pass criterion.
+
+## Router
+
+| # | Prompt | Expected skill | Pass criterion |
+|---|--------|----------------|----------------|
+| 1 | 练英语 | `english-practice` | Agent names a target skill and hands off without teaching |
+| 2 | 英文单词接龙 | `word-chain` | Agent opens a word-chain game with a word card |
+| 3 | 成语接龙 | `idiom-chain` | Agent asks which rule (A/B/C) before playing |
+| 4 | 帮我背诗词 | `poetry-quiz` | Agent starts a poetry fill-in-the-blank quiz |
+| 5 | I want to practice English conversation | `english-practice` → `english-tutor` | Router hands off to `english-tutor` |
+
+## English drills
+
+| # | Prompt | Expected skill | Pass criterion |
+|---|--------|----------------|----------------|
+| 6 | 练固定搭配 | `english-collocations` | Agent presents a scenario with target collocations |
+| 7 | 最小对立对 | `minimal-pairs` | Agent presents a minimal pair contrast round |
+| 8 | Help me fix my Chinglish collocations | `english-collocations` | Agent uses the 6-section grading template on first submission |
+
+## Cross-skill activation
+
+| # | Prompt | Expected behavior | Pass criterion |
+|---|--------|-------------------|----------------|
+| 9 | (zh-en-gloss installed) 什么是缓存穿透？ | `zh-en-gloss` format | Chinese prose with inline `词 (English)` glosses in each section |
+| 10 | (@english-tutor active) Tell me about your weekend | No gloss | Reply is English dialogue with no inline Chinese glosses |
+| 11 | 纯中文，不要括号英文 | `zh-en-gloss` opt-out | Subsequent replies have no inline English glosses |
+
+## Subject tutoring
+
+| # | Prompt | Expected skill | Pass criterion |
+|---|--------|----------------|----------------|
+| 12 | 我想系统学量子力学 | `deep-learner` | Agent opens with greeting and asks for topic or presents diagnostic questions |
+
+## Product / launch
+
+| # | Prompt | Expected skill | Pass criterion |
+|---|--------|----------------|----------------|
+| 13 | 导出今天 PH top | `producthunt-top` | Agent checks token and runs or offers to run `fetch_top.py` |
+| 14 | 写 Product Hunt 文案 | `launch-kit` | Agent scans codebase or asks for product info before drafting |
+| 15 | Turn this repo into interview prep | `resume-project-prep` | Agent asks target level, then scans codebase |
+
+## Updating
+
+Add a row when introducing a new skill or changing a description pointer. Remove or revise rows when behavior changes.

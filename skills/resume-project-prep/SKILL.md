@@ -1,9 +1,8 @@
 ---
 name: resume-project-prep
-description: >
-  Resume project prep for technical interviews. Use when the user wants to turn a codebase into
-  resume project bullets, interview talking points, project Q&A, technical challenge stories,
-  or answers to "walk me through this project" / "hardest thing you built".
+description: "Resume prep for technical interviews. Use when the user wants resume project bullets, interview talking points, project Q&A, technical challenge stories, or answers to \"walk me through this project\" / \"hardest thing you built\" from a codebase."
+metadata:
+  version: 1.0.0
 ---
 
 # Resume Project Prep

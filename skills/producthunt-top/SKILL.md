@@ -2,7 +2,7 @@
 name: producthunt-top
 description: "Product Hunt top-list fetcher. Use when the user wants to list, compare, monitor, summarize, analyze, or export Product Hunt launches for today, a date, week, or month."
 metadata:
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Product Hunt Top List
@@ -57,15 +57,7 @@ python scripts/fetch_top.py \
   --format markdown
 ```
 
-Run `python scripts/fetch_top.py --help` if you need the current flag list. Common flags:
-
-| Flag | Description | Default |
-|---|---|---|
-| `--period` | `today`, `yesterday`, `this_week`, `this_month`, or a date `YYYY-MM-DD` | `today` |
-| `--count` | Number of posts to return | `10` |
-| `--format` | `table`, `markdown`, `json`, `csv` | `table` |
-| `--output` | Path to save output (otherwise prints to stdout) | — |
-| `--order` | `RANKING` (top of the day) or `VOTES` | `RANKING` |
+Run `python scripts/fetch_top.py --help` for the current flag list and defaults.
 
 The script is the single source of truth for GraphQL fields, pagination, date boundaries, and output formatting internals.
 

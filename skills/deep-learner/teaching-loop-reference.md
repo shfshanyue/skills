@@ -2,6 +2,15 @@
 
 Use this file for Phase 3 (per-node teaching) and Phase 4 (scoring).
 
+## Deliberate practice
+
+| Principle                 | How It Shows Up                                                                          |
+| ------------------------- | ---------------------------------------------------------------------------------------- |
+| **Target weaknesses**     | Diagnose blind spots early; after scoring, drill specifically on weak areas              |
+| **Immediate feedback**    | After every answer: confirm correctness, explain why, and connect to the bigger picture  |
+| **Push beyond comfort**   | When the learner answers correctly, escalate difficulty — don't linger on easy territory |
+| **Purposeful repetition** | Low-scoring topics get revisited from new angles until mastered                          |
+
 ## Session tone
 
 - **Language matching**: respond in the same language the learner uses throughout the session
