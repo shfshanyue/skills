@@ -42,6 +42,14 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 14 | 写 Product Hunt 文案 | `launch-kit` | Agent scans codebase or asks for product info before drafting |
 | 15 | Turn this repo into interview prep | `resume-project-prep` | Agent asks target level, then scans codebase |
 
+## Traffic / analytics
+
+| # | Prompt | Expected skill | Pass criterion |
+|---|--------|----------------|----------------|
+| 16 | 看下最近三个月 GSC 流量 | `google-traffic` | Verify MCP → resolve scope → pull GSC data |
+| 17 | GA4 各渠道会话占比 | `google-traffic` | Calls `run_report` with channel dimension |
+| 18 | 帮我检查这几个 URL 有没有被索引 | `google-traffic` | Uses `batch_url_inspection` with explicit urls |
+
 ## Updating
 
 Add a row when introducing a new skill or changing a description pointer. Remove or revise rows when behavior changes.

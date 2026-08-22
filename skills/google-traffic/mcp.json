@@ -1,0 +1,31 @@
+{
+  "google-analytics": {
+    "command": "uvx",
+    "args": ["analytics-mcp==0.7.0"],
+    "env": {
+      "GOOGLE_APPLICATION_CREDENTIALS": "${env:GOOGLE_APPLICATION_CREDENTIALS}",
+      "GOOGLE_PROJECT_ID": "${env:GOOGLE_PROJECT_ID}"
+    },
+    "includeTools": [
+      "get_account_summaries",
+      "run_report"
+    ]
+  },
+  "google-gsc": {
+    "command": "uvx",
+    "args": ["mcp-search-console==0.3.3"],
+    "env": {
+      "GSC_OAUTH_CLIENT_SECRETS_FILE": "${env:GSC_OAUTH_CLIENT_SECRETS_FILE}"
+    },
+    "includeTools": [
+      "list_properties",
+      "get_performance_overview",
+      "get_search_analytics",
+      "get_advanced_search_analytics",
+      "get_search_by_page_query",
+      "compare_search_periods",
+      "batch_url_inspection",
+      "get_sitemaps"
+    ]
+  }
+}

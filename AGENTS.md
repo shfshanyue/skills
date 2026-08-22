@@ -49,6 +49,7 @@ After editing a canonical file, update all copies in the same commit.
 | Reddit outreach plan | `reddit-promotion` |
 | Resume / interview prep from codebase | `resume-project-prep` |
 | Product Hunt top list fetch/export | `producthunt-top` |
+| Search traffic / GSC / GA4 reports | `google-traffic` |
 | English word chain / 英文单词接龙 | `word-chain` |
 | Chinese idiom chain / 成语接龙 | `idiom-chain` |
 | Classical poetry quiz / 诗词填空 | `poetry-quiz` |
