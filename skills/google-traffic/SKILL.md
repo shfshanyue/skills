@@ -6,7 +6,7 @@ description: >-
   traffic deep-dive, or URL indexing status. For on-page meta/schema fixes,
   use seo-geo.
 metadata:
-  version: 1.1.0
+  version: 1.1.1
 ---
 
 # Google Traffic

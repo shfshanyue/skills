@@ -17,19 +17,32 @@
 
 Copy `gcloud.env.example` values into your shell profile or MCP `env` / `envFile`. Reload MCP on your **host** after changes.
 
+## OAuth client
+
+Shared by GA4 ADC login and GSC MCP.
+
+1. In [Google Cloud Console](https://console.cloud.google.com/), create a **Desktop** OAuth client.
+2. Save the downloaded JSON as `~/.config/gcloud/gsc-oauth-client.json` — **never commit**.
+3. Set `GSC_OAUTH_CLIENT_SECRETS_FILE` to that path (or another location, e.g. `~/.cursor/google-gsc-oauth-client.json`).
+
 ## GA4
 
 1. In your GCP project, enable **Google Analytics Admin API** and **Google Analytics Data API**.
-2. Run `gcloud auth application-default login`.
+2. Run ADC login with `analytics.readonly` — default ADC omits that scope; reuse the Desktop OAuth client from **OAuth client** above (`--client-id-file` may point at your `GSC_OAUTH_CLIENT_SECRETS_FILE` path instead):
+
+```bash
+gcloud auth application-default login \
+  --client-id-file=~/.config/gcloud/gsc-oauth-client.json \
+  --scopes="https://www.googleapis.com/auth/analytics.readonly,https://www.googleapis.com/auth/cloud-platform,openid,https://www.googleapis.com/auth/userinfo.email"
+```
+
 3. Set `GOOGLE_APPLICATION_CREDENTIALS` to the ADC path above (or rely on gcloud default if your MCP reads it).
 4. Set `GOOGLE_PROJECT_ID` to that GCP project id — **not** a GA4 `property_id`.
 
 ## GSC
 
-1. In [Google Cloud Console](https://console.cloud.google.com/), create a **Desktop** OAuth client.
-2. Save the downloaded JSON as `~/.config/gcloud/gsc-oauth-client.json` — **never commit**.
-3. Set `GSC_OAUTH_CLIENT_SECRETS_FILE` to that path.
-4. Reload MCP on your **host**. First GSC tool call opens browser OAuth.
+1. Set `GSC_OAUTH_CLIENT_SECRETS_FILE` if not done in **OAuth client**.
+2. Reload MCP on your **host**. First GSC tool call opens browser OAuth.
 
 ## Verify auth
 
