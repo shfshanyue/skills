@@ -6,12 +6,14 @@ description: >-
   traffic deep-dive, or URL indexing status. For on-page meta/schema fixes,
   use seo-geo.
 metadata:
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Google Traffic
 
-Pull **GA4** and **Google Search Console** data through bundled MCP servers. Report trends, page-level search performance, and indexing health. On-page copy and schema changes belong to `seo-geo`; project-specific SEO scripts live in the repo's `AGENTS.md`.
+Pull **GA4** and **Google Search Console** data through bundled MCP servers. Report trends, page-level search performance, and indexing health. On-page copy and schema changes belong to `seo-geo`; project SEO scripts live in the repo's `AGENTS.md`.
+
+**auth** (machine-wide gcloud login) and **scope** (this repo's `property_id` + `site_url`) are separate — see [`setup-reference.md`](setup-reference.md).
 
 ---
 
@@ -19,27 +21,28 @@ Pull **GA4** and **Google Search Console** data through bundled MCP servers. Rep
 
 ### Step 1: Verify MCP
 
-Use `GetMcpTools` to find servers matching `google-analytics` and `google-gsc` (names may be prefixed by Cursor).
+Use `GetMcpTools` to find servers matching `google-analytics` and `google-gsc` (names may be prefixed by the host).
 
 If missing or `needsAuth` / error:
 
-1. Read [`setup-reference.md`](setup-reference.md) and guide one-time global setup.
-2. Reload MCP servers after env changes.
-3. Call `mcp_auth` on the failing server if tools still reject.
+1. Missing server → read [`host-wiring-reference.md`](host-wiring-reference.md) for **host** registration.
+2. Auth failure → read [`auth-reference.md`](auth-reference.md) for **auth** under `~/.config/gcloud/`.
+3. Reload MCP on your **host** after auth or host changes.
+4. Call `mcp_auth` on the failing server if tools still reject.
 
-**Done when:** both target servers are `ready`, or the user explicitly skips and knows reports will be incomplete.
+**Done when:** both target servers are `ready`, or the user explicitly skips and knows reports will be incomplete; if setup ran, **auth** paths live under `~/.config/gcloud/` and `list_properties` returns sites for the logged-in Google account.
 
 ### Step 2: Resolve scope
 
 Resolve **GA4 `property_id`** and **GSC `site_url`** in order:
 
-1. Project `AGENTS.md` — Google MCP / Analytics section
+1. This repo's `AGENTS.md` — `property_id` and `site_url` (template: [`scope-reference.md`](scope-reference.md))
 2. `README.md`, `package.json` `homepage`, or `.agents/product-marketing-context.md` — domain hints
 3. MCP discovery — `list_properties` (GSC) and `get_account_summaries` (GA4); ask user to pick if ambiguous
 
 Record the chosen ids in the report header.
 
-**Done when:** `property_id` and `site_url` are selected, or the user stated an exception (e.g. GSC-only this run).
+**Done when:** `property_id` and `site_url` come from **this repo's** `AGENTS.md` first; if absent, from MCP discovery with user pick — not from global `GA4_PROPERTY_ID` / `GSC_DEFAULT_SITE`.
 
 ### Step 3: Classify branch
 
@@ -83,6 +86,7 @@ Deliver a concise summary:
 
 - Mahjong hand analysis, codebase architecture, or product logic → not this skill.
 - Title, meta, schema, keyword research for copy → `seo-geo`.
+- **auth** / **host** setup → [`auth-reference.md`](auth-reference.md), [`host-wiring-reference.md`](host-wiring-reference.md).
 - Project SEO automation (e.g. `check:hreflang`, `check:meta`) → read project `AGENTS.md`; do not cache script commands here.
 
 ---

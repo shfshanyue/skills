@@ -8,8 +8,8 @@ Read when executing Step 4 of [`SKILL.md`](SKILL.md). Tool parameter details liv
 |-------|---------|
 | GSC date window | 28 days (monthly); 90 days when user says "三个月" / "90 days" |
 | GA4 date window | Match GSC window |
-| GSC `site_url` | From project `AGENTS.md`, else `list_properties` + user pick |
-| GA4 `property_id` | From project `AGENTS.md`, else `get_account_summaries` + user pick |
+| GSC `site_url` | **scope** — project `AGENTS.md`; see [`scope-reference.md`](scope-reference.md) |
+| GA4 `property_id` | **scope** — project `AGENTS.md`; see [`scope-reference.md`](scope-reference.md) |
 
 ## Branch: monthly
 
@@ -62,7 +62,7 @@ Derive URL list from user input, project sitemap URL in README/AGENTS.md, or `cu
 
 - `get_search_analytics`: `dimensions` is a **string** (`"query"`), not an array.
 - `batch_url_inspection`: must pass `urls` (newline-separated); omitting fails.
-- `site_url` must match `list_properties` exactly (e.g. `sc-domain:example.com` vs `https://www.example.com/`).
+- **scope** `site_url` format → [`scope-reference.md`](scope-reference.md).
 - Discover MCP server ids with `GetMcpTools` — do not assume `project-0-*` prefixes.
 
 ## GA4 `run_report` sketch
