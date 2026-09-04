@@ -3,7 +3,7 @@ name: gerrit
 description: Gerrit SSH operator — query, diff, review, and arbitrary CLI subcommands.
 disable-model-invocation: true
 metadata:
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Gerrit
@@ -45,7 +45,7 @@ Pick exactly one branch from the user's message (after `@gerrit` / `/gerrit`):
 
 - **query** — [`query-reference.md`](query-reference.md): inbox presets (three fixed queries) or custom `gerrit query --format=JSON …`
 - **diff** — [`diff-reference.md`](diff-reference.md): metadata query → `git fetch` change ref → `git diff`
-- **review** — [`review-reference.md`](review-reference.md): `gerrit review`; **dry-run by default** before mutating
+- **review** — [`review-reference.md`](review-reference.md): resolve target → dry-run → execute
 - **cli** — [`cli-reference.md`](cli-reference.md): **explore** (`gerrit` list + `gerrit <cmd> --help`) or **execute** (help first, then run; mutating commands dry-run)
 
 **Done when:** branch output is complete (table, diff, dry-run proposal, or command output), or failure is explained with the SSH/git error.
@@ -79,3 +79,4 @@ Deliver a concise summary:
 - `gerrit query --files` returns file names and line counts only — **not** diff text; use **diff** branch for patches.
 - `gerrit query` date filter: `before:` is **exclusive** (day after the inclusive end date).
 - Never hardcode host, user, or project — resolve per run from the repo environment.
+- **review** branch: resolve **target** (`CHANGE,PATCHSET`) before SSH — see [`review-reference.md`](review-reference.md).

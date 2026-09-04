@@ -56,7 +56,7 @@ https://<host>/c/<project>/+/<change-number>
 
 ## inbox presets
 
-When the user asks for inbox, dashboard, open changes, or pending reviews, run **all three** queries and present three sections.
+When the user asks for inbox, dashboard, open changes, or pending reviews, run **all three** queries and present three sections. All three are scoped to the current repo (`project:<project>`). For cross-project search, use a **custom query** without the `project:` filter (see [custom query](#custom-query) below).
 
 Replace `<project>` with the resolved project name.
 
