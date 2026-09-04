@@ -53,6 +53,7 @@ After editing a canonical file, update all copies in the same commit.
 | English word chain / 英文单词接龙 | `word-chain` |
 | Chinese idiom chain / 成语接龙 | `idiom-chain` |
 | Classical poetry quiz / 诗词填空 | `poetry-quiz` |
+| Gerrit SSH (`@gerrit` / `/gerrit`) | `gerrit` |
 
 ## Reference — hooks
 

@@ -50,6 +50,18 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 17 | GA4 各渠道会话占比 | `google-traffic` | Calls `run_report` with channel dimension |
 | 18 | 帮我检查这几个 URL 有没有被索引 | `google-traffic` | Uses `batch_url_inspection` with explicit urls |
 
+## Gerrit (user-invoked)
+
+`gerrit` has `disable-model-invocation: true` — load only when the user attaches `@gerrit` / `/gerrit` or names the skill explicitly.
+
+| # | Prompt | Expected skill | Pass criterion |
+|---|--------|----------------|----------------|
+| 19 | `@gerrit inbox` | `gerrit` | Resolves env from repo, runs inbox preset queries, table output |
+| 20 | `@gerrit diff 46568` | `gerrit` | Fetches change ref, shows diff |
+| 21 | `@gerrit what CLI commands are available?` | `gerrit` | Runs `gerrit`, summarizes subcommands |
+| 22 | `/gerrit review 46568 +1` | `gerrit` | Dry-runs `gerrit review` before executing |
+| 23 | show my open gerrit changes (no `@gerrit`) | none | Skill does not load unless user also attached `gerrit` |
+
 ## Updating
 
 Add a row when introducing a new skill or changing a description pointer. Remove or revise rows when behavior changes.
