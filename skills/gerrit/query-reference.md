@@ -76,29 +76,24 @@ ssh -p <port> <user>@<host> gerrit query --format=JSON --current-patch-set \
 
 ### Parse JSON lines
 
+Prefer `jq` over inline Python — one pipe, no script file.
+
 Each result line is one JSON object; the last line is `{"type":"stats","rowCount":N,...}` — skip it.
 
 Suggested columns: `#`, `subject` (truncate), `owner.name`, Code-Review / Verified from `currentPatchSet.approvals`, WIP flag.
 
-Example inline parser:
-
 ```bash
 ssh -p <port> <user>@<host> gerrit query --format=JSON --current-patch-set \
   "owner:self status:open project:<project>" \
-| python3 -c "
-import sys, json
-for line in sys.stdin:
-    line = line.strip()
-    if not line: continue
-    d = json.loads(line)
-    if d.get('type') == 'stats':
-        print(f\"--- {d['rowCount']} rows ---\")
-        continue
-    cr = next((a['value'] for a in d.get('currentPatchSet',{}).get('approvals',[])
-               if a.get('type')=='Code-Review'), '-')
-    wip = ' WIP' if d.get('workInProgress') else ''
-    print(f\"#{d['number']}{wip} [{cr}] {d.get('owner',{}).get('name','?')}: {d['subject'][:70]}\")
-"
+| jq -r '
+  select(.type == "stats") | "--- \(.rowCount) rows ---",
+  select(.type != "stats") |
+  (
+    (.currentPatchSet.approvals // [] | map(select(.type == "Code-Review")) | first | .value) // "-"
+  ) as $cr |
+  (if .workInProgress then " WIP" else "" end) as $wip |
+  "#\(.number)\($wip) [\($cr)] \(.owner.name // "?"): \(.subject | .[0:70])"
+'
 ```
 
 ---

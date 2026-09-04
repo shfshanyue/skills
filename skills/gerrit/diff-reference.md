@@ -25,20 +25,15 @@ Extract from the change object:
 | `commitMessage` | Full message (with `--commit-message`) |
 | `comments` | Existing review threads (with `--comments`) |
 
-Parse `ref` from JSON:
+Extract fields with `jq` — do not paste raw JSON into the chat.
 
 ```bash
 REF=$(ssh -p <port> <user>@<host> gerrit query --format=JSON --current-patch-set \
   "change:<N>" \
-| python3 -c "
-import sys, json
-for line in sys.stdin:
-    d = json.loads(line)
-    if 'currentPatchSet' in d:
-        print(d['currentPatchSet']['ref'])
-        break
-")
+  | jq -r 'select(.currentPatchSet?) | .currentPatchSet.ref' | head -1)
 ```
+
+Other metadata (`subject`, `currentPatchSet.files`, `commitMessage`, `comments`) — same query, `jq` select the field.
 
 ## Step B — Fetch change ref
 

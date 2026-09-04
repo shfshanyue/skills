@@ -23,6 +23,11 @@ The position argument is a **target**: `CHANGE,PATCHSET` (e.g. `46568,1`) or a f
 ssh -p <port> <user>@<host> gerrit query --format=JSON --current-patch-set "change:<N>"
 ```
 
+```bash
+TARGET=$(ssh -p <port> <user>@<host> gerrit query --format=JSON --current-patch-set "change:<N>" \
+  | jq -r 'select(.number?) | "\(.number),\(.currentPatchSet.number)"' | head -1)
+```
+
 Take `currentPatchSet.number` as `<PS>`; target is `<N>,<PS>`.
 
 3. Confirm query `project` matches the project resolved from the current repo ([`query-reference.md`](query-reference.md#env)). On mismatch, stop and report.

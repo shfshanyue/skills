@@ -33,7 +33,7 @@ When the user wants to **run** a subcommand (e.g. `set-reviewers`, `ls-projects`
 1. Run `gerrit <subcommand> --help` first.
 2. Assemble the full SSH command from `--help` and user args.
 3. Apply mutating rules below.
-4. Run and return output (or structured summary for long JSON streams).
+4. Run and return output; for long JSON streams (`stream-events`, etc.), pipe through `jq` to trim before presenting.
 
 ## Mutating vs read-only
 
