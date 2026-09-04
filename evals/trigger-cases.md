@@ -62,6 +62,17 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 22 | `/gerrit review 46568 +1` | `gerrit` | Dry-runs `gerrit review` before executing |
 | 23 | show my open gerrit changes (no `@gerrit`) | none | Skill does not load unless user also attached `gerrit` |
 
+## GitHub CLI (user-invoked)
+
+`gh` has `disable-model-invocation: true` — load only when the user attaches `@gh` / `/gh` or names the skill explicitly.
+
+| # | Prompt | Expected skill | Pass criterion |
+|---|--------|----------------|----------------|
+| 24 | `@gh pr list` | `gh` | `command -v gh` → `gh auth status` → `gh pr list --json ... \| jq` → table |
+| 25 | `@gh what commands are available?` | `gh` | Runs `gh`, summarizes subcommands; no fabricated static list |
+| 26 | `@gh merge PR 42` | `gh` | Dry-runs `gh pr merge`; waits for confirmation |
+| 27 | list my open PRs (no `@gh`) | none | Skill does not load unless user also attached `gh` |
+
 ## Updating
 
 Add a row when introducing a new skill or changing a description pointer. Remove or revise rows when behavior changes.
