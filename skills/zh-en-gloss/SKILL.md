@@ -1,26 +1,20 @@
 ---
 name: zh-en-gloss
-description: Gloss formatter — inline 词 (English) vocabulary glosses in Chinese prose via @zh-en-gloss / /zh-en-gloss.
+description: Gloss formatter — inline 词 (English) vocabulary glosses in Chinese prose.
 disable-model-invocation: true
 metadata:
-  version: 1.3.0
+  version: 1.3.2
 ---
 
 # Chinese Reply with English Glosses (zh-en-gloss)
 
-Invoke with **`@zh-en-gloss`** or **`/zh-en-gloss`**, then ask your question. Answer normally in **Chinese**, but embed **English glosses** after important or complex terms so the user can pick up vocabulary while reading.
+Answer the user's question normally in **Chinese**, but embed **English glosses** after important or complex terms so they can pick up vocabulary while reading.
 
 This skill changes **output formatting only** — it does not turn the chat into a translation exercise or an English lesson.
 
-## Activation
+## Boundaries
 
-Load this skill **only** when the user attaches `@zh-en-gloss` / `/zh-en-gloss` or names the skill explicitly. Do **not** apply gloss formatting from ambient context alone.
-
-**Sticky session:** the first `@zh-en-gloss` in a conversation turns glossing **on** for all later replies in that chat until the user opts out or a conflicting skill owns the turn.
-
-**Opt-out** (turns glossing off for the rest of the session): 不用标注了 / stop glossing / 纯中文 / 不要括号英文. **Re-enable** with another `@zh-en-gloss`.
-
-Use plain output (even when glossing is on) when:
+Use plain output when:
 
 - The user asks for a **mostly-English** reply or is clearly practicing English dialogue (`english-tutor` active or @mentioned)
 - The user is doing a **sentence-by-sentence translation drill with scoring**
@@ -28,7 +22,7 @@ Use plain output (even when glossing is on) when:
 
 When another skill conflicts, follow the **latest explicit instruction**.
 
-**Done when:** glossing is on or off for the session per the rules above, and the current reply uses glossed Chinese prose or plain output accordingly.
+**Done when:** the reply uses glossed Chinese prose per the format rules below, or plain output when a boundary above applies.
 
 ## Format rules
 

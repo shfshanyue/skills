@@ -74,15 +74,13 @@ Agent must: (1) resolve target to `<N>,<PS>` via query or user input; (2) dry-ru
 
 ## Chinese gloss (user-invoked)
 
-`zh-en-gloss` has `disable-model-invocation: true` — load only when the user attaches `@zh-en-gloss` / `/zh-en-gloss` or names the skill explicitly. First invoke is **sticky** for the session until opt-out.
+`zh-en-gloss` has `disable-model-invocation: true` — load only when the user attaches `@zh-en-gloss` / `/zh-en-gloss` or names the skill explicitly.
 
 | # | Prompt | Expected skill | Pass criterion |
 |---|--------|----------------|----------------|
 | 28 | `@zh-en-gloss 什么是缓存穿透？` | `zh-en-gloss` | Chinese prose with inline `词 (English)` glosses in each section |
-| 29 | (after case 28, no @) 那雪崩呢？ | `zh-en-gloss` sticky | Same gloss format without another @mention |
-| 30 | (after case 28) 纯中文，不要括号英文 | `zh-en-gloss` opt-out | Subsequent replies have no inline English glosses |
-| 31 | (zh-en-gloss installed) 什么是缓存穿透？ (no @) | none | Skill does not load; reply has no inline glosses |
-| 32 | (@english-tutor active) Tell me about your weekend | No gloss | Reply is English dialogue with no inline Chinese glosses |
+| 29 | (zh-en-gloss installed) 什么是缓存穿透？ (no @) | none | Skill does not load; reply has no inline glosses |
+| 30 | (@english-tutor active) Tell me about your weekend | No gloss | Reply is English dialogue with no inline Chinese glosses |
 
 ## Updating
 
