@@ -44,7 +44,7 @@ After editing a canonical file, update all copies in the same commit.
 | Collocations / Chinglish pairings | `english-collocations` |
 | Pronunciation / minimal pairs | `minimal-pairs` |
 | Structured topic learning (any subject) | `deep-learner` |
-| Inline English glosses in Chinese replies | `zh-en-gloss` |
+| Inline English glosses in Chinese replies (`@zh-en-gloss`) | `zh-en-gloss` |
 | Product launch copy | `launch-kit` |
 | Reddit outreach plan | `reddit-promotion` |
 | Resume / interview prep from codebase | `resume-project-prep` |

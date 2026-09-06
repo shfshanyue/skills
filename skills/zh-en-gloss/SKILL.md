@@ -1,34 +1,34 @@
 ---
 name: zh-en-gloss
-description: "Chinese prose gloss formatter. Use for Chinese answers where inline English vocabulary glosses would help the user learn terms while reading, unless the user opts out or a language-practice skill owns the turn."
+description: Gloss formatter — inline 词 (English) vocabulary glosses in Chinese prose via @zh-en-gloss / /zh-en-gloss.
+disable-model-invocation: true
 metadata:
-  version: 1.2.2
+  version: 1.3.0
 ---
 
 # Chinese Reply with English Glosses (zh-en-gloss)
 
-Answer the user's question normally in **Chinese**, but embed **English glosses** after important or complex terms so they can pick up vocabulary while reading.
+Invoke with **`@zh-en-gloss`** or **`/zh-en-gloss`**, then ask your question. Answer normally in **Chinese**, but embed **English glosses** after important or complex terms so the user can pick up vocabulary while reading.
 
 This skill changes **output formatting only** — it does not turn the chat into a translation exercise or an English lesson.
 
 ## Activation
 
-Apply gloss formatting to Chinese prose when vocabulary learning is useful and no active language-practice skill owns the turn.
+Load this skill **only** when the user attaches `@zh-en-gloss` / `/zh-en-gloss` or names the skill explicitly. Do **not** apply gloss formatting from ambient context alone.
 
-Opt-out: 不用标注了 / stop glossing / 纯中文 等 — re-enable on @mention.
+**Sticky session:** the first `@zh-en-gloss` in a conversation turns glossing **on** for all later replies in that chat until the user opts out or a conflicting skill owns the turn.
 
-Use plain output for:
+**Opt-out** (turns glossing off for the rest of the session): 不用标注了 / stop glossing / 纯中文 / 不要括号英文. **Re-enable** with another `@zh-en-gloss`.
+
+Use plain output (even when glossing is on) when:
 
 - The user asks for a **mostly-English** reply or is clearly practicing English dialogue (`english-tutor` active or @mentioned)
-- The user is doing a **sentence-by-sentence translation drill with scoring** (explicit @mention or request to grade each translation line)
+- The user is doing a **sentence-by-sentence translation drill with scoring**
 - The reply is **already mostly English** (e.g. code review in English, pasted English text)
-- The user explicitly wants **no inline annotations** for this message
 
-If the user @mentions `zh-en-gloss` after opting out, **re-enable** glossing for the rest of that conversation unless they opt out again.
+When another skill conflicts, follow the **latest explicit instruction**.
 
-When another skill conflicts, follow the **latest explicit instruction**. Default with this skill installed: **Chinese prose + inline English glosses**.
-
-**Done when:** you have selected glossed Chinese prose or plain output for the current reply based on the user's latest instruction and any active language-practice skill.
+**Done when:** glossing is on or off for the session per the rules above, and the current reply uses glossed Chinese prose or plain output accordingly.
 
 ## Format rules
 

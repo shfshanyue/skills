@@ -20,14 +20,6 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 7 | 最小对立对 | `minimal-pairs` | Agent presents a minimal pair contrast round |
 | 8 | Help me fix my Chinglish collocations | `english-collocations` | Agent uses the 6-section grading template on first submission |
 
-## Cross-skill activation
-
-| # | Prompt | Expected behavior | Pass criterion |
-|---|--------|-------------------|----------------|
-| 9 | (zh-en-gloss installed) 什么是缓存穿透？ | `zh-en-gloss` format | Chinese prose with inline `词 (English)` glosses in each section |
-| 10 | (@english-tutor active) Tell me about your weekend | No gloss | Reply is English dialogue with no inline Chinese glosses |
-| 11 | 纯中文，不要括号英文 | `zh-en-gloss` opt-out | Subsequent replies have no inline English glosses |
-
 ## Subject tutoring
 
 | # | Prompt | Expected skill | Pass criterion |
@@ -79,6 +71,18 @@ Agent must: (1) resolve target to `<N>,<PS>` via query or user input; (2) dry-ru
 | 25 | `@gh what commands are available?` | `gh` | Runs `gh`, summarizes subcommands; no fabricated static list |
 | 26 | `@gh merge PR 42` | `gh` | Dry-runs `gh pr merge`; waits for confirmation |
 | 27 | list my open PRs (no `@gh`) | none | Skill does not load unless user also attached `gh` |
+
+## Chinese gloss (user-invoked)
+
+`zh-en-gloss` has `disable-model-invocation: true` — load only when the user attaches `@zh-en-gloss` / `/zh-en-gloss` or names the skill explicitly. First invoke is **sticky** for the session until opt-out.
+
+| # | Prompt | Expected skill | Pass criterion |
+|---|--------|----------------|----------------|
+| 28 | `@zh-en-gloss 什么是缓存穿透？` | `zh-en-gloss` | Chinese prose with inline `词 (English)` glosses in each section |
+| 29 | (after case 28, no @) 那雪崩呢？ | `zh-en-gloss` sticky | Same gloss format without another @mention |
+| 30 | (after case 28) 纯中文，不要括号英文 | `zh-en-gloss` opt-out | Subsequent replies have no inline English glosses |
+| 31 | (zh-en-gloss installed) 什么是缓存穿透？ (no @) | none | Skill does not load; reply has no inline glosses |
+| 32 | (@english-tutor active) Tell me about your weekend | No gloss | Reply is English dialogue with no inline Chinese glosses |
 
 ## Updating
 

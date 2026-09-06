@@ -45,7 +45,7 @@ npx skills add shfshanyue/skills
 | [`idiom-chain`](skills/idiom-chain/SKILL.md) | Chinese idiom chain game (成语接龙) |
 | [`word-chain`](skills/word-chain/SKILL.md) | English last-letter word chain + word cards |
 | [`poetry-quiz`](skills/poetry-quiz/SKILL.md) | Classical Chinese poetry fill-in-the-blank quiz |
-| [`zh-en-gloss`](skills/zh-en-gloss/SKILL.md) | Inline English glosses in Chinese replies |
+| [`zh-en-gloss`](skills/zh-en-gloss/SKILL.md) | Inline English glosses in Chinese replies (`@zh-en-gloss`) |
 | [`thirty-seconds`](skills/thirty-seconds/SKILL.md) | Offline 30 Seconds (30秒) board game card generator |
 
 See each skill's `SKILL.md` for full workflow. Maintainers: see [`AGENTS.md`](AGENTS.md).
