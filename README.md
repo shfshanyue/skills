@@ -16,6 +16,7 @@ npx skills add shfshanyue/skills --skill english-practice
 npx skills add shfshanyue/skills --skill english-tutor
 npx skills add shfshanyue/skills --skill english-collocations
 npx skills add shfshanyue/skills --skill minimal-pairs
+npx skills add shfshanyue/skills --skill producthunt
 npx skills add shfshanyue/skills --skill producthunt-top
 npx skills add shfshanyue/skills --skill google-traffic
 npx skills add shfshanyue/skills --skill idiom-chain
@@ -40,6 +41,7 @@ npx skills add shfshanyue/skills
 | [`english-tutor`](skills/english-tutor/SKILL.md) | English dialogue + grammar correction |
 | [`english-collocations`](skills/english-collocations/SKILL.md) | Scenario collocation drills with mistake log |
 | [`minimal-pairs`](skills/minimal-pairs/SKILL.md) | Phoneme minimal-pair drills with mistake log |
+| [`producthunt`](skills/producthunt/SKILL.md) | Query Product Hunt GraphQL API v2 |
 | [`producthunt-top`](skills/producthunt-top/SKILL.md) | Fetch and export Product Hunt top posts |
 | [`google-traffic`](skills/google-traffic/SKILL.md) | GA4 + GSC analytics via MCP (cross-project) |
 | [`idiom-chain`](skills/idiom-chain/SKILL.md) | Chinese idiom chain game (成语接龙) |
@@ -72,6 +74,7 @@ A command parser for `beforeShellExecution` that prompts for user approval befor
 │   ├── english-tutor/
 │   ├── english-collocations/
 │   ├── minimal-pairs/
+│   ├── producthunt/
 │   ├── producthunt-top/
 │   ├── google-traffic/
 │   ├── idiom-chain/

@@ -48,6 +48,7 @@ After editing a canonical file, update all copies in the same commit.
 | Product launch copy | `launch-kit` |
 | Reddit outreach plan | `reddit-promotion` |
 | Resume / interview prep from codebase | `resume-project-prep` |
+| Product Hunt GraphQL query | `producthunt` |
 | Product Hunt top list fetch/export | `producthunt-top` |
 | Search traffic / GSC / GA4 reports | `google-traffic` |
 | English word chain / 英文单词接龙 | `word-chain` |
@@ -72,4 +73,4 @@ After editing a canonical file, update all copies in the same commit.
 
 - **Steps + Done when + leading words:** [`skills/word-chain/SKILL.md`](skills/word-chain/SKILL.md)
 - **Disclosed template:** [`skills/launch-kit/SKILL.md`](skills/launch-kit/SKILL.md) → `template.md`
-- **Script as source of truth:** [`skills/producthunt-top/SKILL.md`](skills/producthunt-top/SKILL.md) → `scripts/fetch_top.py`
+- **Script as source of truth:** [`skills/producthunt/SKILL.md`](skills/producthunt/SKILL.md) → `scripts/query.py`; [`skills/producthunt-top/SKILL.md`](skills/producthunt-top/SKILL.md) → `scripts/fetch_top.py` (transport via `producthunt`)

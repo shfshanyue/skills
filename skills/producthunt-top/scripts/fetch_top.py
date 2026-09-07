@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""
-Fetch the top posts from Product Hunt via the GraphQL API v2.
+"""Fetch ranked Product Hunt posts for a time period.
 
 Usage:
     PRODUCT_HUNT_TOKEN=phc_xxx python fetch_top.py --period today --count 10 --format markdown
 
-Reads the developer token from the PRODUCT_HUNT_TOKEN env var.
-Docs: https://api.producthunt.com/v2/docs
+GraphQL transport is the sibling producthunt skill (scripts/query.py).
+This script owns period resolution, pagination, and formatting.
 """
 
 from __future__ import annotations
@@ -15,13 +14,9 @@ import argparse
 import csv
 import io
 import json
-import os
 import sys
-import urllib.error
-import urllib.request
 from datetime import datetime, timedelta, timezone
-
-API_URL = "https://api.producthunt.com/v2/api/graphql"
+from pathlib import Path
 
 # Product Hunt's "day" is Pacific Time (UTC-8 standard, UTC-7 DST).
 # Using a fixed -08:00 is close enough for filtering purposes; the API
@@ -91,39 +86,30 @@ def resolve_period(period: str) -> tuple[str, str, str]:
     return start.isoformat(), end.isoformat(), label
 
 
-def graphql(token: str, variables: dict) -> dict:
-    payload = json.dumps({"query": QUERY, "variables": variables}).encode("utf-8")
-    req = urllib.request.Request(
-        API_URL,
-        data=payload,
-        headers={
-            "Authorization": f"Bearer {token}",
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "User-Agent": "producthunt-top-skill/1.0",
-        },
-        method="POST",
-    )
-    try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-    except urllib.error.HTTPError as e:
-        body = e.read().decode("utf-8", errors="replace")
-        raise SystemExit(f"HTTP {e.code} from Product Hunt API: {body}")
-    except urllib.error.URLError as e:
-        raise SystemExit(f"Network error reaching Product Hunt API: {e}")
-
-    if "errors" in data:
-        raise SystemExit(f"GraphQL errors: {json.dumps(data['errors'], indent=2)}")
-    return data["data"]
+def _producthunt_scripts() -> Path:
+    sibling = Path(__file__).resolve().parents[2] / "producthunt" / "scripts"
+    if not (sibling / "query.py").is_file():
+        raise SystemExit(
+            "producthunt skill not found (expected sibling skills/producthunt).\n"
+            "Install: npx skills add shfshanyue/skills --skill producthunt"
+        )
+    return sibling
 
 
-def fetch_posts(token: str, posted_after: str, posted_before: str, order: str, count: int) -> list[dict]:
+def _load_transport():
+    scripts = _producthunt_scripts()
+    if str(scripts) not in sys.path:
+        sys.path.insert(0, str(scripts))
+    from query import graphql, require_token
+    return graphql, require_token
+
+
+def fetch_posts(graphql, token: str, posted_after: str, posted_before: str, order: str, count: int) -> list[dict]:
     posts: list[dict] = []
     cursor: str | None = None
     while len(posts) < count:
         page_size = min(20, count - len(posts))
-        data = graphql(token, {
+        data = graphql(token, QUERY, {
             "postedAfter": posted_after,
             "postedBefore": posted_before,
             "order": order,
@@ -213,14 +199,10 @@ def main() -> int:
     parser.add_argument("--output", help="Write output to this file path instead of stdout")
     args = parser.parse_args()
 
-    token = os.environ.get("PRODUCT_HUNT_TOKEN")
-    if not token:
-        print("ERROR: PRODUCT_HUNT_TOKEN env var is not set.", file=sys.stderr)
-        print("Get one at https://www.producthunt.com/v2/oauth/applications", file=sys.stderr)
-        return 1
-
+    graphql, require_token = _load_transport()
+    token = require_token()
     posted_after, posted_before, label = resolve_period(args.period)
-    posts = fetch_posts(token, posted_after, posted_before, args.order, args.count)
+    posts = fetch_posts(graphql, token, posted_after, posted_before, args.order, args.count)
 
     if args.format == "table":
         out = fmt_table(posts)

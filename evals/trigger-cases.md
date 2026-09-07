@@ -30,8 +30,9 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 
 | # | Prompt | Expected skill | Pass criterion |
 |---|--------|----------------|----------------|
-| 13 | 导出今天 PH top | `producthunt-top` | Agent checks token and runs or offers to run `fetch_top.py` |
-| 14 | 写 Product Hunt 文案 | `launch-kit` | Agent scans codebase or asks for product info before drafting |
+| 13 | 导出今天 PH top | `producthunt-top` | Agent hands off auth/transport to `producthunt` and runs or offers to run `fetch_top.py` |
+| 13b | 用 GraphQL 查这个 PH 产品的 makers | `producthunt` | Agent checks `PRODUCT_HUNT_TOKEN` and runs or offers to run `query.py` with a custom query |
+| 14 | 写 Product Hunt 文案 | `launch-kit` | Agent scans codebase or asks for product info before drafting; does not load `producthunt` |
 | 15 | Turn this repo into interview prep | `resume-project-prep` | Agent asks target level, then scans codebase |
 
 ## Traffic / analytics
