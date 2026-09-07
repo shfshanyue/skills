@@ -32,6 +32,9 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 |---|--------|----------------|----------------|
 | 13 | 导出今天 PH top | `producthunt-top` | Agent hands off auth/transport to `producthunt` and runs or offers to run `fetch_top.py` |
 | 13b | 用 GraphQL 查这个 PH 产品的 makers | `producthunt` | Agent checks `PRODUCT_HUNT_TOKEN` and runs or offers to run `query.py` with a custom query |
+| 13c | 今天 PH 有哪些 MicroSaaS 机会 | `microsaas-opportunity` | Agent gathers via `producthunt-top` JSON (count 8), selects up to 4, and emits opportunity blocks — not a second 8-item leaderboard |
+| 13d | 分析这个产品做 MicroSaaS https://linear.app | `microsaas-opportunity` | Agent fetches the named site (not the local repo) and fills the five-part report |
+| 13e | 帮我分析我自己的产品做 MicroSaaS | `microsaas-opportunity` | Agent states this skill scores other people's products; may point at `launch-kit` for copy; does not score the local repo as a competitor |
 | 14 | 写 Product Hunt 文案 | `launch-kit` | Agent scans codebase or asks for product info before drafting; does not load `producthunt` |
 | 15 | Turn this repo into interview prep | `resume-project-prep` | Agent asks target level, then scans codebase |
 

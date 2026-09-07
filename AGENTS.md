@@ -50,6 +50,7 @@ After editing a canonical file, update all copies in the same commit.
 | Resume / interview prep from codebase | `resume-project-prep` |
 | Product Hunt GraphQL query | `producthunt` |
 | Product Hunt top list fetch/export | `producthunt-top` |
+| MicroSaaS opportunity (PH list or a named product) | `microsaas-opportunity` |
 | Search traffic / GSC / GA4 reports | `google-traffic` |
 | English word chain / 英文单词接龙 | `word-chain` |
 | Chinese idiom chain / 成语接龙 | `idiom-chain` |
@@ -72,5 +73,5 @@ After editing a canonical file, update all copies in the same commit.
 ## Reference — exemplar skills
 
 - **Steps + Done when + leading words:** [`skills/word-chain/SKILL.md`](skills/word-chain/SKILL.md)
-- **Disclosed template:** [`skills/launch-kit/SKILL.md`](skills/launch-kit/SKILL.md) → `template.md`
+- **Disclosed template:** [`skills/launch-kit/SKILL.md`](skills/launch-kit/SKILL.md) → `template.md`; [`skills/microsaas-opportunity/SKILL.md`](skills/microsaas-opportunity/SKILL.md) → `analysis.md` + `report.md`
 - **Script as source of truth:** [`skills/producthunt/SKILL.md`](skills/producthunt/SKILL.md) → `scripts/query.py`; [`skills/producthunt-top/SKILL.md`](skills/producthunt-top/SKILL.md) → `scripts/fetch_top.py` (transport via `producthunt`)

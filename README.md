@@ -18,6 +18,7 @@ npx skills add shfshanyue/skills --skill english-collocations
 npx skills add shfshanyue/skills --skill minimal-pairs
 npx skills add shfshanyue/skills --skill producthunt
 npx skills add shfshanyue/skills --skill producthunt-top
+npx skills add shfshanyue/skills --skill microsaas-opportunity
 npx skills add shfshanyue/skills --skill google-traffic
 npx skills add shfshanyue/skills --skill idiom-chain
 npx skills add shfshanyue/skills --skill word-chain
@@ -43,6 +44,7 @@ npx skills add shfshanyue/skills
 | [`minimal-pairs`](skills/minimal-pairs/SKILL.md) | Phoneme minimal-pair drills with mistake log |
 | [`producthunt`](skills/producthunt/SKILL.md) | Query Product Hunt GraphQL API v2 |
 | [`producthunt-top`](skills/producthunt-top/SKILL.md) | Fetch and export Product Hunt top posts |
+| [`microsaas-opportunity`](skills/microsaas-opportunity/SKILL.md) | Score a PH list or a named product as a MicroSaaS opening |
 | [`google-traffic`](skills/google-traffic/SKILL.md) | GA4 + GSC analytics via MCP (cross-project) |
 | [`idiom-chain`](skills/idiom-chain/SKILL.md) | Chinese idiom chain game (成语接龙) |
 | [`word-chain`](skills/word-chain/SKILL.md) | English last-letter word chain + word cards |
@@ -76,6 +78,7 @@ A command parser for `beforeShellExecution` that prompts for user approval befor
 │   ├── minimal-pairs/
 │   ├── producthunt/
 │   ├── producthunt-top/
+│   ├── microsaas-opportunity/
 │   ├── google-traffic/
 │   ├── idiom-chain/
 │   ├── word-chain/

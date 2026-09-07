@@ -1,8 +1,8 @@
 ---
 name: producthunt-top
-description: "Product Hunt top-list fetcher. Use when the user wants to list, compare, monitor, summarize, analyze, or export Product Hunt launches for today, a date, week, or month. For arbitrary Product Hunt GraphQL, use producthunt."
+description: "Product Hunt top-list fetcher. Use when the user wants to list, compare, monitor, or export Product Hunt launches for today, a date, week, or month. For MicroSaaS opportunity analysis, use microsaas-opportunity; for arbitrary Product Hunt GraphQL, use producthunt."
 metadata:
-  version: 1.2.0
+  version: 1.4.0
 ---
 
 # Product Hunt Top List
@@ -60,13 +60,14 @@ Terminal: compact table with rank, name, tagline, votes, comments, topics, URL. 
 - Link: https://www.producthunt.com/posts/...
 ```
 
-After listing, offer at most two follow-ups that match the request (trends, today vs yesterday, topic filter, export).
+After listing, offer at most two follow-ups that match the request (today vs yesterday, topic filter, export, or MicroSaaS analysis via `microsaas-opportunity`).
 
 **Done when:** results are in the chat and at most two follow-ups have been offered.
 
 ## Boundaries
 
 - Arbitrary Product Hunt GraphQL → `producthunt`
+- MicroSaaS opportunity analysis → `microsaas-opportunity`
 - Product Hunt launch copy → `launch-kit`
 
 ## Reference

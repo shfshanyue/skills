@@ -1,8 +1,8 @@
 ---
 name: producthunt
-description: "Product Hunt GraphQL API. Use when the user wants to query Product Hunt via GraphQL. For ranked top-list fetch/export, use producthunt-top; for Product Hunt launch copy, use launch-kit."
+description: "Product Hunt GraphQL API. Use when the user wants to query Product Hunt via GraphQL. For ranked top-list fetch/export, use producthunt-top; for MicroSaaS opportunity analysis, use microsaas-opportunity; for Product Hunt launch copy, use launch-kit."
 metadata:
-  version: 1.0.0
+  version: 1.2.0
 ---
 
 # Product Hunt GraphQL
@@ -25,7 +25,7 @@ Create a token at https://www.producthunt.com/v2/oauth/applications
 
 ### Step 2 — Assemble query
 
-Take the GraphQL query and variables from the user, or from a calling skill (`producthunt-top` supplies its TopPosts query). Schema: https://api.producthunt.com/v2/docs
+Take the GraphQL query and variables from the user, or from a calling skill (`producthunt-top` supplies its TopPosts query; `microsaas-opportunity` a single-post slug). Schema: https://api.producthunt.com/v2/docs
 
 **Done when:** the query string and variables object are known.
 
@@ -44,6 +44,7 @@ Show the JSON, or a compact table when the payload is a short list. Surface the 
 ## Boundaries
 
 - Ranked top-list fetch/export → `producthunt-top`
+- MicroSaaS opportunity analysis → `microsaas-opportunity`
 - Product Hunt launch copy → `launch-kit`
 
 ## Reference
