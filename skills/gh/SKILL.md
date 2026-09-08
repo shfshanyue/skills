@@ -1,9 +1,9 @@
 ---
 name: gh
-description: GitHub CLI operator — run `gh` subcommands via `@gh` / `/gh`.
+description: GitHub CLI operator. Use when the user attaches `@gh` or `/gh` to run `gh` subcommands.
 disable-model-invocation: true
 metadata:
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # GitHub CLI

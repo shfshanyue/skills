@@ -1,9 +1,9 @@
 ---
 name: zh-en-gloss
-description: Gloss formatter — inline 词 (English) vocabulary glosses in Chinese prose.
+description: Gloss formatter. Use when the user attaches `@zh-en-gloss` or `/zh-en-gloss` for inline 词 (English) glosses in Chinese replies.
 disable-model-invocation: true
 metadata:
-  version: 1.3.2
+  version: 1.3.3
 ---
 
 # Chinese Reply with English Glosses (zh-en-gloss)

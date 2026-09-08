@@ -1,9 +1,9 @@
 ---
 name: gerrit
-description: Gerrit SSH operator — query, diff, review, and arbitrary CLI subcommands.
+description: Gerrit SSH operator. Use when the user attaches `@gerrit` or `/gerrit` to query, diff, review, or run Gerrit CLI subcommands.
 disable-model-invocation: true
 metadata:
-  version: 1.3.0
+  version: 1.3.1
 ---
 
 # Gerrit

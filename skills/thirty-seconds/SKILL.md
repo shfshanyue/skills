@@ -1,8 +1,8 @@
 ---
 name: thirty-seconds
-description: "Generates 30 Seconds (30秒) board game cards for offline play, with rich answer-key glosses after each card. Use when the user wants 30秒卡片、30 Seconds cards、生成猜词卡片、party word-game card sets, or printable cards for the 30 Seconds describing-and-guessing game."
+description: "Thirty Seconds card generator. Use when the user wants 30 Seconds cards or 30秒卡片."
 metadata:
-  version: 1.0.0
+  version: 1.0.1
 ---
 
 # Thirty Seconds (30秒) — Card Generator
