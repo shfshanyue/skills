@@ -2,7 +2,7 @@
 name: reddit-promotion
 description: "Reddit promotion planner. Use when the user wants to find subreddits, high-value posts, or outreach drafts for product promotion on Reddit."
 metadata:
-  version: 1.0.1
+  version: 1.1.0
 ---
 
 # Reddit Promotion Finder
@@ -132,63 +132,17 @@ hey, saw your post about [problem]. i actually built [product] to solve exactly 
 1. If `reddit-promotion.md` already exists somewhere in the project → update it in place
 2. Otherwise → create `docs/reddit-promotion.md`
 
-The output document structure:
-
-```markdown
-# [Product Name] — Reddit Promotion Plan
-
-> Generated on [date]. Based on product analysis and live Reddit data.
-
----
-
-## Product Summary
-
-[One paragraph summary of the product, target audience, and key differentiators]
-
-**Search keywords used:** [list]
-
----
-
-## Recommended Subreddits
-
-[Ranked table from Step 2]
-
----
-
-## High-Value Posts
-
-[Ranked list from Step 3, grouped by subreddit]
-
----
-
-## Action Plan
-
-### Post: "[post title]"
-**Subreddit:** r/name | **Author:** u/name | **Link:** [url]
-**Why it matches:** [explanation]
-
-**Suggested reply:**
-> [reply draft]
-
-**DM template:**
-> [DM draft]
-
----
-
-[Repeat for each post]
-
-## Weekly Search Prompts
-
-Reusable prompts to run regularly for finding new opportunities:
-
-- [prompt 1]
-- [prompt 2]
-- ...
-```
+Write the document following [`template.md`](template.md).
 
 After writing the file, show the user the complete document and ask if anything needs adjustment.
 
 **Done when:** `reddit-promotion.md` has been created or updated at the selected path, the full plan has been shown, and the user has a clear adjustment prompt.
+
+---
+
+## Template Structure
+
+Use [`template.md`](template.md) as the single source of truth for the generated `reddit-promotion.md` structure.
 
 ---
 
