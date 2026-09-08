@@ -3,15 +3,14 @@ name: google-traffic
 description: >-
   Traffic reporter for GA4 and Search Console MCP reports. Use when the user
   wants search traffic review, GSC or GA4 data, monthly traffic ritual, page
-  traffic deep-dive, or URL indexing status. For on-page meta/schema fixes,
-  use seo-geo.
+  traffic deep-dive, or URL indexing status.
 metadata:
-  version: 1.1.1
+  version: 1.1.2
 ---
 
 # Google Traffic
 
-Pull **GA4** and **Google Search Console** data through bundled MCP servers. Report trends, page-level search performance, and indexing health. On-page copy and schema changes belong to `seo-geo`; project SEO scripts live in the repo's `AGENTS.md`.
+Pull **GA4** and **Google Search Console** data through bundled MCP servers. Report trends, page-level search performance, and indexing health. On-page title, meta, schema, and JSON-LD are out of scope. Project SEO scripts live in the repo's `AGENTS.md`.
 
 **auth** (machine-wide gcloud login) and **scope** (this repo's `property_id` + `site_url`) are separate — see [`setup-reference.md`](setup-reference.md).
 
@@ -76,16 +75,15 @@ Deliver a concise summary:
 - Headline metrics (GSC clicks/impressions/CTR; GA4 sessions/channels as relevant)
 - Findings (bullets)
 - Recommended actions
-- If changes need title/meta/schema/JSON-LD → hand off to `seo-geo`
 
-**Done when:** summary is in the chat (table or bullets) and hand-offs are stated where applicable.
+**Done when:** summary is in the chat (table or bullets).
 
 ---
 
 ## Boundaries
 
 - Mahjong hand analysis, codebase architecture, or product logic → not this skill.
-- Title, meta, schema, keyword research for copy → `seo-geo`.
+- Title, meta, schema, JSON-LD, and keyword research for copy → out of scope.
 - **auth** / **host** setup → [`auth-reference.md`](auth-reference.md), [`host-wiring-reference.md`](host-wiring-reference.md).
 - Project SEO automation (e.g. `check:hreflang`, `check:meta`) → read project `AGENTS.md`; do not cache script commands here.
 
