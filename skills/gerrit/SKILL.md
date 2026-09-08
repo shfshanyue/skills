@@ -3,7 +3,7 @@ name: gerrit
 description: Gerrit SSH operator — query, diff, review, and arbitrary CLI subcommands.
 disable-model-invocation: true
 metadata:
-  version: 1.2.0
+  version: 1.3.0
 ---
 
 # Gerrit
@@ -30,7 +30,7 @@ ssh -o ConnectTimeout=10 -o BatchMode=yes -p <port> <user>@<host> gerrit version
 command -v jq
 ```
 
-- **query**, **diff** metadata, or **review** without `CHANGE,PATCHSET` → present: continue; missing: note absence, inline parsing is acceptable, but do not create a `.py` file for JSON
+- **query**, **diff** metadata, or **review** without a `refs/changes/` target → present: continue; missing: note absence, inline parsing is acceptable, but do not create a `.py` file for JSON
 - **cli** explore or no JSON parsing → skip 1b
 
 **Done when:** host, port, user, and project are known (or SSH failure stops execution), and jq status is available / missing-with-fallback-noted / skipped.
@@ -54,7 +54,7 @@ Pick exactly one branch from the user's message (after `@gerrit` / `/gerrit`):
 
 - **query** — [`query-reference.md`](query-reference.md): inbox presets (three fixed queries) or custom `gerrit query --format=JSON …`; pipe output through `jq`
 - **diff** — [`diff-reference.md`](diff-reference.md): metadata query → `git fetch` change ref → `git diff`
-- **review** — [`review-reference.md`](review-reference.md): resolve target → dry-run → execute
+- **review** — [`review-reference.md`](review-reference.md): resolve change ref + `--project` → dry-run → execute
 - **cli** — [`cli-reference.md`](cli-reference.md): **explore** (`gerrit` list + `gerrit <cmd> --help`) or **execute** (help first, then run; mutating commands dry-run)
 
 **Done when:** branch output is complete (table, diff, dry-run proposal, or command output), or failure is explained with the SSH/git error.
@@ -88,7 +88,7 @@ Deliver a concise summary:
 - `gerrit query --files` returns file names and line counts only — **not** diff text; use **diff** branch for patches.
 - `gerrit query` date filter: `before:` is **exclusive** (day after the inclusive end date).
 - Never hardcode host, user, or project — resolve per run from the repo environment.
-- **review** branch: resolve **target** (`CHANGE,PATCHSET`) before SSH — see [`review-reference.md`](review-reference.md).
+- **review** branch: `refs/changes/…` target and `--project <project>` before SSH — see [`review-reference.md`](review-reference.md).
 - **jq first** — `--format=JSON` → pipe through `jq`; if `jq` is missing, inline parsing is acceptable; do not create temporary `.py` files for JSON.
 - **NDJSON** — one object per line; filter results with `select(.type != "stats")`.
 - **jq hygiene** — scalars: `jq -r .field`; long text: `.subject | .[0:70]`; array fields: `// []` fallback.

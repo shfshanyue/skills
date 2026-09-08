@@ -1,10 +1,12 @@
 # Review reference
 
-Post scores and comments via SSH:
+Post scores and comments via SSH. The command shape is:
 
 ```bash
-ssh -p <port> <user>@<host> gerrit review <CHANGE,PATCHSET> [options]
+ssh -p <port> <user>@<host> gerrit review --project <project> refs/changes/<xx>/<N>/<PS> [options]
 ```
+
+`--project` is required and precedes the change ref. `<project>` is the value resolved in Step 1 of [`SKILL.md`](SKILL.md) ([`query-reference.md`](query-reference.md#env)).
 
 Run `ssh -p <port> <user>@<host> gerrit review --help` on the target server for the current flag list.
 
@@ -14,10 +16,11 @@ Run `ssh -p <port> <user>@<host> gerrit review --help` on the target server for 
 
 ### Step 1 — Resolve target
 
-The position argument is a **target**: `CHANGE,PATCHSET` (e.g. `46568,1`) or a full commit hash. A bare change number is not a valid target — Gerrit treats it as a commit abbreviation (real case: `46568` matched `scanform-web #10310` commit `46568ec9...`).
+The position argument is a **change ref**: `refs/changes/{last-two-digits}/{change}/{patchset}` (e.g. `refs/changes/09/46709/1`). That ref is the target — not a change number (Gerrit treats a bare number as a commit abbreviation; real case: `46568` matched `scanform-web #10310` commit `46568ec9...`).
 
-1. User gave `CHANGE,PATCHSET` (e.g. `46568,2`) → use it.
-2. Otherwise query:
+1. User gave `refs/changes/…` → use it.
+2. User gave `N,PS` (e.g. `46568,2`) → construct the ref per [`diff-reference.md`](diff-reference.md) (Ref rule). Example: `46568,2` → `refs/changes/68/46568/2`.
+3. Otherwise query and take `currentPatchSet.ref`:
 
 ```bash
 ssh -p <port> <user>@<host> gerrit query --format=JSON --current-patch-set "change:<N>"
@@ -25,31 +28,30 @@ ssh -p <port> <user>@<host> gerrit query --format=JSON --current-patch-set "chan
 
 ```bash
 TARGET=$(ssh -p <port> <user>@<host> gerrit query --format=JSON --current-patch-set "change:<N>" \
-  | jq -r 'select(.number?) | "\(.number),\(.currentPatchSet.number)"' | head -1)
+  | jq -r 'select(.currentPatchSet?) | .currentPatchSet.ref' | head -1)
 ```
 
-Take `currentPatchSet.number` as `<PS>`; target is `<N>,<PS>`.
+4. When a query ran, confirm query `project` matches the project resolved from the current repo ([`query-reference.md`](query-reference.md#env)). On mismatch, stop and report.
 
-3. Confirm query `project` matches the project resolved from the current repo ([`query-reference.md`](query-reference.md#env)). On mismatch, stop and report.
-
-**Done when:** target is `<N>,<PS>` and project is verified, or failure is reported.
+**Done when:** target is `refs/changes/…`, `--project` is the env project, or failure is reported.
 
 ### Step 2 — Dry-run
 
-Show the full SSH command (target + flags). Omit `--message` unless the user supplied cover text.
+Show the full SSH command (`--project`, change ref, flags). Omit `--message` unless the user supplied cover text.
 
-- Batch review: one command per change, each with `,<PS>`.
+- Batch review: one command per change, each with `--project` and a `refs/changes/` target.
 - A score request (`+1`, `加一`) is **not** execute-now; only explicit confirmation (`run it`, `go ahead`, `execute`) skips dry-run.
 
 Example dry-run output (no cover text):
 
 ```
 Would run:
-  ssh -p 29418 user@gerrit.example.com gerrit review 46568,1 \
+  ssh -p 29418 user@gerrit.example.com gerrit review --project my-project \
+    refs/changes/68/46568/1 \
     --code-review +1
 ```
 
-**Done when:** command is shown and awaiting confirmation, or user explicitly said execute-now.
+**Done when:** command is shown with `--project` before a `refs/changes/` target and awaiting confirmation, or user explicitly said execute-now.
 
 ### Step 3 — Execute
 
@@ -72,7 +74,8 @@ SSH the command. Report success or stderr. Offer the Gerrit change URL.
 Combine flags in one invocation:
 
 ```bash
-ssh -p <port> <user>@<host> gerrit review 46568,1 \
+ssh -p <port> <user>@<host> gerrit review --project <project> \
+  refs/changes/68/46568/1 \
   --code-review +2 \
   --message "Approved" \
   --submit

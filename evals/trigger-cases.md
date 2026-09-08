@@ -52,18 +52,18 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 
 ### Review pass (cases 22, 24–26)
 
-Agent must: (1) resolve target to `<N>,<PS>` via query or user input; (2) dry-run before SSH; (3) dry-run command contains `,<PS>` after the change number; (4) omit `--message` unless the user supplied cover text.
+Agent must: (1) resolve target to `refs/changes/{last-two}/{N}/{PS}` via query `.currentPatchSet.ref`, construction, or user input; (2) dry-run before SSH; (3) dry-run command contains `--project <project>` before that change ref; (4) omit `--message` unless the user supplied cover text.
 
 | # | Prompt | Expected skill | Pass criterion |
 |---|--------|----------------|----------------|
 | 19 | `@gerrit inbox` | `gerrit` | Resolves env from repo, runs inbox preset queries, table output |
 | 20 | `@gerrit diff 46568` | `gerrit` | Fetches change ref, shows diff |
 | 21 | `@gerrit what CLI commands are available?` | `gerrit` | Runs `gerrit`, summarizes subcommands |
-| 22 | `/gerrit review 46568 +1` | `gerrit` | Meets review pass; dry-run shows `gerrit review 46568,<PS> --code-review +1` |
+| 22 | `/gerrit review 46568 +1` | `gerrit` | Meets review pass; dry-run shows `gerrit review --project <project> refs/changes/68/46568/<PS> --code-review +1` |
 | 23 | show my open gerrit changes (no `@gerrit`) | none | Skill does not load unless user also attached `gerrit` |
-| 24 | `@gerrit 把待我 review 的都加一` | `gerrit` | Meets review pass; inbox query first; one dry-run line per pending change, each with `,<PS>` |
+| 24 | `@gerrit 把待我 review 的都加一` | `gerrit` | Meets review pass; inbox query first; one dry-run line per pending change, each with `--project` and `refs/changes/` |
 | 25 | `@gerrit review 46568 +1 LGTM` | `gerrit` | Meets review pass; dry-run includes `--message "LGTM"` |
-| 26 | `@gerrit review 46568,2 +2 --submit` | `gerrit` | Meets review pass; target stays `46568,2`; +2/submit confirmed |
+| 26 | `@gerrit review 46568,2 +2 --submit` | `gerrit` | Meets review pass; target is `refs/changes/68/46568/2`; +2/submit confirmed |
 
 ## GitHub CLI (user-invoked)
 
