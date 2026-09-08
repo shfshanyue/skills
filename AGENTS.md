@@ -9,14 +9,16 @@ Conventions for maintaining this skills repository.
 3. **Hierarchy:** inline steps + in-file reference; push long reference behind a pointer file in the same folder
 4. **Boundaries:** one-line hand-off when another skill owns adjacent work
 5. **Environment:** do not cache script flags, directory layout, or `--help` output — point at the source
+6. **Catalog:** README skills table + `--skill` install line, AGENTS skill clusters row, and an evals Expected skill cell
 
-**Done when:** frontmatter, steps with Done when, boundaries, and version bump are all present.
+**Done when:** frontmatter, steps with Done when, boundaries, version bump, and catalog membership are all present.
 
 ## Reference — description pointers
 
 - Start with a **leading word** (host, router, drill, planner, …)
 - One English trigger per branch; Chinese game skills may add one Chinese trigger
 - Route to sibling skills in the description tail, not in a paragraph of synonyms
+- User-invoked skills (`disable-model-invocation`) use the same `Use when` profile; `@name` / `/name` is the trigger
 
 ## Reference — completion criteria
 
@@ -55,6 +57,7 @@ After editing a canonical file, update all copies in the same commit.
 | English word chain / 英文单词接龙 | `word-chain` |
 | Chinese idiom chain / 成语接龙 | `idiom-chain` |
 | Classical poetry quiz / 诗词填空 | `poetry-quiz` |
+| Offline 30 Seconds / 30秒卡片 | `thirty-seconds` |
 | Gerrit SSH (`@gerrit` / `/gerrit`) | `gerrit` |
 | GitHub CLI (`@gh` / `/gh`) | `gh` |
 
@@ -68,10 +71,10 @@ After editing a canonical file, update all copies in the same commit.
 
 ## Reference — CI
 
-[`.github/workflows/check-shared.yml`](.github/workflows/check-shared.yml): verifies canonical [`skills/_shared/`](skills/_shared/) files match their sync copies. Run [`scripts/check-shared.sh`](scripts/check-shared.sh) locally before pushing.
+[`.github/workflows/check-shared.yml`](.github/workflows/check-shared.yml): runs [`scripts/check-shared.sh`](scripts/check-shared.sh) then [`scripts/check-catalog.sh`](scripts/check-catalog.sh). Run both locally before pushing.
 
 ## Reference — exemplar skills
 
 - **Steps + Done when + leading words:** [`skills/word-chain/SKILL.md`](skills/word-chain/SKILL.md)
-- **Disclosed template:** [`skills/launch-kit/SKILL.md`](skills/launch-kit/SKILL.md) → `template.md`; [`skills/microsaas-opportunity/SKILL.md`](skills/microsaas-opportunity/SKILL.md) → `analysis.md` + `report.md`
+- **Disclosed template:** [`skills/launch-kit/SKILL.md`](skills/launch-kit/SKILL.md) → `template.md`; [`skills/reddit-promotion/SKILL.md`](skills/reddit-promotion/SKILL.md) → `template.md`; [`skills/microsaas-opportunity/SKILL.md`](skills/microsaas-opportunity/SKILL.md) → `analysis.md` + `report.md`
 - **Script as source of truth:** [`skills/producthunt/SKILL.md`](skills/producthunt/SKILL.md) → `scripts/query.py`; [`skills/producthunt-top/SKILL.md`](skills/producthunt-top/SKILL.md) → `scripts/fetch_top.py` (transport via `producthunt`)

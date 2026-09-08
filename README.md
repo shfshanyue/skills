@@ -25,6 +25,8 @@ npx skills add shfshanyue/skills --skill word-chain
 npx skills add shfshanyue/skills --skill poetry-quiz
 npx skills add shfshanyue/skills --skill zh-en-gloss
 npx skills add shfshanyue/skills --skill thirty-seconds
+npx skills add shfshanyue/skills --skill gerrit
+npx skills add shfshanyue/skills --skill gh
 
 # Install all skills
 npx skills add shfshanyue/skills
@@ -35,7 +37,7 @@ npx skills add shfshanyue/skills
 | Skill | One-line |
 |-------|----------|
 | [`launch-kit`](skills/launch-kit/SKILL.md) | Multi-platform product launch copy → `launch-kit.md` |
-| [`reddit-promotion`](skills/reddit-promotion/SKILL.md) | Reddit subreddit/post discovery and outreach plan |
+| [`reddit-promotion`](skills/reddit-promotion/SKILL.md) | Reddit subreddit/post discovery and outreach plan (Reddit MCP) |
 | [`resume-project-prep`](skills/resume-project-prep/SKILL.md) | Codebase → interview prep and resume project write-up |
 | [`deep-learner`](skills/deep-learner/SKILL.md) | Structured topic tutor with roadmap and Socratic nodes |
 | [`english-practice`](skills/english-practice/SKILL.md) | Router — pick the right English practice skill |
@@ -51,6 +53,8 @@ npx skills add shfshanyue/skills
 | [`poetry-quiz`](skills/poetry-quiz/SKILL.md) | Classical Chinese poetry fill-in-the-blank quiz |
 | [`zh-en-gloss`](skills/zh-en-gloss/SKILL.md) | Inline English glosses in Chinese replies (`@zh-en-gloss`) |
 | [`thirty-seconds`](skills/thirty-seconds/SKILL.md) | Offline 30 Seconds (30秒) board game card generator |
+| [`gerrit`](skills/gerrit/SKILL.md) | Gerrit SSH query/diff/review via `@gerrit` / `/gerrit` |
+| [`gh`](skills/gh/SKILL.md) | GitHub CLI via `@gh` / `/gh` |
 
 See each skill's `SKILL.md` for full workflow. Maintainers: see [`AGENTS.md`](AGENTS.md).
 
@@ -74,6 +78,8 @@ A command parser for `beforeShellExecution` that prompts for user approval befor
 │   ├── deep-learner/
 │   ├── english-practice/      # English practice router
 │   ├── english-tutor/
+│   ├── gerrit/
+│   ├── gh/
 │   ├── english-collocations/
 │   ├── minimal-pairs/
 │   ├── producthunt/
