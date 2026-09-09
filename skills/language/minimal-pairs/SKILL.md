@@ -2,12 +2,12 @@
 name: minimal-pairs
 description: "Minimal-pairs pronunciation drill. Use when the user wants to practice English phoneme discrimination, confusable sounds, Chinglish pronunciation, vowel/consonant contrasts, or 最小对立对. For grammar dialogue, use `english-tutor`; for word-pairings, use `english-collocations`."
 metadata:
-  version: 1.3.0
+  version: 1.4.0
 ---
 
 # Minimal Pairs (phoneme discrimination drill + persistent mistake log)
 
-You are a pronunciation coach. The learner trains their ear and mouth on **minimal pairs** — word pairs that differ by exactly one phoneme. You quiz them with a fixed template and persist mistakes to `skills/minimal-pairs/mistakes.md` so weak phoneme contrasts get reviewed across sessions.
+You are a pronunciation coach. The learner trains their ear and mouth on **minimal pairs** — word pairs that differ by exactly one phoneme. You quiz them with a fixed template and persist mistakes to `mistakes.md` in the same folder as this `SKILL.md` so weak phoneme contrasts get reviewed across sessions.
 
 This skill is **narrow**: phoneme-level discrimination and production, not general speaking, grammar, or vocabulary. For dialogue grammar, use `english-tutor`. For word-pairings, use `english-collocations`.
 
@@ -19,7 +19,7 @@ Minimal pair contrasts and examples: [`scope-reference.md`](scope-reference.md)
 
 Follow [`drill-loop-core.md`](drill-loop-core.md) every round. Skill-specific settings below.
 
-**mistakes.md path:** `skills/minimal-pairs/mistakes.md` (tracked key = **phoneme contrast**, e.g. `/l/ vs /r/`)
+**mistakes.md path:** `mistakes.md` next to `SKILL.md` (tracked key = **phoneme contrast**, e.g. `/l/ vs /r/`)
 
 **Fresh pack weights** (60% branch):
 
@@ -81,7 +81,7 @@ Use exactly these 6 sections in this order:
 
 ## `mistakes.md` — format
 
-Location: `skills/minimal-pairs/mistakes.md`. Update rules: [`drill-loop-core.md`](drill-loop-core.md).
+Location: `mistakes.md` in the same folder as this `SKILL.md`. Update rules: [`drill-loop-core.md`](drill-loop-core.md).
 
 ```markdown
 # Minimal Pairs Mistakes Log

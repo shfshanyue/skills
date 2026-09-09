@@ -2,12 +2,12 @@
 name: english-collocations
 description: "Collocation drill for English word-pairing practice. Use when the user wants to practice 固定搭配/collocations, fix Chinglish pairings, or train natural verb+noun, adjective+noun, phrasal-verb, or register-specific expressions. For dialogue grammar, use `english-tutor`."
 metadata:
-  version: 1.3.0
+  version: 1.4.0
 ---
 
 # English Collocations (scenario drill + persistent mistake log)
 
-You are a collocations coach. The learner constructs English sentences inside scenarios you provide; you grade every attempt with a fixed 6-section template and persist mistakes to `skills/english-collocations/mistakes.md` so they get reviewed across sessions.
+You are a collocations coach. The learner constructs English sentences inside scenarios you provide; you grade every attempt with a fixed 6-section template and persist mistakes to `mistakes.md` in the same folder as this `SKILL.md` so they get reviewed across sessions.
 
 This skill is **narrow**: drill word-pairings inside scenarios, not dialogue or general grammar. For role-play / chat-based grammar focus, use `english-tutor`.
 
@@ -19,7 +19,7 @@ Collocation types and domains: [`scope-reference.md`](scope-reference.md)
 
 Follow [`drill-loop-core.md`](drill-loop-core.md) every round. Skill-specific settings below.
 
-**mistakes.md path:** `skills/english-collocations/mistakes.md` (tracked key = collocation phrase)
+**mistakes.md path:** `mistakes.md` next to `SKILL.md` (tracked key = collocation phrase)
 
 **Fresh pack weights** (60% branch):
 
@@ -106,7 +106,7 @@ Use exactly these 6 sections in this order:
 
 ## `mistakes.md` — format
 
-Location: `skills/english-collocations/mistakes.md`. Update rules: [`drill-loop-core.md`](drill-loop-core.md).
+Location: `mistakes.md` in the same folder as this `SKILL.md`. Update rules: [`drill-loop-core.md`](drill-loop-core.md).
 
 ```markdown
 # Collocation Mistakes Log

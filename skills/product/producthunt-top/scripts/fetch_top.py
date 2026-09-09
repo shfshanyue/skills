@@ -90,7 +90,7 @@ def _producthunt_scripts() -> Path:
     sibling = Path(__file__).resolve().parents[2] / "producthunt" / "scripts"
     if not (sibling / "query.py").is_file():
         raise SystemExit(
-            "producthunt skill not found (expected sibling skills/producthunt).\n"
+            "producthunt skill not found (expected sibling producthunt skill).\n"
             "Install: npx skills add shfshanyue/skills --skill producthunt"
         )
     return sibling
