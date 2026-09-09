@@ -2,7 +2,9 @@
 
 Manual trigger tests for skill routing and activation. Run each prompt with the full skill set installed; record pass/fail against the pass criterion.
 
-## Router
+## Language
+
+### Router
 
 | # | Prompt | Expected skill | Pass criterion |
 |---|--------|----------------|----------------|
@@ -13,7 +15,7 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 5 | I want to practice English conversation | `english-practice` → `english-tutor` | Router hands off to `english-tutor` |
 | 6 | Correct my grammar while we chat about my weekend | `english-tutor` | Agent greets in English, sets a grammar focus, and starts dialogue (does not load `english-practice`) |
 
-## English drills
+### English drills
 
 | # | Prompt | Expected skill | Pass criterion |
 |---|--------|----------------|----------------|
@@ -21,19 +23,31 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 8 | 最小对立对 | `minimal-pairs` | Agent presents a minimal pair contrast round |
 | 9 | Help me fix my Chinglish collocations | `english-collocations` | Agent uses the 6-section grading template on first submission |
 
-## Subject tutoring
+### Subject tutoring
 
 | # | Prompt | Expected skill | Pass criterion |
 |---|--------|----------------|----------------|
 | 10 | 我想系统学量子力学 | `deep-learner` | Agent opens with greeting and asks for topic or presents diagnostic questions |
 
-## Games
+### Games
 
 | # | Prompt | Expected skill | Pass criterion |
 |---|--------|----------------|----------------|
 | 11 | 生成30秒卡片 | `thirty-seconds` | Agent asks 中文词条 vs English terms if unset, or generates describer + answer-key cards |
 
-## Product / launch
+### Chinese gloss (user-invoked)
+
+`zh-en-gloss` has `disable-model-invocation: true` — load only when the user attaches `@zh-en-gloss` / `/zh-en-gloss` or names the skill explicitly.
+
+| # | Prompt | Expected skill | Pass criterion |
+|---|--------|----------------|----------------|
+| 35 | `@zh-en-gloss 什么是缓存穿透？` | `zh-en-gloss` | Chinese prose with inline `词 (English)` glosses in each section |
+| 36 | (zh-en-gloss installed) 什么是缓存穿透？ (no @) | none | Skill does not load; reply has no inline glosses |
+| 37 | (@english-tutor active) Tell me about your weekend | none | Reply is English dialogue with no inline Chinese glosses |
+
+## Product
+
+### Product / launch
 
 | # | Prompt | Expected skill | Pass criterion |
 |---|--------|----------------|----------------|
@@ -46,7 +60,7 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 18 | Turn this repo into interview prep | `resume-project-prep` | Agent asks target level, then scans codebase |
 | 19 | 帮我找 Reddit 上能推广这个产品的帖子 | `reddit-promotion` | Agent scans product context or asks; uses Reddit MCP or reports it missing; does not draft `launch-kit` copy as the main deliverable |
 
-## Traffic / analytics
+### Traffic / analytics
 
 | # | Prompt | Expected skill | Pass criterion |
 |---|--------|----------------|----------------|
@@ -54,7 +68,9 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 21 | GA4 各渠道会话占比 | `google-traffic` | Calls `run_report` with channel dimension |
 | 22 | 帮我检查这几个 URL 有没有被索引 | `google-traffic` | Uses `batch_url_inspection` with explicit urls |
 
-## Gerrit (user-invoked)
+## CLI
+
+### Gerrit (user-invoked)
 
 `gerrit` has `disable-model-invocation: true` — load only when the user attaches `@gerrit` / `/gerrit` or names the skill explicitly.
 
@@ -69,7 +85,7 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 29 | `@gerrit review 46568 +1 LGTM` | `gerrit` | Meets Behavioral — gerrit review; dry-run includes `--message "LGTM"` |
 | 30 | `@gerrit review 46568,2 +2 --submit` | `gerrit` | Meets Behavioral — gerrit review; target is `refs/changes/68/46568/2`; +2/submit confirmed |
 
-## GitHub CLI (user-invoked)
+### GitHub CLI (user-invoked)
 
 `gh` has `disable-model-invocation: true` — load only when the user attaches `@gh` / `/gh` or names the skill explicitly.
 
@@ -79,16 +95,6 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 32 | `@gh what commands are available?` | `gh` | Runs `gh`, summarizes subcommands; no fabricated static list |
 | 33 | `@gh merge PR 42` | `gh` | Dry-runs `gh pr merge`; waits for confirmation |
 | 34 | list my open PRs (no `@gh`) | none | Skill does not load unless user also attached `gh` |
-
-## Chinese gloss (user-invoked)
-
-`zh-en-gloss` has `disable-model-invocation: true` — load only when the user attaches `@zh-en-gloss` / `/zh-en-gloss` or names the skill explicitly.
-
-| # | Prompt | Expected skill | Pass criterion |
-|---|--------|----------------|----------------|
-| 35 | `@zh-en-gloss 什么是缓存穿透？` | `zh-en-gloss` | Chinese prose with inline `词 (English)` glosses in each section |
-| 36 | (zh-en-gloss installed) 什么是缓存穿透？ (no @) | none | Skill does not load; reply has no inline glosses |
-| 37 | (@english-tutor active) Tell me about your weekend | none | Reply is English dialogue with no inline Chinese glosses |
 
 ## Behavioral
 
