@@ -14,12 +14,23 @@ section() {
 }
 
 fs_skills() {
-  local d name
-  for d in "$ROOT/skills"/*/SKILL.md; do
+  local d name group
+  for d in "$ROOT/skills"/*/*/SKILL.md; do
     [ -f "$d" ] || continue
     name="$(basename "$(dirname "$d")")"
-    [ "$name" = "_shared" ] && continue
+    group="$(basename "$(dirname "$(dirname "$d")")")"
+    [ "$group" = "_shared" ] && continue
     printf '%s\n' "$name"
+  done | sort -u
+}
+
+fs_groups() {
+  local d group
+  for d in "$ROOT/skills"/*/*/SKILL.md; do
+    [ -f "$d" ] || continue
+    group="$(basename "$(dirname "$(dirname "$d")")")"
+    [ "$group" = "_shared" ] && continue
+    printf '%s\n' "$group"
   done | sort -u
 }
 
@@ -31,10 +42,26 @@ readme_install() {
     | sort -u
 }
 
+readme_groups() {
+  section "$ROOT/README.md" "## Quick Install" \
+    | { grep -oE 'skills/skills/[a-z0-9-]+' || true; } \
+    | sed 's|skills/skills/||' \
+    | sort -u
+}
+
 readme_table() {
+  local link name group last
   section "$ROOT/README.md" "## Skills" \
-    | { grep -oE '\[`[a-z0-9-]+`\]\(skills/[a-z0-9-]+/SKILL\.md\)' || true; } \
-    | sed -E 's/\[`([a-z0-9-]+)`\]\(skills\/[a-z0-9-]+\/SKILL\.md\)/\1/' \
+    | { grep -oE '\[`[a-z0-9-]+`\]\(skills/[a-z0-9-]+/[a-z0-9-]+/SKILL\.md\)' || true; } \
+    | while IFS= read -r link; do
+        [ -n "$link" ] || continue
+        name="$(printf '%s\n' "$link" | sed -E 's/\[`([a-z0-9-]+)`\].*/\1/')"
+        group="$(printf '%s\n' "$link" | sed -E 's/.*\(skills\/([a-z0-9-]+)\/.*/\1/')"
+        last="$(printf '%s\n' "$link" | sed -E 's/.*\/([a-z0-9-]+)\/SKILL.md\)/\1/')"
+        [ "$name" = "$last" ] || continue
+        [ -f "$ROOT/skills/$group/$name/SKILL.md" ] || continue
+        printf '%s\n' "$name"
+      done \
     | sort -u
 }
 
@@ -84,17 +111,27 @@ diff_set() {
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 
+RC=0
+
+for d in "$ROOT/skills"/*/SKILL.md; do
+  [ -f "$d" ] || continue
+  echo "SHALLOW skill: ${d#"$ROOT"/}"
+  RC=1
+done
+
 fs_skills > "$TMP/fs"
+fs_groups > "$TMP/fs-groups"
 readme_install > "$TMP/readme-install"
+readme_groups > "$TMP/readme-groups"
 readme_table > "$TMP/readme-table"
 agents_clusters > "$TMP/agents-clusters"
 evals_expected > "$TMP/evals"
 
-RC=0
 diff_set "readme-install" "$TMP/readme-install" "$TMP/fs"
 diff_set "readme-table" "$TMP/readme-table" "$TMP/fs"
 diff_set "agents-clusters" "$TMP/agents-clusters" "$TMP/fs"
 diff_set "evals" "$TMP/evals" "$TMP/fs"
+diff_set "group-install" "$TMP/readme-groups" "$TMP/fs-groups"
 
 if [ "$RC" -ne 0 ]; then
   exit 1

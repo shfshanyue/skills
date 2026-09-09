@@ -34,26 +34,35 @@ assert_grep() {
 make_fixture() {
   local dir="$1"
   rm -rf "$dir"
-  mkdir -p "$dir/skills/alpha" "$dir/skills/beta" "$dir/evals"
-  printf '%s\n' '---' 'name: alpha' '---' '# A' > "$dir/skills/alpha/SKILL.md"
-  printf '%s\n' '---' 'name: beta' '---' '# B' > "$dir/skills/beta/SKILL.md"
+  mkdir -p "$dir/skills/g1/alpha" "$dir/skills/g2/beta" "$dir/evals"
+  printf '%s\n' '---' 'name: alpha' '---' '# A' > "$dir/skills/g1/alpha/SKILL.md"
+  printf '%s\n' '---' 'name: beta' '---' '# B' > "$dir/skills/g2/beta/SKILL.md"
   cat > "$dir/README.md" <<'EOF'
 # fixture
 
 ## Quick Install
 
 ```bash
-npx skills add org/skills --skill alpha
-npx skills add org/skills --skill beta
-npx skills add org/skills
+npx skills add shfshanyue/skills/skills/g1
+npx skills add shfshanyue/skills/skills/g2
+npx skills add shfshanyue/skills --skill alpha
+npx skills add shfshanyue/skills --skill beta
+npx skills add shfshanyue/skills
 ```
 
 ## Skills
 
+### Language
+
 | Skill | One-line |
 |-------|----------|
-| [`alpha`](skills/alpha/SKILL.md) | A |
-| [`beta`](skills/beta/SKILL.md) | B |
+| [`alpha`](skills/g1/alpha/SKILL.md) | A |
+
+### Product
+
+| Skill | One-line |
+|-------|----------|
+| [`beta`](skills/g2/beta/SKILL.md) | B |
 
 ## Hooks
 EOF
@@ -62,9 +71,16 @@ EOF
 
 ## Reference — skill clusters
 
+### Language
+
 | User intent | Skill |
 |-------------|-------|
 | Alpha work | `alpha` |
+
+### Product
+
+| User intent | Skill |
+|-------------|-------|
 | Beta work | `beta` (helper) |
 
 ## Reference — hooks
@@ -88,7 +104,7 @@ export CHECK_CATALOG_ROOT="$FIX"
 assert_exit 0 "complete fixture" bash "$CHECKER"
 
 # Missing from README table
-sed -i.bak '/skills\/beta\/SKILL.md/d' "$FIX/README.md"
+sed -i.bak '/skills\/g2\/beta\/SKILL.md/d' "$FIX/README.md"
 assert_exit 1 "missing readme-table" bash "$CHECKER"
 assert_grep 'MISSING readme-table:.*beta' "reports missing beta table"
 make_fixture "$FIX"
@@ -97,6 +113,25 @@ make_fixture "$FIX"
 printf '%s\n' '| 4 | ghost | `ghost` | no |' >> "$FIX/evals/trigger-cases.md"
 assert_exit 1 "extra evals" bash "$CHECKER"
 assert_grep 'EXTRA evals:.*ghost' "reports extra ghost"
+make_fixture "$FIX"
+
+# Shallow SKILL.md
+mkdir -p "$FIX/skills/shadow"
+printf '%s\n' '---' 'name: shadow' '---' '# S' > "$FIX/skills/shadow/SKILL.md"
+assert_exit 1 "shallow skill" bash "$CHECKER"
+assert_grep 'SHALLOW skill:.*skills/shadow/SKILL.md' "reports shallow path"
+make_fixture "$FIX"
+
+# Flat / wrong README path
+sed -i.bak 's|skills/g1/alpha/SKILL.md|skills/alpha/SKILL.md|' "$FIX/README.md"
+assert_exit 1 "flat readme-table path" bash "$CHECKER"
+assert_grep 'MISSING readme-table:.*alpha' "flat path does not count"
+make_fixture "$FIX"
+
+# Missing group subpath
+sed -i.bak '/skills\/skills\/g2/d' "$FIX/README.md"
+assert_exit 1 "missing group-install" bash "$CHECKER"
+assert_grep 'MISSING group-install:.*g2' "reports missing g2 group"
 make_fixture "$FIX"
 
 # none is not a skill
