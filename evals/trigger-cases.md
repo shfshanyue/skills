@@ -79,11 +79,11 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 23 | `@gerrit inbox` | `gerrit` | Resolves env from repo, runs inbox preset queries, table output |
 | 24 | `@gerrit diff 46568` | `gerrit` | Fetches change ref, shows diff |
 | 25 | `@gerrit what CLI commands are available?` | `gerrit` | Runs `gerrit`, summarizes subcommands |
-| 26 | `/gerrit review 46568 +1` | `gerrit` | Meets Behavioral — gerrit review; dry-run shows `gerrit review --project <project> refs/changes/68/46568/<PS> --code-review +1` |
+| 26 | `/gerrit review 46568 +1` | `gerrit` | Meets Behavioral — gerrit review; dry-run shows `gerrit review --project <project> 46568,<PS> --code-review +1` |
 | 27 | show my open gerrit changes (no `@gerrit`) | none | Skill does not load unless user also attached `gerrit` |
 | 28 | `@gerrit 把待我 review 的都加一` | `gerrit` | Meets Behavioral — gerrit review; inbox query first; one dry-run line per pending change |
 | 29 | `@gerrit review 46568 +1 LGTM` | `gerrit` | Meets Behavioral — gerrit review; dry-run includes `--message "LGTM"` |
-| 30 | `@gerrit review 46568,2 +2 --submit` | `gerrit` | Meets Behavioral — gerrit review; target is `refs/changes/68/46568/2`; +2/submit confirmed |
+| 30 | `@gerrit review 46568,2 +2 --submit` | `gerrit` | Meets Behavioral — gerrit review; target is `46568,2`; +2/submit confirmed |
 
 ### GitHub CLI (user-invoked)
 
@@ -104,9 +104,9 @@ Manual. Check every box. Trigger rows cite these by name; they do not restate th
 
 Only home for review-pass rules. Used by trigger rows 26, 28, 29, 30.
 
-- [ ] Target resolves to `refs/changes/{last-two}/{N}/{PS}` via query `.currentPatchSet.ref`, construction, or user input
+- [ ] Target resolves to `N,PS` via user `N,PS` or query `"\(.number),\(.currentPatchSet.number)"`
 - [ ] Dry-run before SSH
-- [ ] Dry-run command contains `--project <project>` before that change ref
+- [ ] Dry-run command contains `--project <project>` before that `N,PS` target
 - [ ] `--message` omitted unless the user supplied cover text
 
 ### Behavioral — zh-en-gloss density
