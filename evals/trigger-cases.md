@@ -57,7 +57,7 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 15 | 分析这个产品做 MicroSaaS https://linear.app | `microsaas-opportunity` | Agent fetches the named site (not the local repo) and fills the five-part report |
 | 16 | 帮我分析我自己的产品做 MicroSaaS | `microsaas-opportunity` | Meets Behavioral — microsaas own-product |
 | 17 | 写 Product Hunt 文案 | `launch-kit` | Agent scans codebase or asks for product info before drafting; does not load `producthunt` |
-| 18 | Turn this repo into interview prep | `resume-project-prep` | Agent asks target level, then scans codebase |
+| 18 | Turn this repo into interview prep | `resume-project-prep` | Agent asks target level, then scans codebase; `source-compare` does not load |
 | 19 | 帮我找 Reddit 上能推广这个产品的帖子 | `reddit-promotion` | Agent scans product context or asks; uses Reddit MCP or reports it missing; does not draft `launch-kit` copy as the main deliverable |
 
 ### Traffic / analytics
@@ -96,6 +96,15 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 33 | `@gh merge PR 42` | `gh` | Dry-runs `gh pr merge`; waits for confirmation |
 | 34 | list my open PRs (no `@gh`) | none | Skill does not load unless user also attached `gh` |
 
+## Dev
+
+| # | Prompt | Expected skill | Pass criterion |
+|---|--------|----------------|----------------|
+| 38 | grok-build 和 deepseek-harness 里 web fetch 是怎么实现的？ | `source-compare` | Resolves two named trees; meets Behavioral — source-compare answer |
+| 39 | 对照两边的 tool calling (project root has `.compare-source/corpus.md`) | `source-compare` | Uses `corpus.md` as the search set; meets Behavioral — source-compare answer |
+| 40 | 对照两边的 tool calling (no `.compare-source/`) | `source-compare` | Compare-intent branch loads; agent asks which directories; meets Behavioral — source-compare answer |
+| 41 | 这段代码的 fetch 怎么写的 (no names, no compare intent) | none | Does not load `source-compare` |
+
 ## Behavioral
 
 Manual. Check every box. Trigger rows cite these by name; they do not restate the lists.
@@ -126,6 +135,20 @@ Prompt: `帮我分析我自己的产品做 MicroSaaS` (trigger row 16)
 - [ ] Agent states this skill scores other people's products
 - [ ] Does not score the local repo as a competitor
 - [ ] May point at `launch-kit` for copy
+
+### Behavioral — source-compare answer
+
+Only home for grounding and resolve rules. Used by trigger rows 38, 39, 40. Do not score answer formatting.
+
+- [ ] Comparison axis is known before search (from the question, or the agent asked)
+- [ ] Search set is named trees when names are present, otherwise the names in `corpus.md` (or the agent asked which directories)
+- [ ] If `corpus.md` was missing and paths were resolved, the agent asked once whether to write it; wrote only on yes
+- [ ] Corpus-filled sets larger than 4 were narrowed by asking
+- [ ] Each tree is an existing directory, or the agent asked for the missing path and waited
+- [ ] Every tree in the search set is accounted for in the answer
+- [ ] Every positive claim cites a path inside that tree
+- [ ] Not-found is explicit; no invented files
+- [ ] No writes in the trees or in `.compare-source/` (unless the user asked to create the corpus)
 
 ## Updating
 

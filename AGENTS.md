@@ -73,6 +73,12 @@ After editing a canonical file, update all copies in the same commit.
 | Gerrit SSH (`@gerrit` / `/gerrit`) | `gerrit` |
 | GitHub CLI (`@gh` / `/gh`) | `gh` |
 
+### Dev
+
+| User intent | Skill |
+|-------------|-------|
+| Learn a feature across local source trees | `source-compare` |
+
 ## Reference — hooks
 
 [`hooks.json`](hooks.json) + [`hooks/block-git-commit-push.sh`](hooks/block-git-commit-push.sh): `beforeShellExecution` prompts for user approval before `git commit` or `git push` in the agent shell.

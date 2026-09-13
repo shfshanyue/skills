@@ -14,6 +14,7 @@ npx skills add shfshanyue/skills
 npx skills add shfshanyue/skills/skills/language
 npx skills add shfshanyue/skills/skills/product
 npx skills add shfshanyue/skills/skills/cli
+npx skills add shfshanyue/skills/skills/dev
 
 # Install a single skill
 # language
@@ -38,6 +39,8 @@ npx skills add shfshanyue/skills --skill resume-project-prep
 # cli
 npx skills add shfshanyue/skills --skill gerrit
 npx skills add shfshanyue/skills --skill gh
+# dev
+npx skills add shfshanyue/skills --skill source-compare
 ```
 
 ## Skills
@@ -76,6 +79,12 @@ npx skills add shfshanyue/skills --skill gh
 | [`gerrit`](skills/cli/gerrit/SKILL.md) | Gerrit SSH query/diff/review via `@gerrit` / `/gerrit` |
 | [`gh`](skills/cli/gh/SKILL.md) | GitHub CLI via `@gh` / `/gh` |
 
+### Dev
+
+| Skill | One-line |
+|-------|----------|
+| [`source-compare`](skills/dev/source-compare/SKILL.md) | Learn a feature by comparing implementations across local source trees |
+
 See each skill's `SKILL.md` for full workflow. Maintainers: see [`AGENTS.md`](AGENTS.md).
 
 ## Hooks
@@ -94,7 +103,8 @@ A command parser for `beforeShellExecution` that prompts for user approval befor
 │   │   └── plain-text-line.md
 │   ├── language/
 │   ├── product/
-│   └── cli/
+│   ├── cli/
+│   └── dev/
 ├── docs/superpowers/specs/    # Pre-ship design docs (not runtime pointers)
 ├── hooks/
 │   └── block-git-commit-push.sh
