@@ -13,7 +13,7 @@ Extends the group list in [`2026-09-09-skill-groups-design.md`](2026-09-09-skill
 
 A **learn-by-compare** skill: read the same capability in several local source trees and explain how each implements it.
 
-It is for learning source, not for porting, reviewing, or producing a fixed report. Trees come from the question or from `<project-root>/.compare-source/corpus.md`. It does not hard-code product names, repository paths, or file maps.
+It is for learning source, not for porting, reviewing, or producing a fixed report. Trees come from the question or from tree items in `<project-root>/.compare-source/corpus.md`. Refs in that file resolve extra names without joining the default search set. It does not hard-code product names, repository paths, or file maps.
 
 The motivating case is learning web fetch (for example) by reading `grok-build` and `deepseek-harness` together. Those names are examples, not part of the skill.
 
@@ -24,22 +24,23 @@ The motivating case is learning web fetch (for example) by reading `grok-build` 
 | Approach | Live-search compare. No tool index, no cached directory layout. |
 | Invocation | Model-invoked. Leading phrase **Compare local source trees** (not bare "Compare" — `producthunt-top` already uses compare for PH lists). |
 | Chinese trigger | 对照 is allowed on the compare-intent branch. Locked exception to the game-skill-only rule. |
-| Corpus | Named trees first for the **search set**. `<project-root>/.compare-source/corpus.md` maps names to paths and supplies the set when nothing is named. Other `*.md` in that dir are ignored. |
-| Corpus fields | List items only: `- name: path`. No tree intros, entry hints, or directory maps in the file. Other prose is ignored and is not a source of facts. |
-| First-run save | If `corpus.md` is missing and this run resolved a name→path map, ask once whether to write that file. Write only on yes, and write only `- name: path` lines. Do not overwrite an existing `corpus.md`. |
+| Corpus | Named trees or refs first for the **search set**. `<project-root>/.compare-source/corpus.md` maps names to paths. Tree items supply the set when nothing is named. A `refs` heading starts aliases that resolve names only. Other `*.md` in that dir are ignored. |
+| Corpus fields | List items only: `- name: path`. Heading text `refs` (any `#` level, case-insensitive) starts the refs list; a later non-`refs` heading ends it. No tree intros, entry hints, or directory maps in the file. Other prose and tables are ignored and are not a source of facts. |
+| Save | One offer after the answer. Create `corpus.md` if it is missing and this run resolved tree paths. Append `# refs` if this run resolved a new ref. Never rewrite, reorder, or delete existing lines. |
 | Project root | `git rev-parse --show-toplevel` when cwd is in a git work tree; otherwise cwd. No home-directory fallback. |
 | Search | One evidence pack per tree. One explore subagent per tree (`cwd` = that tree's root, isolation none) when the harness can; otherwise sequential. Corpus-filled sets larger than 4 → ask which trees. |
-| Answer | No fixed template. The agent answers as it normally would when teaching source, from the evidence packs. Claims stay grounded in those packs. Then the save offer if `corpus.md` was missing. |
+| Answer | No fixed template. The agent answers as it normally would when teaching source, from the evidence packs. Claims stay grounded in those packs. Then one save offer covering create and/or append-refs. |
 | Packaging | `skills/dev/source-compare/` in this pack. New group `dev`. Catalog four-place membership. |
-| Version | `1.0.0` |
+| Version | `1.1.0` |
 
 ### Out of scope
 
 - Hard-coded grok / deepseek / harness paths or file maps
 - Home-directory corpus (`~/.source-corpus.md`, `~/.compare-source` as a global fallback), cwd `source-corpus.md`, YAML corpus, `~/.config/...` paths, sibling-repo auto-discovery
-- Treating the invoking project as a tree unless it is named or listed in `corpus.md`
+- Treating the invoking project as a tree unless it is named or listed as a tree in `corpus.md`
 - Symlink or directory children of `.compare-source/` as the corpus; any markdown other than `corpus.md` as the corpus
 - Tree intros, “start here” directories, or other study-guide fields in `corpus.md`
+- Adding a ref to the search set because searched code imported a matching package name
 - A prescribed answer template (table + citations + close, or any other fixed report shape)
 - Bundled grep/index scripts
 - Editing, porting, or committing in the trees as part of this skill
@@ -56,7 +57,7 @@ The motivating case is learning web fetch (for example) by reading `grok-build` 
 
 **Description** (two sentences, one English trigger per branch, sibling in the tail):
 
-Compare local source trees. Use when the user names two or more codebases, or asks for a side-by-side / 对照 of the same feature or tool; for interview writeups from one repo, use `resume-project-prep`; for Product Hunt launch lists, use `producthunt-top`.
+Compare local source trees. Use when the user names two or more codebases, asks for a side-by-side / 对照 of the same feature or tool, or names local source for a packaged dependency or a reference tree; for interview writeups from one repo, use `resume-project-prep`; for Product Hunt launch lists, use `producthunt-top`.
 
 Branches:
 
@@ -64,8 +65,9 @@ Branches:
 |--------|---------|
 | Named trees | Two or more codebase names or paths in the question |
 | Compare intent | Side-by-side / 对照 of the same feature or tool |
+| Ref source | Local source for a packaged dependency or a reference tree |
 
-`.compare-source/corpus.md` does **not** trigger the skill. It only resolves names and fills the search set after the skill is already running.
+`.compare-source/corpus.md` does **not** trigger the skill. It resolves names after the skill is already running. Tree items fill the search set when nothing is named; refs do not.
 
 Do not load for a single current-repo "how does this fetch work" with no compare intent.
 
@@ -83,20 +85,20 @@ Search set, path map, and comparison axis are different jobs. Layout of `.compar
 
 **Search set**
 
-1. If the question names one or more trees, the search set is exactly those trees (named-first). Extra names in `corpus.md` are not added.
-2. Else if `corpus.md` exists, the search set is every `name` listed in it.
+1. If the question names one or more trees or refs, the search set is exactly those tokens (named-first). Unnamed trees and unnamed refs stay out.
+2. Else if `corpus.md` has tree names, the search set is those names.
 3. Else ask which directories to search. Do not guess sibling folders or paths under `$HOME`.
 
-A single named tree is a runtime filter after the skill already loaded (compare intent), not a trigger by itself. Teach from that one tree.
+A single named tree or ref is a runtime filter after the skill already loaded (compare intent or ref-source), not a trigger by itself. Teach from that one tree. The set is fixed at the end of resolve.
 
-If a corpus-filled search set has more than 4 trees, ask which to search and wait. Named trees are used as given; if the user named more than 4, ask which to keep.
+If a corpus-filled search set has more than 4 trees, ask which to search and wait. Named trees or refs are used as given; if the user named more than 4, ask which to keep.
 
 **Path map**
 
 For each token in the search set:
 
 1. If it is an existing directory (absolute, or relative to cwd), use that path. A named filesystem path that exists wins over a `corpus.md` `name` of the same string.
-2. Else if `corpus.md` exists, match `name` case-insensitively (even when names were given). Relative paths are relative to the project root. The path must be an existing directory.
+2. Else if `corpus.md` exists, match `name` case-insensitively — tree names first, then refs. Relative paths are relative to the project root. The path must be an existing directory. Two case-insensitive hits in the same list: use exact case if one matches; otherwise ask.
 3. Else ask for that token's path. Wait. Do not drop the token.
 
 **Comparison axis**
@@ -111,9 +113,10 @@ Disclosed in `skills/dev/source-compare/compare-source-dir.md`. SKILL.md points 
 
 - Directory: `.compare-source/` at the project root defined above.
 - Filename: `corpus.md` only. List items: `- name: path`. `name` is the token users say. `path` must be a directory. No intro or identity line per tree.
-- Other prose, headings, and tables are ignored. They are not facts about the trees; the code is.
-- The invoking project is not a tree unless it is named or listed in `corpus.md`.
-- Create/write: only when `corpus.md` is missing, this run resolved a name→path map, and the user accepted the one save offer. Write only `- name: path` lines. Never overwrite an existing `corpus.md`.
+- A heading whose text is `refs` (any `#` level, case-insensitive) starts the refs list. List items after it are refs until a later heading that is not `refs`. All other list items are trees.
+- Other prose and tables are ignored. They are not facts about the trees; the code is.
+- The invoking project is not a tree unless it is named or listed as a tree in `corpus.md`.
+- Save: one offer after the answer. Create `corpus.md` when it is missing and this run resolved tree paths. Append `# refs` when this run resolved a new ref (packaged-dependency or reference source that is not already a ref `name`). Path-only ref name is the user token, or the directory basename. Never rewrite, reorder, or delete existing lines.
 
 Example (illustrative paths only; do not commit a real corpus in this pack):
 
@@ -122,6 +125,11 @@ Example (illustrative paths only; do not commit a real corpus in this pack):
 
 - grok-build: /Users/you/code/source/grok-build
 - deepseek-harness: /Users/you/code/source/deepseek-harness
+
+# refs
+
+- vercel-ai-sdk: /Users/you/code/source/ai
+- ai: /Users/you/code/source/ai
 ```
 
 ---
@@ -156,7 +164,7 @@ Grounding (the only answer contract):
 - Every positive claim points at a path from that tree's pack (and lines when quoting).
 - A missing capability is said as not found, not invented.
 
-If `corpus.md` was missing and this run resolved a name→path map, ask once whether to write `.compare-source/corpus.md`. Write only on yes (create the dir if needed). Then this skill ends. A later request to change code is ordinary implementation, not a further step of this skill.
+After the answer, one save offer covering what applies: create `.compare-source/corpus.md` if it was missing and this run resolved tree paths; append `# refs` if this run resolved a new ref. Write only on yes. Then this skill ends. A later request to change code is ordinary implementation, not a further step of this skill.
 
 **Done when:** the answer accounts for every tree, every positive claim cites a path in that tree, not-found is explicit, and the save offer is written or declined when it applied.
 
@@ -176,11 +184,11 @@ SKILL.md structure (mirror `word-chain` density):
 2. Search each tree
 3. Teach from the packs (agent's usual style)
 
-In-file reference stays short: search-set vs path-map, named-path-wins, fan-out cap 4, grounding, save offer when `corpus.md` is missing. Push `corpus.md` syntax to `compare-source-dir.md`.
+In-file reference stays short: search-set vs path-map, named-path-wins, tree-then-ref match, fan-out cap 4, grounding, create vs append-refs save. Push `corpus.md` syntax (including the `refs` heading) to `compare-source-dir.md`.
 
 Boundary line: interview writeups from one codebase → `resume-project-prep`. Product Hunt launch lists → `producthunt-top`.
 
-`metadata.version`: `1.0.0`
+`metadata.version`: `1.1.0`
 
 ---
 
@@ -213,21 +221,26 @@ Do not add a second copy of `Turn this repo into interview prep`. Amend existing
 | Prompt | Expected skill | Pass criterion |
 |--------|----------------|----------------|
 | `grok-build 和 deepseek-harness 里 web fetch 是怎么实现的？` | `source-compare` | Resolves two named trees; meets Behavioral — source-compare answer |
-| `对照两边的 tool calling` (project root has `.compare-source/corpus.md`) | `source-compare` | Uses `corpus.md` as the search set; meets Behavioral — source-compare answer |
+| `对照两边的 tool calling` (project root has `.compare-source/corpus.md`) | `source-compare` | Uses corpus tree names as the search set; meets Behavioral — source-compare answer |
 | `对照两边的 tool calling` (no `.compare-source/`) | `source-compare` | Compare-intent branch loads; agent asks which directories; meets Behavioral — source-compare answer |
 | `这段代码的 fetch 怎么写的` (no names, no compare intent) | none | Does not load `source-compare` |
+| `grok-build 和 vercel-ai-sdk 里 Agent loop 怎么实现的？` (corpus trees + ref `vercel-ai-sdk`) | `source-compare` | Search set is the two named tokens; unnamed corpus trees stay out; meets Behavioral — source-compare answer |
+| `对照两边的 tool calling` (corpus has two trees + `# refs`) | `source-compare` | Search set is the two trees only; unnamed refs stay out; meets Behavioral — source-compare answer |
+| `这个依赖的源码在 /Users/you/code/source/ai，去看它的 Agent loop` | `source-compare` | Treats that path as the search set; offers to append `# refs`; meets Behavioral — source-compare answer |
 
 ### Behavioral — source-compare answer
 
 - [ ] Comparison axis is known before search (from the question, or the agent asked)
-- [ ] Search set is named trees when names are present, otherwise the names in `corpus.md` (or the agent asked which directories)
-- [ ] If `corpus.md` was missing and paths were resolved, the agent asked once whether to write it; wrote only on yes
+- [ ] Search set is named trees or refs when names are present, otherwise corpus tree names (not `# refs`), or the agent asked which directories
+- [ ] Unnamed refs stay out of the search set (including package names found in code)
+- [ ] If `corpus.md` was missing and tree paths were resolved, the agent asked once whether to write it; wrote only on yes
+- [ ] If this run resolved a new ref, the agent asked once whether to append `# refs`; appended only on yes; did not rewrite existing lines
 - [ ] Corpus-filled sets larger than 4 were narrowed by asking
 - [ ] Each tree is an existing directory, or the agent asked for the missing path and waited
 - [ ] Every tree in the search set is accounted for in the answer
 - [ ] Every positive claim cites a path inside that tree
 - [ ] Not-found is explicit; no invented files
-- [ ] No writes in the trees or in `.compare-source/` (unless the user asked to create the corpus)
+- [ ] No writes in the trees or in `.compare-source/` (unless the user accepted the save offer)
 
 ---
 
@@ -238,10 +251,13 @@ Do not add a second copy of `Turn this repo into interview prep`. Amend existing
 | Named tree, no matching `corpus.md` `name`, path missing | Ask for that path; do not skip the tree |
 | `corpus.md` path missing on disk or not a directory | Ask; do not search a stale path |
 | Other `*.md` next to `corpus.md` | Ignore |
-| Two list items match a token case-insensitively | Exact case if one; otherwise ask |
-| `corpus.md` missing; user supplied paths | Compare; then ask once whether to write `corpus.md` |
+| Two list items in the same list (trees or refs) match a token case-insensitively | Exact case if one; otherwise ask. A tree `name` wins over a ref of the same string |
+| `corpus.md` missing; user supplied tree paths | Compare; then ask once whether to write `corpus.md` |
+| User gave packaged-dependency or reference source | That token joins the search set; after the answer, offer to append `# refs` |
+| Named ref; extra corpus trees | Search set is the named tokens only |
+| Unnamed refs, including package names in searched code | Stay out of the search set |
 | Capability missing in one tree | Say not found for that tree; still teach the rest |
-| One named tree | Teach from that one tree |
+| One named tree or ref | Teach from that one tree |
 | Trees named, no axis | Ask for the axis; do not start search |
 | Corpus has more than 4 trees, nothing named | Ask which to search |
 | One tree nested inside another | Search each at its own root; do not walk out |

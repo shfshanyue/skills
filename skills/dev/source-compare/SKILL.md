@@ -1,13 +1,13 @@
 ---
 name: source-compare
-description: "Compare local source trees. Use when the user names two or more codebases, or asks for a side-by-side / 对照 of the same feature or tool; for interview writeups from one repo, use `resume-project-prep`; for Product Hunt launch lists, use `producthunt-top`."
+description: "Compare local source trees. Use when the user names two or more codebases, asks for a side-by-side / 对照 of the same feature or tool, or names local source for a packaged dependency or a reference tree; for interview writeups from one repo, use `resume-project-prep`; for Product Hunt launch lists, use `producthunt-top`."
 metadata:
-  version: 1.0.0
+  version: 1.1.0
 ---
 
 # Source Compare
 
-**Learn-by-compare:** read the same capability in several local source trees and teach how each implements it. Trees come from the question or from `.compare-source/corpus.md`. Live search each run — no cached file map.
+**Learn-by-compare:** read the same capability in several local source trees and teach how each implements it. Trees come from the question or from `.compare-source/corpus.md` tree items; refs in that file resolve extra names. Live search each run — no cached file map.
 
 Leave the trees unchanged. The only write this skill may make is the save offer in [`compare-source-dir.md`](compare-source-dir.md).
 
@@ -19,16 +19,16 @@ Project root, corpus path, list format: [`compare-source-dir.md`](compare-source
 
 **Search set** (which trees):
 
-1. Question names one or more trees → exactly those tokens (corpus extras stay out)
-2. Else `corpus.md` exists → every `name` in it
+1. Question names one or more trees or refs → exactly those tokens (unnamed trees and unnamed refs stay out)
+2. Else `corpus.md` has tree names → those names
 3. Else ask which directories and wait
 
-A corpus-filled set larger than 4, or more than 4 named trees: ask which to keep and wait. One named tree is a filter after this skill already loaded — teach from that tree.
+A corpus-filled set larger than 4, or more than 4 named trees or refs: ask which to keep and wait. One named tree or ref is a filter after this skill already loaded — teach from that tree. The set is fixed here.
 
 **Path map** (token → directory), per token:
 
 1. Existing directory (absolute, or relative to cwd) wins over a corpus `name` of the same string
-2. Else match a corpus `name` case-insensitively; relative paths are relative to the project root; the path must be an existing directory. Two case-insensitive hits: use exact case if one matches; otherwise ask
+2. Else match a corpus `name` case-insensitively — tree names first, then refs; relative paths are relative to the project root; the path must be an existing directory. Two case-insensitive hits in the same list: use exact case if one matches; otherwise ask
 3. Else ask for that token's path and wait — keep the token
 
 **Comparison axis:** the capability, feature, or tool. If the question omits it, ask once and wait. Search starts only with an axis.
@@ -61,7 +61,7 @@ Grounding:
 - Every positive claim points at a path from that tree's pack (and lines when quoting)
 - A missing capability is said as not found
 
-If `corpus.md` was missing and this run resolved a name→path map, ask once whether to write it (rules in [`compare-source-dir.md`](compare-source-dir.md)). Then this skill ends. A later request to change code is ordinary implementation.
+After the answer, one save offer covering what applies (rules in [`compare-source-dir.md`](compare-source-dir.md)). Then this skill ends. A later request to change code is ordinary implementation.
 
 **Done when:** the answer accounts for every tree, every positive claim cites a path in that tree, not-found is explicit, and the save offer is written or declined when it applied.
 
@@ -73,8 +73,8 @@ Interview writeups from one codebase → `resume-project-prep`. Product Hunt lau
 
 | Term | Rule |
 |------|------|
-| Search set | Named trees when present; else every corpus `name`; else ask |
-| Path map | Existing directory (cwd-relative or absolute) wins; else corpus `name`; else ask |
+| Search set | Named trees or refs when present; else every corpus tree `name`; else ask |
+| Path map | Existing directory (cwd-relative or absolute) wins; else corpus tree `name`; else ref `name`; else ask |
 | Fan-out | At most 4 trees; larger sets wait for a subset |
 | Grounding | Every tree accounted; positive claims cite a pack path; missing = not found |
-| Save | Offer once after the answer iff `corpus.md` was missing and paths were resolved |
+| Save | Create iff `corpus.md` was missing and tree paths were resolved; append `# refs` iff this run resolved a new ref; never rewrite existing lines |

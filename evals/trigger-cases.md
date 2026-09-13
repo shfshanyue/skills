@@ -101,9 +101,12 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | # | Prompt | Expected skill | Pass criterion |
 |---|--------|----------------|----------------|
 | 38 | grok-build 和 deepseek-harness 里 web fetch 是怎么实现的？ | `source-compare` | Resolves two named trees; meets Behavioral — source-compare answer |
-| 39 | 对照两边的 tool calling (project root has `.compare-source/corpus.md`) | `source-compare` | Uses `corpus.md` as the search set; meets Behavioral — source-compare answer |
+| 39 | 对照两边的 tool calling (project root has `.compare-source/corpus.md`) | `source-compare` | Uses corpus tree names as the search set; meets Behavioral — source-compare answer |
 | 40 | 对照两边的 tool calling (no `.compare-source/`) | `source-compare` | Compare-intent branch loads; agent asks which directories; meets Behavioral — source-compare answer |
 | 41 | 这段代码的 fetch 怎么写的 (no names, no compare intent) | none | Does not load `source-compare` |
+| 42 | grok-build 和 vercel-ai-sdk 里 Agent loop 怎么实现的？ (corpus trees: grok-build, deepseek-harness; ref: vercel-ai-sdk) | `source-compare` | Search set is grok-build + vercel-ai-sdk; deepseek-harness stays out; meets Behavioral — source-compare answer |
+| 43 | 对照两边的 tool calling (corpus has two trees + `# refs`) | `source-compare` | Search set is the two trees only; unnamed refs stay out; meets Behavioral — source-compare answer |
+| 44 | 这个依赖的源码在 /Users/you/code/source/ai，去看它的 Agent loop | `source-compare` | Treats that path as the search set; offers to append `# refs`; meets Behavioral — source-compare answer |
 
 ## Behavioral
 
@@ -138,17 +141,19 @@ Prompt: `帮我分析我自己的产品做 MicroSaaS` (trigger row 16)
 
 ### Behavioral — source-compare answer
 
-Only home for grounding and resolve rules. Used by trigger rows 38, 39, 40. Do not score answer formatting.
+Only home for grounding and resolve rules. Used by trigger rows 38, 39, 40, 42, 43, 44. Do not score answer formatting.
 
 - [ ] Comparison axis is known before search (from the question, or the agent asked)
-- [ ] Search set is named trees when names are present, otherwise the names in `corpus.md` (or the agent asked which directories)
-- [ ] If `corpus.md` was missing and paths were resolved, the agent asked once whether to write it; wrote only on yes
+- [ ] Search set is named trees or refs when names are present, otherwise corpus tree names (not `# refs`), or the agent asked which directories
+- [ ] Unnamed refs stay out of the search set (including package names found in code)
+- [ ] If `corpus.md` was missing and tree paths were resolved, the agent asked once whether to write it; wrote only on yes
+- [ ] If this run resolved a new ref, the agent asked once whether to append `# refs`; appended only on yes; did not rewrite existing lines
 - [ ] Corpus-filled sets larger than 4 were narrowed by asking
 - [ ] Each tree is an existing directory, or the agent asked for the missing path and waited
 - [ ] Every tree in the search set is accounted for in the answer
 - [ ] Every positive claim cites a path inside that tree
 - [ ] Not-found is explicit; no invented files
-- [ ] No writes in the trees or in `.compare-source/` (unless the user asked to create the corpus)
+- [ ] No writes in the trees or in `.compare-source/` (unless the user accepted the save offer)
 
 ## Updating
 
