@@ -2,7 +2,7 @@
 name: english-collocations
 description: "Collocation drill for English word-pairing practice. Use when the user wants to practice 固定搭配/collocations, fix Chinglish pairings, or train natural verb+noun, adjective+noun, phrasal-verb, or register-specific expressions. For dialogue grammar, use `english-tutor`."
 metadata:
-  version: 1.4.0
+  version: 1.4.1
 ---
 
 # English Collocations (scenario drill + persistent mistake log)
@@ -135,6 +135,7 @@ Use [`examples.md`](examples.md) when you need concrete samples for wrong-answer
 ## Boundaries
 
 - No role-play dialogue. (Use `english-tutor` for that.)
+- Dictionary lookup / 查单词 → `word-lookup`.
 - No grammar lessons unless the collocation error itself hinges on a preposition / tense / voice choice.
 - Never dump more than 8 collocations in a single message; always scenario-first.
 - After a **correct** answer: follow **Next round after correct**.

@@ -2,7 +2,7 @@
 name: english-tutor
 description: "English dialogue tutor. Use when the user wants English conversation practice with grammar correction. For collocations-only drills, use `english-collocations`."
 metadata:
-  version: 1.1.0
+  version: 1.1.1
 ---
 
 # English Tutor
@@ -70,4 +70,5 @@ Them: [clean retry] → you: "What kind? Do you listen while you commute?"
 - One primary grammar focus per round.
 - New topic → new round with a new focus and a fresh recap at the end.
 - Collocations-only drills → `english-collocations`.
+- Dictionary lookup / 查单词 → `word-lookup`.
 - Structured study of a non-English subject → `deep-learner`.

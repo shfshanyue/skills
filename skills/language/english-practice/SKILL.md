@@ -1,8 +1,8 @@
 ---
 name: english-practice
-description: "English practice router. Use when the user wants to practice English but has not picked dialogue, collocations, pronunciation, or a general study topic."
+description: "English practice router. Use when the user wants to practice English but has not picked dialogue, collocations, pronunciation, lookup, or a general study topic."
 metadata:
-  version: 1.1.1
+  version: 1.1.2
 ---
 
 # English Practice Router
@@ -17,6 +17,7 @@ If the user already @mentions a specific skill, skip routing and follow that ski
 |--------|-------------|
 | Conversation, grammar correction, spoken English chat | `english-tutor` |
 | Collocations, fixed pairings, Chinglish wording | `english-collocations` |
+| Dictionary lookup / 查单词 | `word-lookup` |
 | Pronunciation, phoneme contrasts, 最小对立对 | `minimal-pairs` |
 | Structured learning on a general topic (not English-specific) | `deep-learner` |
 | Inline English glosses while reading Chinese answers | Tell user to `@zh-en-gloss` (user-invoked; router does not auto-load) |

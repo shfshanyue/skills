@@ -15,6 +15,14 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 5 | I want to practice English conversation | `english-practice` → `english-tutor` | Router hands off to `english-tutor` |
 | 6 | Correct my grammar while we chat about my weekend | `english-tutor` | Agent greets in English, sets a grammar focus, and starts dialogue (does not load `english-practice`) |
 
+### Dictionary
+
+| # | Prompt | Expected skill | Pass criterion |
+|---|--------|----------------|----------------|
+| 45 | 查一下 act 这个词 | `word-lookup` | Agent emits an H1 `act` lookup card with H2 headings 词性 through 其他义项; related-word lists are one item per line with IPA |
+| 46 | 查单词 | `word-lookup` | Agent asks for the lemma once; does not open word-chain or a collocation drill |
+| 47 | 查一下 make up one's mind 这个短语 | `word-lookup` | H1 is the full phrase; 词性 is a phrase-level label (e.g. idiom); 简单例句 uses the whole phrase; does not split into a card for `make` only |
+
 ### English drills
 
 | # | Prompt | Expected skill | Pass criterion |

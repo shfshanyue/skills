@@ -49,6 +49,7 @@ After editing a canonical file, update all copies in the same commit.
 | Pronunciation / minimal pairs | `minimal-pairs` |
 | Structured topic learning (any subject) | `deep-learner` |
 | Inline English glosses in Chinese replies (`@zh-en-gloss`) | `zh-en-gloss` |
+| English dictionary lookup / 查单词 | `word-lookup` |
 | English word chain / 英文单词接龙 | `word-chain` |
 | Chinese idiom chain / 成语接龙 | `idiom-chain` |
 | Classical poetry quiz / 诗词填空 | `poetry-quiz` |

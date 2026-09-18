@@ -23,6 +23,7 @@ npx skills add shfshanyue/skills --skill english-tutor
 npx skills add shfshanyue/skills --skill english-collocations
 npx skills add shfshanyue/skills --skill minimal-pairs
 npx skills add shfshanyue/skills --skill zh-en-gloss
+npx skills add shfshanyue/skills --skill word-lookup
 npx skills add shfshanyue/skills --skill word-chain
 npx skills add shfshanyue/skills --skill idiom-chain
 npx skills add shfshanyue/skills --skill poetry-quiz
@@ -54,6 +55,7 @@ npx skills add shfshanyue/skills --skill source-compare
 | [`english-collocations`](skills/language/english-collocations/SKILL.md) | Scenario collocation drills with mistake log |
 | [`minimal-pairs`](skills/language/minimal-pairs/SKILL.md) | Phoneme minimal-pair drills with mistake log |
 | [`zh-en-gloss`](skills/language/zh-en-gloss/SKILL.md) | Inline English glosses in Chinese replies (`@zh-en-gloss`) |
+| [`word-lookup`](skills/language/word-lookup/SKILL.md) | English dictionary lookup card / 查单词 |
 | [`word-chain`](skills/language/word-chain/SKILL.md) | English last-letter word chain + word cards |
 | [`idiom-chain`](skills/language/idiom-chain/SKILL.md) | Chinese idiom chain game (成语接龙) |
 | [`poetry-quiz`](skills/language/poetry-quiz/SKILL.md) | Classical Chinese poetry fill-in-the-blank quiz |
