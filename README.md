@@ -15,6 +15,7 @@ npx skills add shfshanyue/skills/skills/language
 npx skills add shfshanyue/skills/skills/product
 npx skills add shfshanyue/skills/skills/cli
 npx skills add shfshanyue/skills/skills/dev
+npx skills add shfshanyue/skills/skills/productivity
 
 # Install a single skill
 # language
@@ -42,6 +43,8 @@ npx skills add shfshanyue/skills --skill gerrit
 npx skills add shfshanyue/skills --skill gh
 # dev
 npx skills add shfshanyue/skills --skill source-compare
+# productivity
+npx skills add shfshanyue/skills --skill workstream-digest
 ```
 
 ## Skills
@@ -87,6 +90,12 @@ npx skills add shfshanyue/skills --skill source-compare
 |-------|----------|
 | [`source-compare`](skills/dev/source-compare/SKILL.md) | Learn a feature by comparing implementations across local source trees |
 
+### Productivity
+
+| Skill | One-line |
+|-------|----------|
+| [`workstream-digest`](skills/productivity/workstream-digest/SKILL.md) | Work-goal brief — stated priorities vs where time went (`@workstream-digest`, P0–P2 + next steps) |
+
 See each skill's `SKILL.md` for full workflow. Maintainers: see [`AGENTS.md`](AGENTS.md).
 
 ## Hooks
@@ -106,7 +115,8 @@ A command parser for `beforeShellExecution` that prompts for user approval befor
 │   ├── language/
 │   ├── product/
 │   ├── cli/
-│   └── dev/
+│   ├── dev/
+│   └── productivity/
 ├── docs/superpowers/specs/    # Pre-ship design docs (not runtime pointers)
 ├── hooks/
 │   └── block-git-commit-push.sh

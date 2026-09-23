@@ -80,6 +80,13 @@ After editing a canonical file, update all copies in the same commit.
 |-------------|-------|
 | Learn a feature across local source trees | `source-compare` |
 
+### Productivity
+
+| User intent | Skill |
+|-------------|-------|
+| Weekly work-goal review / 工作目标周报 (`@workstream-digest`) | `workstream-digest` |
+| What to push right now (`@workstream-digest period=now`) | `workstream-digest` |
+
 ## Reference — hooks
 
 [`hooks.json`](hooks.json) + [`hooks/block-git-commit-push.sh`](hooks/block-git-commit-push.sh): `beforeShellExecution` prompts for user approval before `git commit` or `git push` in the agent shell.

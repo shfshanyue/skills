@@ -76,6 +76,18 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 21 | GA4 各渠道会话占比 | `google-traffic` | Calls `run_report` with channel dimension |
 | 22 | 帮我检查这几个 URL 有没有被索引 | `google-traffic` | Uses `batch_url_inspection` with explicit urls |
 
+## Productivity
+
+### Work goal brief (user-invoked)
+
+`workstream-digest` has `disable-model-invocation: true` — load only when the user attaches `@workstream-digest` / `/workstream-digest` or names the skill explicitly.
+
+| # | Prompt | Expected skill | Pass criterion |
+|---|--------|----------------|----------------|
+| 48 | `@workstream-digest period=week` | `workstream-digest` | Brief has five sections per `report-skeleton.md`; P0/P1/P2/搁置 buckets; claims cite `path:line` or state 未见近期证据 with gap |
+| 49 | `@workstream-digest period=now tone=soft` | `workstream-digest` | Shorter window; **今天** next steps; mismatch wording gentler but still names goals |
+| 50 | 帮我写个工作周报 (no `@workstream-digest`) | none | Skill does not load unless user attached or named `workstream-digest` |
+
 ## CLI
 
 ### Gerrit (user-invoked)
