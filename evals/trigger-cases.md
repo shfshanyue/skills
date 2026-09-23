@@ -84,7 +84,7 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 
 | # | Prompt | Expected skill | Pass criterion |
 |---|--------|----------------|----------------|
-| 48 | `@workstream-digest period=week` | `workstream-digest` | Brief has five sections per `report-skeleton.md`; P0/P1/P2/搁置 buckets; claims cite `path:line` or state 未见近期证据 with gap |
+| 48 | `@workstream-digest period=week` | `workstream-digest` | Brief has five sections per `report-skeleton.md`; P0/P1/P2/搁置 buckets; section 3 is per-goal outcome bullets (no `path:line` or commands in prose); gaps use 未见近期证据 |
 | 49 | `@workstream-digest period=now tone=soft` | `workstream-digest` | Shorter window; **今天** next steps; mismatch wording gentler but still names goals |
 | 50 | 帮我写个工作周报 (no `@workstream-digest`) | none | Skill does not load unless user attached or named `workstream-digest` |
 
