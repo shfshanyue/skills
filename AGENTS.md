@@ -66,6 +66,7 @@ After editing a canonical file, update all copies in the same commit.
 | Product Hunt top list fetch/export | `producthunt-top` |
 | MicroSaaS opportunity (PH list or a named product) | `microsaas-opportunity` |
 | Search traffic / GSC / GA4 reports | `google-traffic` |
+| Website GEO audit, prompt baseline, or explicitly requested AI-answer test from a URL | `geo-audit` |
 
 ### CLI
 

@@ -37,6 +37,7 @@ npx skills add shfshanyue/skills --skill producthunt
 npx skills add shfshanyue/skills --skill producthunt-top
 npx skills add shfshanyue/skills --skill microsaas-opportunity
 npx skills add shfshanyue/skills --skill google-traffic
+npx skills add shfshanyue/skills --skill geo-audit
 npx skills add shfshanyue/skills --skill resume-project-prep
 # cli
 npx skills add shfshanyue/skills --skill gerrit
@@ -76,6 +77,7 @@ npx skills add shfshanyue/skills --skill workstream-digest
 | [`producthunt-top`](skills/product/producthunt-top/SKILL.md) | Fetch and export Product Hunt top posts |
 | [`microsaas-opportunity`](skills/product/microsaas-opportunity/SKILL.md) | Score a PH list or a named product as a MicroSaaS opening |
 | [`google-traffic`](skills/product/google-traffic/SKILL.md) | GA4 + GSC analytics via MCP (cross-project) |
+| [`geo-audit`](skills/product/geo-audit/SKILL.md) | Website GEO audit, prompt baseline, and explicitly requested AI-answer tests |
 
 ### CLI
 

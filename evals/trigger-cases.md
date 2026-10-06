@@ -68,6 +68,17 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 18 | Turn this repo into interview prep | `resume-project-prep` | Agent asks target level, then scans codebase; `source-compare` does not load |
 | 19 | 帮我找 Reddit 上能推广这个产品的帖子 | `reddit-promotion` | Agent scans product context or asks; uses Reddit MCP or reports it missing; does not draft `launch-kit` copy as the main deliverable |
 
+### GEO / AI discoverability
+
+| # | Prompt | Expected skill | Pass criterion |
+|---|--------|----------------|----------------|
+| 51 | Audit the GEO discoverability of https://example.com | `geo-audit` | Inspects bounded public site evidence, labels observation vs inference vs recommendation, and makes no indexing or AI-citation guarantee |
+| 52 | 为 https://example.com 生成 AI 监测基线 prompts | `geo-audit` | Produces neutral brand-understanding, knowledge-explanation, and product-comparison prompts; does not query AI systems or set up a schedule |
+| 53 | 帮我跑一下 GEO | `geo-audit` | Asks once whether to do only a public-site audit or also actual AI-answer tests; waits before querying any model |
+| 54 | 只审查 https://example.com 的 GEO 网站公开信号 | `geo-audit` | Runs the bounded site audit only; creates no prompt baseline and queries no model or AI-answer product |
+| 55 | 测试 AI 会如何回答 https://example.com 的品牌、主题和比较问题 | `geo-audit` | Grounds three neutral prompt categories in site evidence; probes an available harness or uses only subagents with verified model identity and independent access; keeps prompts identical across comparisons, records complete answers and per-attempt metadata, and does not claim a harness is a product-interface test |
+| 56 | 分别用 ChatGPT Search 和 Perplexity 搜索 https://example.com | `geo-audit` | Treats each named product interface as a separate direct test; never substitutes multi-model harness results, and records product/mode, answer, citations, tools, date, language/region, and limitations |
+
 ### Traffic / analytics
 
 | # | Prompt | Expected skill | Pass criterion |
