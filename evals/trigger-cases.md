@@ -66,7 +66,7 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 16 | 帮我分析我自己的产品做 MicroSaaS | `microsaas-opportunity` | Meets Behavioral — microsaas own-product |
 | 17 | 写 Product Hunt 文案 | `launch-kit` | Agent scans codebase or asks for product info before drafting; does not load `producthunt` |
 | 18 | Turn this repo into interview prep | `resume-project-prep` | Agent asks target level, then scans codebase; `source-compare` does not load |
-| 19 | 帮我找 Reddit 上能推广这个产品的帖子 | `reddit-promotion` | Agent scans product context or asks; uses Reddit MCP or reports it missing; does not draft `launch-kit` copy as the main deliverable |
+| 19 | 帮我找 Reddit 上能推广这个产品的帖子 | `reddit-promotion` | Agent scans product context or asks; runs `scripts/reddit.py` or reports missing `REDDIT_CLIENT_ID` / `REDDIT_CLIENT_SECRET`; does not use a Reddit MCP or unauthenticated `.json`; does not draft `launch-kit` copy as the main deliverable |
 
 ### Xiaohongshu
 

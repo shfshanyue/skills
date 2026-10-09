@@ -19,13 +19,13 @@ Use this exact section order when generating `reddit-promotion.md`.
 
 ## Recommended Subreddits
 
-[Ranked table from Step 2]
+[Ranked table from Step 3]
 
 ---
 
 ## High-Value Posts
 
-[Ranked list from Step 3, grouped by subreddit]
+[Ranked list from Step 4, grouped by subreddit]
 
 ---
 

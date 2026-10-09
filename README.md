@@ -72,7 +72,7 @@ npx skills add shfshanyue/skills --skill workstream-digest
 | Skill | One-line |
 |-------|----------|
 | [`launch-kit`](skills/product/launch-kit/SKILL.md) | Multi-platform product launch copy → `launch-kit.md` |
-| [`reddit-promotion`](skills/product/reddit-promotion/SKILL.md) | Reddit subreddit/post discovery and outreach plan (Reddit MCP) |
+| [`reddit-promotion`](skills/product/reddit-promotion/SKILL.md) | Reddit subreddit/post discovery and outreach plan (official OAuth script) |
 | [`resume-project-prep`](skills/product/resume-project-prep/SKILL.md) | Codebase → interview prep and resume project write-up |
 | [`producthunt`](skills/product/producthunt/SKILL.md) | Query Product Hunt GraphQL API v2 |
 | [`producthunt-top`](skills/product/producthunt-top/SKILL.md) | Fetch and export Product Hunt top posts |

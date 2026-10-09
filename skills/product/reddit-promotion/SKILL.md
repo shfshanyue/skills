@@ -2,160 +2,122 @@
 name: reddit-promotion
 description: "Reddit promotion planner. Use when the user wants to find subreddits, high-value posts, or outreach drafts for product promotion on Reddit."
 metadata:
-  version: 1.1.0
+  version: 1.2.0
 ---
 
 # Reddit Promotion Finder
 
-You help makers find the best Reddit communities and posts to promote their product. You discover relevant subreddits, locate high-value posts that match the product, and generate actionable outreach plans — all powered by the Reddit MCP.
+Find subreddits and posts for a product, then draft a value-led outreach plan. Live Reddit data comes only from this skill's read-only script, `scripts/reddit.py`. Do not call a Reddit MCP, an RSS feed, or an unauthenticated `reddit.com` `.json` URL.
 
----
+The script is the source of truth for OAuth, endpoints, flags, trimming, token reuse, and HTTP 429 handling. From this skill's directory, current flags are `python scripts/reddit.py --help`.
 
 ## Workflow
 
-### Step 1: Gather Product Context
+### Step 1: Gather product context
 
-Automatically scan the codebase for product information. Read the following files (skip any that don't exist):
+Read these files and skip any that are missing:
 
-- `docs/launch-kit.md` or any `launch-kit.md` — tagline, features, target audience, competitors, categories
-- `README.md` — product name, description, core features
-- `package.json` / `Cargo.toml` / `pyproject.toml` — name, description, homepage
-- Landing page / homepage source code — hero copy, value proposition
-- `.agents/product-marketing-context.md` — positioning, ICP, differentiators
+- `docs/launch-kit.md` or any `launch-kit.md`
+- `README.md`
+- `package.json`, `Cargo.toml`, or `pyproject.toml`
+- Landing-page or homepage source
+- `.agents/product-marketing-context.md`
 
-Build an internal summary of:
-- **Product name** and one-liner
-- **Core features** (list of 3–5)
-- **Target audience / personas** (who would use this)
-- **Competitors** (what existing tools does this replace or improve)
-- **Problem it solves** (the pain point in plain language)
-- **Keywords** — derive 5–10 search keywords from the above (e.g., product category, pain points, competitor names, use cases)
+Record the product name and one-liner, 3–5 core features, target audience, competitors, the problem solved, and 5–10 search keywords (category, pain, competitor names, use cases).
 
-If critical information is missing (no product name or unclear what it does), ask the user before proceeding.
+If the product name is missing, or what the product does is unclear, ask once and wait.
 
-**Done when:** product name, one-liner, target audience, problem, and 5–10 search keywords are known or the user has been asked for the missing critical context.
+**Done when:** product name, one-liner, target audience, problem, and 5–10 search keywords are recorded, or the user has been asked once for the missing critical context and the workflow is waiting.
 
-### Step 2: Discover Subreddits
+### Step 2: Credentials
 
-Using the Reddit MCP tools, find relevant subreddits through multiple search strategies:
+Run the script only when `REDDIT_CLIENT_ID` and `REDDIT_CLIENT_SECRET` are set. Optional `REDDIT_USER_AGENT` overrides the contact string (`platform:app:version (by /u/name)`).
 
-**Strategy A — Category search:**
-Use `search_reddit` with product category keywords to find which subreddits discuss this topic area.
+If either required variable is unset, run any read subcommand once and show the script's stderr. Stop. Do not invent credentials and do not browse Reddit another way.
 
-**Strategy B — Pain point search:**
-Use `search_reddit` with pain-point phrases like:
-- `"looking for a tool"`, `"is there a tool"`, `"wish there was"`
-- `"[competitor] alternative"`, `"[competitor] sucks"`, `"switching from [competitor]"`
-- `"how do you handle [problem]"`, `"best tool for [use case]"`
+The script's error names both variables and https://www.reddit.com/prefs/apps (app type: script). Never print the secret or the bearer token.
 
-**Strategy C — Competitor search:**
-Use `search_reddit` with competitor names to find where people discuss alternatives.
+**Done when:** both required variables are set, or the script's missing-credential error has been shown once and the workflow has stopped.
 
-For each subreddit discovered, use `browse_subreddit` with `include_subreddit_info: true` and `limit: 5` to get:
-- Subscriber count and description
-- Recent post activity and tone
-- Whether self-promotion is likely accepted
+### Step 3: Discover subreddits
 
-**Output a ranked list of 5–15 subreddits**, sorted by relevance. For each subreddit, include:
+Run `search` in three passes: category keywords, pain phrases, and competitor names. Pain phrases include "looking for a tool", "is there a tool", "wish there was", "[competitor] alternative", "switching from [competitor]", and "how do you handle [problem]".
+
+From the posts returned, pick the distinct relevant subreddits (at most 15). For each, run `subreddit` and judge promotion friendliness from `public_description`, `description`, and `submit_text`. Use only names, counts, and text the script returned. Do not invent subscriber counts.
+
+Rank 5–15 subreddits. If fewer than 5 distinct relevant subreddits came back, rank those and stop. For each row record:
 
 | Field | Detail |
 |-------|--------|
 | Subreddit | r/name |
-| Subscribers | count |
-| Description | one-line summary |
-| Relevance | why this subreddit matches your product |
-| Promotion friendliness | high / medium / low — based on subreddit rules and tone |
+| Subscribers | `subscribers` |
+| Description | one line from `public_description` or `title` |
+| Relevance | why it matches the product |
+| Promotion friendliness | high / medium / low, with the rule or tone evidence |
 
-**Done when:** 5–15 candidate subreddits have been ranked, and each has relevance plus promotion-friendliness evidence.
+**Done when:** that ranked list is complete from script JSON, or the script exited and its error was reported and the workflow stopped.
 
-### Step 3: Find High-Value Posts
+### Step 4: Find high-value posts
 
-For each of the top subreddits (up to 10), use `search_reddit` with targeted queries to find posts that match the product. Focus on these post types:
+For the top subreddits (at most 10), run `search` scoped to that subreddit. Cover four post types: seeking a recommendation, complaining about a competitor, describing this product's pain, and asking how to solve that pain. Prefer a recent time window (week or month) when the script help lists that window.
 
-1. **Seeking recommendations** — `"looking for"`, `"recommend"`, `"suggestions for"`, `"best tool for"`
-2. **Complaining about competitors** — `"[competitor] alternative"`, `"frustrated with"`, `"switching from"`
-3. **Describing the exact pain point** — search with the problem the product solves
-4. **Asking how to solve the problem** — `"how do you"`, `"what do you use for"`
+For the strongest posts (at most 5, unless the user asked for more), run `post` and read the trimmed comments before drafting.
 
-Use `time: "month"` or `time: "week"` to prioritize recent posts (more likely to get replies read).
-
-For the most promising posts (up to 5), use `get_post_details` with `comment_limit: 10` to understand the full conversation context.
-
-**Output a list of 10–20 high-value posts**, sorted by actionability. For each post:
+Rank 10–20 posts by how actionable they are. If the searches return fewer relevant posts, rank those and stop. Do not invent titles, authors, scores, or URLs. For each post record:
 
 | Field | Detail |
 |-------|--------|
-| Title | post title |
+| Title | `title` |
 | Subreddit | r/name |
-| URL | direct link |
-| Author | u/username |
-| Age | how old the post is |
-| Upvotes | count |
+| URL | `permalink` |
+| Author | `author` |
+| Age | from `created_utc` |
+| Upvotes | `score` |
 | Post type | seeking-recommendation / competitor-complaint / pain-point / how-to |
-| Why it matches | one sentence explaining why this post is relevant |
+| Why it matches | one sentence |
 | Recommended action | reply / DM / both |
 
-**Done when:** 10–20 posts have been ranked by actionability, or all relevant recent search results have been exhausted.
+**Done when:** 10–20 posts are ranked, or every relevant post from those searches is ranked when fewer than 10 match, or the script exited and its error was reported and the workflow stopped.
 
-### Step 4: Generate Action Plan
+### Step 5: Draft the action plan
 
-For each high-value post, generate:
+For each high-value post, write:
 
-#### Reply Templates
-
-Write 1–2 reply drafts per post. Follow these rules:
-- **Lead with value, not promotion.** Answer the user's question or validate their pain first.
-- **Be specific.** Reference what they said in the post. Show you actually read it.
-- **Mention your product naturally.** Don't lead with it. Something like "I actually built something for this" or "we ran into the same problem and ended up building [product]."
-- **Keep it short.** 3–5 sentences max. Reddit hates walls of text from strangers.
-- **No marketing speak.** No "revolutionary", "game-changing", "seamless". Talk like a human.
-- **Include a soft CTA.** "happy to share a link if you're interested" or "feel free to check it out: [link]"
-
-#### DM Templates
-
-Write a short DM template for reaching out to post authors:
-- **Acknowledge their post.** "saw your post about [topic]"
-- **Connect to their problem.** Show empathy, not a sales pitch.
-- **Offer to help.** Frame it as getting feedback, not selling.
-- **Keep it under 4 sentences.**
-
-**Done when:** each high-value post has at least one specific, value-led reply draft and one short DM draft.
+- 1–2 replies. Answer the question or name the pain first. Cite a detail from the post or its comments. Mention the product after that, in one plain sentence, as its maker. Keep it to 3–5 sentences. No "revolutionary", "game-changing", or "seamless". Soft CTA only ("happy to share a link", or the link once).
+- One DM under 4 sentences: their post, their problem, a request for feedback.
 
 Example tone:
+
 ```
 hey, saw your post about [problem]. i actually built [product] to solve exactly this — [one sentence what it does]. would you be down to try it and give me honest feedback? totally free, just looking for real user input.
 ```
 
-### Step 5: Output
+**Done when:** every ranked post has at least one specific reply and one short DM.
 
-**File location logic:**
-1. If `reddit-promotion.md` already exists somewhere in the project → update it in place
-2. Otherwise → create `docs/reddit-promotion.md`
+### Step 6: Write the plan
 
-Write the document following [`template.md`](template.md).
+1. If `reddit-promotion.md` already exists in the project, update that file.
+2. Otherwise create `docs/reddit-promotion.md`.
 
-After writing the file, show the user the complete document and ask if anything needs adjustment.
+Follow [`template.md`](template.md). Show the full document and ask what to change.
 
-**Done when:** `reddit-promotion.md` has been created or updated at the selected path, the full plan has been shown, and the user has a clear adjustment prompt.
+**Done when:** `reddit-promotion.md` is written at that path, the full plan is in the chat, and the user has been asked what to adjust.
 
----
+## Copy guidelines
 
-## Template Structure
+- Sound like a participant in that subreddit, not a marketer.
+- The reply must still help if the reader ignores the product.
+- Match a technical subreddit with technical detail and a casual one with casual language.
+- Say that you built it. "I'm the maker of X" is more trusted than a disguised pitch.
+- If the about text forbids promotion, set friendliness to low and tell the user to contribute before mentioning the product.
 
-Use [`template.md`](template.md) as the single source of truth for the generated `reddit-promotion.md` structure.
+## Boundaries
 
----
+Launch copy, launch sequencing, and positioning are a different task. Hand off only when a matching installed skill exists or the user asks for that work.
 
-## Copy Guidelines
+## Reference
 
-- **Sound like a real Reddit user, not a marketer.** Reddit has strong antibodies against self-promotion. Authenticity matters more than polish.
-- **Always lead with value.** The reply should be helpful even if the reader ignores your product link.
-- **Match the subreddit tone.** Technical subreddits expect technical depth. Casual subreddits expect casual language.
-- **Be honest about what you built.** "I'm the maker of X" is more trusted than stealth promotion.
-- **Respect subreddit rules.** If a subreddit bans self-promotion, note it and suggest contributing value first before mentioning the product.
-
----
-
-## Skill Boundaries
-
-This skill finds Reddit opportunities and drafts outreach. For broader launch copy, launch sequencing, or positioning, hand off only when a matching installed skill is available or the user asks for that separate work.
+- Missing `REDDIT_CLIENT_ID` or `REDDIT_CLIENT_SECRET` — show the script error and stop. Do not substitute RSS or `.json`.
+- HTTP 401 — the script app id or secret was rejected. Point at https://www.reddit.com/prefs/apps.
+- HTTP 429 — the script sleeps for `Retry-After` and retries. If it still exits, report that and stop.
+- The script reuses the OAuth token until expiry. Do not print the token or copy the cache file into the project.
