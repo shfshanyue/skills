@@ -68,6 +68,16 @@ Manual trigger tests for skill routing and activation. Run each prompt with the 
 | 18 | Turn this repo into interview prep | `resume-project-prep` | Agent asks target level, then scans codebase; `source-compare` does not load |
 | 19 | 帮我找 Reddit 上能推广这个产品的帖子 | `reddit-promotion` | Agent scans product context or asks; uses Reddit MCP or reports it missing; does not draft `launch-kit` copy as the main deliverable |
 
+### Xiaohongshu
+
+| # | Prompt | Expected skill | Pass criterion |
+|---|--------|----------------|----------------|
+| 57 | 把这张图发到小红书，标题「周末爬山」，正文「今天去了香山」，图片 /tmp/1.jpg | `xiaohongshu-publish` | Writes a publish directory and shows a 发布单 whose 形态 is 图文; the creator site stays closed |
+| 58 | 发一条小红书视频，标题「周末爬山」，正文「风很大」，视频 /tmp/hike.mp4 | `xiaohongshu-publish` | Shows a 发布单 whose 形态 is 视频; the creator site stays closed |
+| 59 | (a 发布单 is already on screen and the note is unchanged) 发布 | `xiaohongshu-publish` | Opens the creator publish flow for that note and clicks 发布 once |
+| 60 | 帮我写一篇关于爬山的小红书文案 | none | Does not load `xiaohongshu-publish` |
+| 61 | 发布 | none | Does not load `xiaohongshu-publish` |
+
 ### GEO / AI discoverability
 
 | # | Prompt | Expected skill | Pass criterion |

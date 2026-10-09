@@ -38,6 +38,7 @@ npx skills add shfshanyue/skills --skill producthunt-top
 npx skills add shfshanyue/skills --skill microsaas-opportunity
 npx skills add shfshanyue/skills --skill google-traffic
 npx skills add shfshanyue/skills --skill geo-audit
+npx skills add shfshanyue/skills --skill xiaohongshu-publish
 npx skills add shfshanyue/skills --skill resume-project-prep
 # cli
 npx skills add shfshanyue/skills --skill gerrit
@@ -78,6 +79,7 @@ npx skills add shfshanyue/skills --skill workstream-digest
 | [`microsaas-opportunity`](skills/product/microsaas-opportunity/SKILL.md) | Score a PH list or a named product as a MicroSaaS opening |
 | [`google-traffic`](skills/product/google-traffic/SKILL.md) | GA4 + GSC analytics via MCP (cross-project) |
 | [`geo-audit`](skills/product/geo-audit/SKILL.md) | Website GEO audit, prompt baseline, and explicitly requested AI-answer tests |
+| [`xiaohongshu-publish`](skills/product/xiaohongshu-publish/SKILL.md) | Publish a finished Xiaohongshu image-text or video note after an explicit 发布 |
 
 ### CLI
 
